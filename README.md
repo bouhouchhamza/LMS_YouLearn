@@ -1,46 +1,103 @@
-# YouLearn LMS API
+<div align="center">
 
-REST API for a Learning Management System built with **Node.js, Express.js and MongoDB**.
+# 🚀 YouLearn LMS API
 
-The project provides the backend foundations for browsing published courses, viewing course details, accessing modules and resources, filtering courses, and handling API errors.
+### REST API for a modern Learning Management System
 
----
+Built with Node.js, Express.js, MongoDB and Docker.
 
-## Tech Stack
+<br>
 
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- Docker
-- Docker Compose
-- OpenAPI
-- JavaScript
+![Node.js](https://img.shields.io/badge/Node.js-Backend-339933?style=for-the-badge&logo=node.js&logoColor=white)
+![Express](https://img.shields.io/badge/Express.js-API-000000?style=for-the-badge&logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-Database-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![OpenAPI](https://img.shields.io/badge/OpenAPI-Documentation-6BA539?style=for-the-badge&logo=openapiinitiative&logoColor=white)
 
----
-
-## Features
-
-- Browse published courses
-- View course details
-- Search courses by keyword
-- Filter courses by category
-- Filter courses by level
-- Sort courses by creation or publication date
-- View modules of a course
-- View resources of a module
-- Seed the database with sample data
-- Global API error handling
-- 404 route handling
-- OpenAPI documentation
-- MongoDB container with Docker Compose
+</div>
 
 ---
 
-## Project Structure
+## 📌 About
+
+**YouLearn LMS API** is the backend foundation of a Learning Management System.
+
+The API allows users to browse published courses, search and filter the catalog, view course modules and access learning resources.
+
+This first version focuses on the core LMS architecture and API foundations.
+
+---
+
+## ✨ Features
+
+- 📚 Browse published courses
+- 🔎 Search courses by keyword
+- 🎯 Filter by category and level
+- ↕️ Sort courses by creation or publication date
+- 📖 View course details
+- 🧩 View modules of a course
+- 🎥 View resources of a module
+- 🌱 Seed development data
+- ⚠️ Global error handling
+- 🐳 MongoDB with Docker Compose
+- 📑 OpenAPI documentation
+
+---
+
+## 🧰 Tech Stack
+
+| Technology | Usage |
+|---|---|
+| **Node.js** | JavaScript runtime |
+| **Express.js** | HTTP API |
+| **MongoDB** | Database |
+| **Mongoose** | MongoDB ODM |
+| **Docker** | Containerization |
+| **Docker Compose** | MongoDB environment |
+| **OpenAPI** | API documentation |
+| **Nodemon** | Development server |
+
+---
+
+## 🏗️ Architecture
+
+```text
+Client
+  │
+  ▼
+Express Routes
+  │
+  ▼
+Controllers
+  │
+  ▼
+Mongoose Models
+  │
+  ▼
+MongoDB
+```
+
+Main learning content hierarchy:
+
+```text
+Course
+  │
+  ├── Module
+  │     │
+  │     └── Resource
+  │
+  └── Module
+        │
+        └── Resource
+```
+
+---
+
+## 📂 Project Structure
 
 ```text
 lms-api/
+│
 ├── docs/
 │   ├── analyse.md
 │   ├── conception.md
@@ -76,62 +133,45 @@ lms-api/
 │   │
 │   └── app.js
 │
-├── .env
 ├── .env.example
 ├── .gitignore
 ├── docker-compose.yml
 ├── package.json
-├── package-lock.json
 ├── README.md
 └── server.js
 ```
 
 ---
 
-## Installation
+# ⚡ Getting Started
 
-Clone the repository:
+## 1. Clone the repository
 
 ```bash
 git clone https://github.com/bouhouchhamza/LMS_YouLearn.git
-```
-
-Open the project:
-
-```bash
 cd LMS_YouLearn
 ```
 
-Install dependencies:
+## 2. Install dependencies
 
 ```bash
 npm install
 ```
 
----
+## 3. Environment configuration
 
-## Environment Variables
-
-Create a `.env` file in the project root.
-
-Example:
+Create a `.env` file:
 
 ```env
 PORT=3000
 MONGO_URI=mongodb://127.0.0.1:27017/lms_db
 ```
 
-An example configuration is available in:
-
-```text
-.env.example
-```
+You can use `.env.example` as reference.
 
 ---
 
-## MongoDB with Docker
-
-Start MongoDB:
+## 🐳 Start MongoDB
 
 ```bash
 docker compose up -d
@@ -143,7 +183,7 @@ Check the container:
 docker compose ps
 ```
 
-Stop the container:
+Stop MongoDB:
 
 ```bash
 docker compose down
@@ -151,43 +191,51 @@ docker compose down
 
 ---
 
-## Seed Database
+## 🌱 Seed Database
 
-The project includes seed data for courses, modules and resources.
-
-Run:
+Populate the database with development data:
 
 ```bash
 npm run seed
 ```
 
-The seed creates sample data such as:
+The seed creates:
 
-- Node.js Fundamentals
-- Express.js API Development
-- Advanced MongoDB
-- Course modules
-- Learning resources
+```text
+Courses
+ ├── Node.js Fundamentals
+ ├── Express.js API Development
+ └── Advanced MongoDB (draft)
 
-The draft course is stored in the database but is not returned by the public course catalog.
+Modules
+ ├── Introduction to Node.js
+ ├── Node.js Modules
+ └── Introduction to Express
+
+Resources
+ ├── Videos
+ ├── PDFs
+ ├── Links
+ └── Text content
+```
 
 ---
 
-## Run the API
+## ▶️ Run the API
 
-Development mode:
+Development:
 
 ```bash
 npm run dev
 ```
 
-Production mode:
+Production:
 
 ```bash
 npm start
 ```
 
-The API runs by default on:
+Server:
 
 ```text
 http://localhost:3000
@@ -195,49 +243,47 @@ http://localhost:3000
 
 ---
 
-# API Endpoints
+# 🔌 API Reference
 
-## Get Published Courses
+## Courses
 
-```http
-GET /api/courses
-```
-
-Returns published courses only.
-
-Example response:
-
-```json
-{
-  "success": true,
-  "count": 2,
-  "data": []
-}
-```
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/courses` | Get published courses |
+| `GET` | `/api/courses/:id` | Get course details |
+| `GET` | `/api/courses/:courseId/modules` | Get course modules |
+| `GET` | `/api/modules/:moduleId/resources` | Get module resources |
 
 ---
 
-## Search Courses
+## 🔍 Course Search & Filters
+
+### Search
 
 ```http
 GET /api/courses?keyword=node
 ```
 
-Search is performed on course title and description.
+Searches inside:
 
----
+```text
+title
+description
+```
 
-## Filter by Category
+### Filter by category
 
 ```http
 GET /api/courses?category=Backend
 ```
 
----
+### Filter by level
 
-## Filter by Level
+```http
+GET /api/courses?level=beginner
+```
 
-Available levels:
+Supported levels:
 
 ```text
 beginner
@@ -245,97 +291,57 @@ intermediate
 advanced
 ```
 
-Example:
+### Sort
 
 ```http
-GET /api/courses?level=beginner
+GET /api/courses?sort=publishedAt
 ```
 
-Invalid values return:
-
-```json
-{
-  "success": false,
-  "message": "Invalid course level"
-}
-```
-
----
-
-## Combine Search and Filters
-
-```http
-GET /api/courses?keyword=node&category=Backend&level=beginner
-```
-
----
-
-## Sort Courses
-
-Courses can be sorted using:
+Supported values:
 
 ```text
 createdAt
 publishedAt
 ```
 
-Example:
+### Combine parameters
 
 ```http
-GET /api/courses?sort=publishedAt
+GET /api/courses?keyword=node&category=Backend&level=beginner&sort=publishedAt
 ```
-
-The latest courses are returned first.
 
 ---
 
-## Get Course Details
+# 📚 Course Example
 
 ```http
-GET /api/courses/:id
+GET /api/courses
 ```
 
-Example:
-
-```http
-GET /api/courses/6abe70bf6205c8d6d6ba42fb
-```
-
-If the ID format is invalid:
+Response:
 
 ```json
 {
-  "success": false,
-  "message": "Invalid course id"
+  "success": true,
+  "count": 2,
+  "data": [
+    {
+      "title": "Node.js Fundamentals",
+      "category": "Backend",
+      "level": "beginner",
+      "status": "published"
+    }
+  ]
 }
 ```
-
-If the course does not exist:
-
-```json
-{
-  "success": false,
-  "message": "Course not found"
-}
-```
-
-Only published courses are accessible through this endpoint.
 
 ---
 
-## Get Course Modules
+# 🧩 Course Modules
 
 ```http
 GET /api/courses/:courseId/modules
 ```
-
-Example:
-
-```http
-GET /api/courses/6abe70bf6205c8d6d6ba42fb/modules
-```
-
-Modules are returned using their `order` value.
 
 Example response:
 
@@ -356,17 +362,17 @@ Example response:
 }
 ```
 
+Modules are sorted by their `order`.
+
 ---
 
-## Get Module Resources
+# 🎥 Module Resources
 
 ```http
 GET /api/modules/:moduleId/resources
 ```
 
-Resources are returned using their `order` value.
-
-Example response:
+Example:
 
 ```json
 {
@@ -387,16 +393,29 @@ Example response:
 }
 ```
 
-If the module ID is invalid:
+Supported resource types:
+
+```text
+video
+pdf
+link
+text
+```
+
+---
+
+# ⚠️ Error Handling
+
+Invalid ID:
 
 ```json
 {
   "success": false,
-  "message": "Invalid module id"
+  "message": "Invalid course id"
 }
 ```
 
-If the module does not exist:
+Resource not found:
 
 ```json
 {
@@ -405,13 +424,20 @@ If the module does not exist:
 }
 ```
 
+Unknown API route:
+
+```json
+{
+  "success": false,
+  "message": "Route not found: /api/example"
+}
+```
+
 ---
 
-# Data Models
+# 🗃️ Data Models
 
-## Course
-
-Main fields:
+### Course
 
 ```text
 title
@@ -424,27 +450,7 @@ createdAt
 updatedAt
 ```
 
-Possible statuses:
-
-```text
-draft
-published
-archived
-```
-
-Possible levels:
-
-```text
-beginner
-intermediate
-advanced
-```
-
----
-
-## Module
-
-Main fields:
+### Module
 
 ```text
 title
@@ -455,19 +461,7 @@ createdAt
 updatedAt
 ```
 
-Each module belongs to one course.
-
-Relationship:
-
-```text
-Course 1 ---- * Module
-```
-
----
-
-## Resource
-
-Main fields:
+### Resource
 
 ```text
 title
@@ -480,159 +474,97 @@ createdAt
 updatedAt
 ```
 
-Available resource types:
-
-```text
-video
-pdf
-link
-text
-```
-
-Each resource belongs to one module.
-
-Relationship:
-
-```text
-Module 1 ---- * Resource
-```
-
 ---
 
-# Error Handling
+# 📐 UML & Design
 
-The API uses global error handling.
-
-Unknown routes return:
-
-```json
-{
-  "success": false,
-  "message": "Route not found: /api/example"
-}
-```
-
-Unexpected server errors return a JSON response using the same structure:
-
-```json
-{
-  "success": false,
-  "message": "Internal server error"
-}
-```
-
----
-
-# API Documentation
-
-The OpenAPI specification is available here:
-
-```text
-docs/openapi.yaml
-```
-
-It documents:
-
-- Course catalog
-- Course details
-- Course modules
-- Module resources
-- Search parameters
-- Filters
-- Sorting
-- HTTP responses
-
----
-
-# UML & Conception
-
-The project conception documents are stored inside:
+Project design documentation is available inside:
 
 ```text
 docs/
 ```
 
-They include:
+It includes:
 
 ```text
-analyse.md
-conception.md
-class-diagram.puml
-use-case-diagram.puml
-sequence-diagram.puml
+📄 Requirements Analysis
+📊 Class Diagram
+👥 Use Case Diagram
+🔄 Sequence Diagram
+🧠 Architecture Decisions
 ```
 
-The UML conception covers the broader LMS domain including:
+The global LMS conception contains:
 
-- Users
-- Courses
-- Modules
-- Resources
-- Enrollments
-- Progress
-- Quizzes
-- Quiz attempts
-- Feedback
-
----
-
-# NPM Scripts
-
-Start the API:
-
-```bash
-npm start
-```
-
-Start development mode with Nodemon:
-
-```bash
-npm run dev
-```
-
-Seed the database:
-
-```bash
-npm run seed
+```text
+User
+Course
+Module
+Resource
+Enrollment
+Progress
+Quiz
+QuizAttempt
+Feedback
 ```
 
 ---
 
-# Current Scope
+# 📑 API Documentation
 
-This first version focuses on the backend foundations of the LMS.
+OpenAPI specification:
 
-Implemented:
+```text
+docs/openapi.yaml
+```
 
-- Course catalog
-- Course details
-- Search
-- Filters
-- Sorting
-- Course modules
-- Module resources
-- MongoDB connection
-- Seed data
-- Docker environment
-- Error handling
-- OpenAPI documentation
-
-The following concepts are included in the global conception but are not implemented in this first version:
-
-- Authentication
-- User management
-- Enrollment
-- Progress tracking
-- Quizzes
-- Quiz attempts
-- Feedback
-- Trainer course management
-- Administration
+It documents the public endpoints, query parameters and HTTP responses.
 
 ---
 
-## Author
+# 🧭 Scope
 
-**Hamza Bouhouch**
+### ✅ Implemented
 
-GitHub: `bouhouchhamza`
+```text
+Course Catalog
+Course Details
+Search
+Filters
+Sorting
+Modules
+Resources
+MongoDB
+Seed Data
+Docker
+Error Handling
+OpenAPI Documentation
+```
+
+### 🔜 Future LMS Features
+
+```text
+Authentication
+User Management
+Enrollment
+Progress Tracking
+Quizzes
+Quiz Attempts
+Feedback
+Trainer Management
+Administration
+```
+
+---
+
+## 👨‍💻 Author
+
+<div align="center">
+
+### Hamza Bouhouch
+
+**Full-Stack Developer**
+
+GitHub: **bouhouchhamza**
+
+</div>
