@@ -3,32 +3,54 @@ openapi: 3.0.3
 info:
   title: YouLearn LMS API
   version: 1.0.0
-  description: API for browsing published courses, modules and learning resources.
+  description: >
+    REST API for browsing published courses, course modules
+    and learning resources.
 
 servers:
   - url: http://localhost:3000
+    description: Local development server
+
+tags:
+  - name: Courses
+    description: Course catalog endpoints
+  - name: Modules
+    description: Course module endpoints
+  - name: Resources
+    description: Learning resource endpoints
 
 paths:
   /api/courses:
     get:
+      tags:
+        - Courses
       summary: Get published courses
-      description: Returns published courses with optional search, filters and sorting.
+      description: >
+        Returns published courses with optional keyword search,
+        category and level filters, and sorting.
+
       parameters:
         - name: keyword
           in: query
           required: false
+          description: Search inside course title and description.
+          example: node
           schema:
             type: string
 
         - name: category
           in: query
           required: false
+          description: Filter courses by category.
+          example: Backend
           schema:
             type: string
 
         - name: level
           in: query
           required: false
+          description: Filter courses by level.
+          example: beginner
           schema:
             type: string
             enum:
@@ -39,6 +61,8 @@ paths:
         - name: sort
           in: query
           required: false
+          description: Sort courses by creation or publication date.
+          example: publishedAt
           schema:
             type: string
             enum:
@@ -48,69 +72,352 @@ paths:
       responses:
         "200":
           description: Published courses returned successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  count:
+                    type: integer
+                    example: 2
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Course"
 
         "400":
           description: Invalid filter or sort value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                success: false
+                message: Invalid course level
+
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /api/courses/{id}:
     get:
+      tags:
+        - Courses
       summary: Get published course by id
+      description: Returns the details of a published course.
 
       parameters:
         - name: id
           in: path
           required: true
+          description: MongoDB ObjectId of the course.
+          example: 6abe70bf6205c8d6d6ba42fb
           schema:
             type: string
 
       responses:
         "200":
           description: Course returned successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: "#/components/schemas/Course"
 
         "400":
           description: Invalid course id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                success: false
+                message: Invalid course id
 
         "404":
           description: Course not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                success: false
+                message: Course not found
+
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /api/courses/{courseId}/modules:
     get:
+      tags:
+        - Modules
       summary: Get modules of a published course
+      description: Returns course modules sorted by their order.
 
       parameters:
         - name: courseId
           in: path
           required: true
+          description: MongoDB ObjectId of the course.
+          example: 6abe70bf6205c8d6d6ba42fb
           schema:
             type: string
 
       responses:
         "200":
           description: Modules returned successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  count:
+                    type: integer
+                    example: 2
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Module"
 
         "400":
           description: Invalid course id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                success: false
+                message: Invalid course id
 
         "404":
           description: Course not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                success: false
+                message: Course not found
+
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /api/modules/{moduleId}/resources:
     get:
+      tags:
+        - Resources
       summary: Get resources of a module
+      description: Returns learning resources sorted by their order.
 
       parameters:
         - name: moduleId
           in: path
           required: true
+          description: MongoDB ObjectId of the module.
+          example: 6abe70bf6205c8d6d6ba4301
           schema:
             type: string
 
       responses:
         "200":
           description: Resources returned successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  count:
+                    type: integer
+                    example: 2
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Resource"
 
         "400":
           description: Invalid module id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                success: false
+                message: Invalid module id
 
         "404":
           description: Module not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                success: false
+                message: Module not found
+
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    Course:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 6abe70bf6205c8d6d6ba42fb
+
+        title:
+          type: string
+          example: Node.js Fundamentals
+
+        description:
+          type: string
+          example: Learn the fundamentals of Node.js and backend development.
+
+        category:
+          type: string
+          example: Backend
+
+        level:
+          type: string
+          enum:
+            - beginner
+            - intermediate
+            - advanced
+          example: beginner
+
+        status:
+          type: string
+          enum:
+            - draft
+            - published
+            - archived
+          example: published
+
+        publishedAt:
+          type: string
+          format: date-time
+          nullable: true
+          example: "2026-09-20T00:00:00.000Z"
+
+        createdAt:
+          type: string
+          format: date-time
+
+        updatedAt:
+          type: string
+          format: date-time
+
+    Module:
+      type: object
+      properties:
+        _id:
+          type: string
+
+        title:
+          type: string
+          example: Introduction to Node.js
+
+        description:
+          type: string
+          example: Discover Node.js and its runtime.
+
+        order:
+          type: integer
+          example: 1
+
+        course:
+          type: string
+          description: Course ObjectId
+
+        createdAt:
+          type: string
+          format: date-time
+
+        updatedAt:
+          type: string
+          format: date-time
+
+    Resource:
+      type: object
+      properties:
+        _id:
+          type: string
+
+        title:
+          type: string
+          example: What is Node.js?
+
+        type:
+          type: string
+          enum:
+            - video
+            - pdf
+            - link
+            - text
+          example: video
+
+        url:
+          type: string
+          nullable: true
+          example: https://example.com/node-introduction
+
+        content:
+          type: string
+          nullable: true
+
+        order:
+          type: integer
+          example: 1
+
+        module:
+          type: string
+          description: Module ObjectId
+
+        createdAt:
+          type: string
+          format: date-time
+
+        updatedAt:
+          type: string
+          format: date-time
+
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        message:
+          type: string
+          example: Resource not found
