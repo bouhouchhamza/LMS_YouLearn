@@ -1,0 +1,116 @@
+openapi: 3.0.3
+
+info:
+  title: YouLearn LMS API
+  version: 1.0.0
+  description: API for browsing published courses, modules and learning resources.
+
+servers:
+  - url: http://localhost:3000
+
+paths:
+  /api/courses:
+    get:
+      summary: Get published courses
+      description: Returns published courses with optional search, filters and sorting.
+      parameters:
+        - name: keyword
+          in: query
+          required: false
+          schema:
+            type: string
+
+        - name: category
+          in: query
+          required: false
+          schema:
+            type: string
+
+        - name: level
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - beginner
+              - intermediate
+              - advanced
+
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - createdAt
+              - publishedAt
+
+      responses:
+        "200":
+          description: Published courses returned successfully
+
+        "400":
+          description: Invalid filter or sort value
+
+  /api/courses/{id}:
+    get:
+      summary: Get published course by id
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: Course returned successfully
+
+        "400":
+          description: Invalid course id
+
+        "404":
+          description: Course not found
+
+  /api/courses/{courseId}/modules:
+    get:
+      summary: Get modules of a published course
+
+      parameters:
+        - name: courseId
+          in: path
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: Modules returned successfully
+
+        "400":
+          description: Invalid course id
+
+        "404":
+          description: Course not found
+
+  /api/modules/{moduleId}/resources:
+    get:
+      summary: Get resources of a module
+
+      parameters:
+        - name: moduleId
+          in: path
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: Resources returned successfully
+
+        "400":
+          description: Invalid module id
+
+        "404":
+          description: Module not found
