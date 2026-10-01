@@ -1,5 +1,5 @@
 const express = require("express");
-
+const courseRoutes = require('./routes/courseRoutes');
 const app = express();
 
 app.use(express.json());
@@ -10,5 +10,6 @@ app.get("/", (req, res) => {
     message: "LMS API is running",
   });
 });
+app.use('/api/courses', courseRoutes);
 
 module.exports = app;
