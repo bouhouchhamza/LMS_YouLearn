@@ -3,7 +3,7 @@ const Course = require('../models/Course');
 async function getCourses(req, res, next){
     try{
         const courses = await Course.find({
-            staus: 'published';
+            staus: 'published',
         });
         res.status(200).json({
             success: true,
