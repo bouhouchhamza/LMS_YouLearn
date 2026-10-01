@@ -2,7 +2,7 @@ const Course = require("../models/Course");
 const mongoose = require("mongoose");
 async function getCourses(req, res, next) {
   try {
-    const { keyword, category, level } = req.query;
+    const { keyword, category, level, sort } = req.query;
     const filter = {
       status: "published",
     };
@@ -39,7 +39,18 @@ async function getCourses(req, res, next) {
       }
       filter.level = level.toLowerCase();
     }
-    const courses = await Course.find(filter);
+    const allowedSorts = ['createdAt', 'publishedAt'];
+    let query = Course.find(filter);
+    if(sort){
+        if(!allowedSorts.includes(sort)){
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid sort field',
+            });
+        }
+        query = query.sort({[sort]: -1});
+    }
+    const courses = await query;
     res.status(200).json({
       success: true,
       count: courses.length,
