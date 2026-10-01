@@ -1,5 +1,6 @@
 const express = require("express");
 const courseRoutes = require('./routes/courseRoutes');
+const moduleRoutes = require('./routes/moduleRoutes');
 const app = express();
 
 app.use(express.json());
@@ -11,5 +12,6 @@ app.get("/", (req, res) => {
   });
 });
 app.use('/api/courses', courseRoutes);
+app.use('/api/modules', moduleRoutes);
 
 module.exports = app;
