@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Module = require('../models/Module');
 const Resource = require('../models/Resource');
 
-async function getModeleResources(res,req,next){
+async function getModeleResources(req,res,next){
     try {
         const {moduleId} = req.params;
 
