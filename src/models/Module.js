@@ -17,7 +17,7 @@ const moduleSchema = new mongoose.Schema(
             min: 1,
         },
         course: {
-            type: mongoose.Schema.type.objectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref:'Course',
             required: true,
         },
@@ -26,5 +26,5 @@ const moduleSchema = new mongoose.Schema(
         timestamps: true,
     }
 );
-const module = mongoose.model('Module', moduleSchema);
-module.exports = models;
+const Module = mongoose.model('Module', moduleSchema);
+module.exports = Module;
