@@ -1,6 +1,6 @@
-const { default: mongoose } = require('mongoose');
-const mongose = require('mongoose');
-
+// const { default: mongoose } = require('mongoose');
+// const mongose = require('mongoose');
+import mongoose from 'mongoose';
 const courseSchema = new mongoose.Schema(
     {
         title:{
@@ -39,5 +39,8 @@ const courseSchema = new mongoose.Schema(
         }
 
 );
-const Course = mongoose.model('Course', courseSchema);
-module.exports = Course;
+// const Course = mongoose.model('Course', courseSchema);
+// module.exports = Course;
+
+const Course  = mongoose.model('Course', courseSchema);
+export default Course;
