@@ -1,10 +1,11 @@
-const express = require("express");
-const courseRoutes = require('./routes/courseRoutes');
-const moduleRoutes = require('./routes/moduleRoutes');
-const notFound = require('./middlewares/notFound');
-const errorHandler = require('./middlewares/errorHandler');
-const app = express();
+import express from "express";
+import courseRoutes from "./routes/courseRoutes.js";
+import moduleRoutes from "./routes/moduleRoutes.js";
+import authRoutes from './routes/authRoutes.js'
+import notFound from "./middlewares/notFound.js";
+import errorHandler from "./middlewares/errorHandler.js";
 
+const app = express();
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -13,11 +14,12 @@ app.get("/", (req, res) => {
     message: "LMS API is running",
   });
 });
-app.use('/api/courses', courseRoutes);
-app.use('/api/modules', moduleRoutes);
+app.use("/api/courses", courseRoutes);
+app.use("/api/modules", moduleRoutes);
+app.use('/api/auth',authRoutes);
 
-app.use('/api/courses', courseRoutes);
-app.use('/api/modules', moduleRoutes);
+// app.use('/api/courses', courseRoutes);
+// app.use('/api/modules', moduleRoutes);
 app.use(notFound);
 app.use(errorHandler);
-module.exports = app;
+export default app;

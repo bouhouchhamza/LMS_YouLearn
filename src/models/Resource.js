@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-
+import mongoose from 'mongoose';;
 const resourceSchema = new mongoose.Schema(
     {
         title: {
@@ -36,4 +35,5 @@ const resourceSchema = new mongoose.Schema(
     }
 );
 const Resource = mongoose.model('Resource', resourceSchema);
-module.exports = Resource;
+//module.exports = Resource;
+export default Resource;

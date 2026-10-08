@@ -1,5 +1,6 @@
-const Course = require("../models/Course");
-const mongoose = require("mongoose");
+import Course  from "../models/Course.js";
+import mongoose from "mongoose";
+
 async function getCourses(req, res, next) {
   try {
     const { keyword, category, level, sort } = req.query;
@@ -89,7 +90,7 @@ async function getCourseById(req, res, next) {
   }
 }
 
-module.exports = {
+export {
   getCourses,
   getCourseById,
-};
+};;

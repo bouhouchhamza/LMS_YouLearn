@@ -1,12 +1,13 @@
-const express = require("express");
-
-const {
+// const express = require("express");
+import express from 'express';
+import {
   getCourses,
   getCourseById,
-} = require("../controllers/courseController");
-const { getCourseModules } = require("../controllers/moduleController");
+} from "../controllers/courseController.js";
+import getCourseModules from "../controllers/moduleController.js";
 const router = express.Router();
 router.get("/", getCourses);
 router.get("/:courseId/modules", getCourseModules);
 router.get("/:id", getCourseById);
-module.exports = router;
+// module.exports = router;
+export default router;

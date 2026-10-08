@@ -1,9 +1,9 @@
-require("dotenv").config();
-
-const mongoose = require("mongoose");
-const Course = require("../models/Course");
-const Module = require("../models/Module");
-const Resource = require("../models/Resource");
+// require("dotenv").config();
+import "dotenv/config";
+import mongoose from "mongoose";
+import Course from "../models/Course.js";
+import Module from "../models/Module.js";
+import Resource from "../models/Resource.js";
 
 async function seedDatabase() {
     try{

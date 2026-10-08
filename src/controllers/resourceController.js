@@ -1,7 +1,9 @@
-const mongoose = require('mongoose');
-const Module = require('../models/Module');
-const Resource = require('../models/Resource');
-
+// const mongoose = require('mongoose');
+// const Module = require('../models/Module');
+// const Resource = require('../models/Resource');
+import mongoose from "mongoose";
+import Module from "../models/Module.js";
+import Resource from "../models/Resource.js";
 async function getModeleResources(req,res,next){
     try {
         const {moduleId} = req.params;
@@ -34,6 +36,7 @@ async function getModeleResources(req,res,next){
         next(error);
     }
 }
-module.exports= {
-    getModeleResources,
-}
+// module.exports= {
+//     getModeleResources,
+// }
+export default getModeleResources;

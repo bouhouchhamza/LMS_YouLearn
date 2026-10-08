@@ -1,7 +1,9 @@
-const mongoose = require('mongoose');
-const Course = require('../models/Course');
-const Module = require('../models/Module');
-
+// const mongoose = require('mongoose');
+// const Course = require('../models/Course');
+// const Module = require('../models/Module');
+import mongoose from "mongoose";
+import Course from "../models/Course.js";
+import Module from "../models/Module.js";
 async function getCourseModules(req, res, next){
     try{
         const { courseId} = req.params;
@@ -30,6 +32,7 @@ async function getCourseModules(req, res, next){
         next(error);
     }
 }
-module.exports = {
-    getCourseModules
-}
+// module.exports = {
+//     getCourseModules
+// }
+export default getCourseModules;
