@@ -1,4 +1,4 @@
-import Course  from "../models/Course.js";
+import Course from "../models/Course.js";
 import mongoose from "mongoose";
 
 async function getCourses(req, res, next) {
@@ -40,16 +40,16 @@ async function getCourses(req, res, next) {
       }
       filter.level = level.toLowerCase();
     }
-    const allowedSorts = ['createdAt', 'publishedAt'];
+    const allowedSorts = ["createdAt", "publishedAt"];
     let query = Course.find(filter);
-    if(sort){
-        if(!allowedSorts.includes(sort)){
-            return res.status(400).json({
-                success: false,
-                message: 'Invalid sort field',
-            });
-        }
-        query = query.sort({[sort]: -1});
+    if (sort) {
+      if (!allowedSorts.includes(sort)) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid sort field",
+        });
+      }
+      query = query.sort({ [sort]: -1 });
     }
     const courses = await query;
     res.status(200).json({
@@ -90,7 +90,27 @@ async function getCourseById(req, res, next) {
   }
 }
 
-export {
-  getCourses,
-  getCourseById,
-};;
+async function createCourse(req, res, next) {
+  try {
+    const { title, description, category, level } = req.body;
+    const trainerId  = req.user._id;
+    const course = new Course({
+      title: title,
+      description: description,
+      category: category,
+      level: level,
+      trainer: trainerId 
+    });
+
+    const savedCourse = await course.save();
+    return  res.status(201).json({
+      success: true,
+      message: "Course created successfully",
+      data: savedCourse
+    })
+  } catch (error) {
+    next(error);
+  }
+}
+
+export { getCourses, getCourseById, createCourse };
