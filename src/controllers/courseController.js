@@ -93,24 +93,86 @@ async function getCourseById(req, res, next) {
 async function createCourse(req, res, next) {
   try {
     const { title, description, category, level } = req.body;
-    const trainerId  = req.user._id;
+    const trainerId = req.user._id;
     const course = new Course({
       title: title,
       description: description,
       category: category,
       level: level,
-      trainer: trainerId 
+      trainer: trainerId,
     });
 
     const savedCourse = await course.save();
-    return  res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: "Course created successfully",
-      data: savedCourse
-    })
+      data: savedCourse,
+    });
   } catch (error) {
     next(error);
   }
 }
 
-export { getCourses, getCourseById, createCourse };
+async function updateCourse(req, res, next) {
+  try {
+    const id = req.params.id;
+    if (!mongoose.isValidObjectId(id)) {
+      return res.status(400).json({
+        success: false,
+        message: " course id i not valid",
+      });
+    }
+    const findCourse = await Course.findById(id);
+    if (!findCourse) {
+      return res.status(404).json({
+        success: false,
+        message: "can not found course",
+      });
+    }
+    const trainerId = req.user._id;
+    const { title, description, category, level } = req.body;
+    if (
+      req.user.role !== "admin" &&
+      String(trainerId) !== String(findCourse.trainer)
+    ) {
+      return res.status(403).json({
+        success: false,
+        message: "this course is not for you",
+      });
+    }
+
+    if (title !== undefined) {
+      findCourse.title = title;
+    }
+    if (description !== undefined) {
+      findCourse.description = description;
+    }
+    if (category !== undefined) {
+      findCourse.category = category;
+    }
+    if (level !== undefined) {
+      findCourse.level = level;
+    }
+    if (
+      [title, description, category, level].every(
+        (value) => value === undefined,
+      )
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "No valid fields to update",
+      });
+    }
+
+    const updatedCourse = await findCourse.save();
+    return res.status(200).json({
+      success: true,
+      message: "Course updated successfully",
+      data: updatedCourse,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export { getCourses, getCourseById, createCourse, updateCourse };
