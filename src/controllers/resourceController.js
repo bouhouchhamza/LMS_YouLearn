@@ -4,7 +4,7 @@
 import mongoose from "mongoose";
 import Module from "../models/Module.js";
 import Resource from "../models/Resource.js";
-async function getModeleResources(req,res,next){
+async function getModuleResources(req,res,next){
     try {
         const {moduleId} = req.params;
 
@@ -39,4 +39,4 @@ async function getModeleResources(req,res,next){
 // module.exports= {
 //     getModeleResources,
 // }
-export default getModeleResources;
+export default getModuleResources;
