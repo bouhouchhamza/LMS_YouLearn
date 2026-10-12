@@ -1,9 +1,10 @@
 // const express = require('express');
 import express from 'express';
-import getModeleResources from '../controllers/resourceController.js';
+import { getModeleResources, updateCourse } from '../controllers/resourceController.js';
+import { authMiddlware } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
 router.get('/:moduleId/resources', getModeleResources);
-// module.exports = router;
+router.patch("/:moduleId", authMiddlware, updateCourse);// module.exports = router;
 export default router;
