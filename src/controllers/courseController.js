@@ -175,4 +175,92 @@ async function updateCourse(req, res, next) {
   }
 }
 
-export { getCourses, getCourseById, createCourse, updateCourse };
+async function publishCourse(req, res, next) {
+  try {
+    const id = req.params.id;
+    if (!mongoose.isValidObjectId(id)) {
+      
+      return res.status(400).json({
+        success: false,
+        message: "course id i not valid",
+      });
+    }
+
+    const findCourse = await Course.findById(id);
+    if (!findCourse) {
+      return res.status(404).json({
+        success: false,
+        message: "can not found course",
+      });
+    }
+
+    const trainerId = req.user._id;
+    if (
+      req.user.role !== "admin" &&
+      String(trainerId) !== String(findCourse.trainer)
+    ) {
+      return res.status(403).json({
+        success: false,
+        message: "this course is not for you",
+      });
+    }
+    findCourse.status = "published";
+    findCourse.publishedAt = new Date();
+
+    const updateCourse = await findCourse.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Course updated successfully",
+      data: updateCourse,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function unPublishCourse(req, res, next) {
+  try {
+    const id = req.params.id;
+    if (!mongoose.isValidObjectId(id)) {
+      
+      return res.status(400).json({
+        success: false,
+        message: "course id i not valid",
+      });
+    }
+
+    const findCourse = await Course.findById(id);
+    if (!findCourse) {
+      return res.status(404).json({
+        success: false,
+        message: "can not found course",
+      });
+    }
+
+    const trainerId = req.user._id;
+    if (
+      req.user.role !== "admin" &&
+      String(trainerId) !== String(findCourse.trainer)
+    ) {
+      return res.status(403).json({
+        success: false,
+        message: "this course is not for you",
+      });
+    }
+    findCourse.status = "draft";
+    findCourse.publishedAt = null;
+
+    const updateCourse = await findCourse.save();
+
+    return res.status(200).json({
+      succuss: true,
+      message: "Course updated successfully",
+      data: updateCourse,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export { getCourses, getCourseById, createCourse, updateCourse, publishCourse, unPublishCourse};
