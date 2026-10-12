@@ -33,6 +33,12 @@ const courseSchema = new mongoose.Schema(
             type: Date,
             default: null,
         },
+        trainer: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true
+        }
+
     },
         {
             timestamps: true
