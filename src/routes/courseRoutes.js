@@ -9,16 +9,16 @@ import {
   unPublishCourse
 } from "../controllers/courseController.js";
 import  {getCourseModules, createModule } from "../controllers/moduleController.js";
-import  {authMiddlware}  from '../middlewares/authMiddleware.js';
+import  {authMiddleware}  from '../middlewares/authMiddleware.js';
 
 
 const router = express.Router();
 router.get("/", getCourses);
-router.post("/", authMiddlware,createCourse);
-router.patch("/:id", authMiddlware, updateCourse);
-router.patch("/:id/unpublish",authMiddlware, unPublishCourse);
-router.patch("/:id/publish",authMiddlware, publishCourse);
-router.post("/:courseId/modules",authMiddlware, createModule)
+router.post("/", authMiddleware,createCourse);
+router.patch("/:id", authMiddleware, updateCourse);
+router.patch("/:id/unpublish",authMiddleware, unPublishCourse);
+router.patch("/:id/publish",authMiddleware, publishCourse);
+router.post("/:courseId/modules",authMiddleware, createModule)
 router.get("/:courseId/modules", getCourseModules);
 router.get("/:id", getCourseById);
 // module.exports = router;
