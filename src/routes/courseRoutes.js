@@ -1,19 +1,24 @@
 // const express = require("express");
-import express from 'express';
+import express from "express";
 import {
   getCourses,
   getCourseById,
   createCourse,
-  updateCourse
+  updateCourse,
 } from "../controllers/courseController.js";
 import getCourseModules from "../controllers/moduleController.js";
-import  {authMiddlware}  from '../middlewares/authMiddleware.js';
-
+import { authMiddlware } from "../middlewares/authMiddleware.js";
+import { authorize } from "../middlewares/authorize.js";
 
 const router = express.Router();
 router.get("/", getCourses);
-router.post("/", authMiddlware,createCourse);
-router.patch("/:id", authMiddlware, updateCourse);
+router.post("/", authMiddlware, authorize("trainer", "admin"), createCourse);
+router.patch(
+  "/:id",
+  authMiddlware,
+  authorize("trainer", "admin"),
+  updateCourse,
+);
 router.get("/:courseId/modules", getCourseModules);
 router.get("/:id", getCourseById);
 // module.exports = router;
