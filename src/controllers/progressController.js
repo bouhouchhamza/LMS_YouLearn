@@ -92,7 +92,68 @@ export const completeResource = async (req, res, next) => {
       progress: percentage,
     });
   } catch (error) {
-    console.log('Complete Resource Error: ', error);
+    console.log("Complete Resource Error: ", error);
+    next(error);
+  }
+};
+export const resumeLearning = async (req, res, next) => {
+  try {
+    const { courseId } = req.params;
+
+    if (!mongoose.isValidObjectId(courseId)) {
+      return res.status(400).json({
+        message: "Invalid course ID",
+      });
+    }
+    const enrollment = await Enrollment.findOne({
+      learner: req.user._id,
+      courseId: courseId,
+      status: true,
+    });
+    if (!enrollment) {
+      return res.status(403).json({
+        message: "Enrollement is not active",
+      });
+    }
+    const modules = await Module.find({
+      course: courseId,
+    }).sort({ order: 1 });
+    const orderedResources = [];
+    for (const module of modules) {
+      const resources = await Resource.find({
+        module: module._id,
+      }).sort({ order: 1 });
+      orderedResources.push(...resources);
+    }
+    const completedResources = await ResourceProgress.find({
+      enrollment: enrollment._id,
+    });
+    const nextResource = orderedResources.find((resource) => {
+      return !completedResources.some((complete) =>
+        complete.resource.equals(resource._id),
+      );
+    });
+    if(nextResource === undefined){
+    return res.status(200).json({
+      success: true,
+      progress: enrollment.progress,
+      nextresource: null,
+    });
+    }
+    const {_id,title,type,module,order}=nextResource;
+    const safeResource = {
+        _id,
+        title,
+        type,
+        module,
+        order
+    }
+    return res.status(200).json({
+      success: true,
+      progress: enrollment.progress,
+      nextresource: safeResource,
+    });
+  } catch (error) {
     next(error);
   }
 };
