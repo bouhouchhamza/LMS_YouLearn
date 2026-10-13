@@ -1,5 +1,5 @@
 // const express = require("express");
-import express from 'express';
+import express from "express";
 import {
   getCourses,
   getCourseById,
@@ -10,12 +10,13 @@ import {
 } from "../controllers/courseController.js";
 import  {getCourseModules, createModule } from "../controllers/moduleController.js";
 import  {authMiddleware}  from '../middlewares/authMiddleware.js';
+import { authorize } from "../middlewares/authorize.js";
 
 
 const router = express.Router();
 router.get("/", getCourses);
-router.post("/", authMiddleware,createCourse);
-router.patch("/:id", authMiddleware, updateCourse);
+router.post("/", authMiddleware,authorize("trainer", "admin"),createCourse);
+router.patch("/:id", authMiddleware,authorize("trainer", "admin"), updateCourse);
 router.patch("/:id/unpublish",authMiddleware, unPublishCourse);
 router.patch("/:id/publish",authMiddleware, publishCourse);
 router.post("/:courseId/modules",authMiddleware, createModule)
