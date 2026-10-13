@@ -6,54 +6,49 @@ import {
   createCourse,
   updateCourse,
   publishCourse,
-  unPublishCourse
+  unPublishCourse,
 } from "../controllers/courseController.js";
 
 import {
   getCourseModules,
-  createModule
+  createModule,
 } from "../controllers/moduleController.js";
 
-import { authMiddlware } from "../middlewares/authMiddleware.js";
+import { authMiddleware } from "../middlewares/authMiddleware.js";
 import { authorize } from "../middlewares/authorize.js";
 
 const router = express.Router();
 
 router.get("/", getCourses);
 
-router.post(
-  "/",
-  authMiddlware,
-  authorize("trainer", "admin"),
-  createCourse
-);
+router.post("/", authMiddleware, authorize("trainer", "admin"), createCourse);
 
 router.patch(
   "/:id",
-  authMiddlware,
+  authMiddleware,
   authorize("trainer", "admin"),
-  updateCourse
+  updateCourse,
 );
 
 router.patch(
   "/:id/unpublish",
-  authMiddlware,
+  authMiddleware,
   authorize("trainer", "admin"),
-  unPublishCourse
+  unPublishCourse,
 );
 
 router.patch(
   "/:id/publish",
-  authMiddlware,
+  authMiddleware,
   authorize("trainer", "admin"),
-  publishCourse
+  publishCourse,
 );
 
 router.post(
   "/:courseId/modules",
-  authMiddlware,
+  authMiddleware,
   authorize("trainer", "admin"),
-  createModule
+  createModule,
 );
 
 router.get("/:courseId/modules", getCourseModules);

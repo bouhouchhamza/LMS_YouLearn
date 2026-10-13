@@ -17,6 +17,12 @@ async function getCourseModules(req, res, next) {
       _id: courseId,
       status: "published",
     });
+    if (!course) {
+      return res.status(404).json({
+        success: false,
+        message: "Course not found or not published"
+      });
+    }
 
     const modules = await Module.find({
       course: courseId,
