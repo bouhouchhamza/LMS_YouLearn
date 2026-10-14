@@ -5,7 +5,7 @@ import authRoutes from './routes/authRoutes.js'
 import notFound from "./middlewares/notFound.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import enrollment  from "./routes/enrollmentRoutes.js";
-import progressRoute from './routes/progressRoutes.js';
+import {resourceProgressRouter,courseProgressRouter} from './routes/progressRoutes.js';
 const app = express();
 app.use(express.json());
 
@@ -19,7 +19,9 @@ app.use("/api/courses", courseRoutes);
 app.use("/api/modules", moduleRoutes);
 app.use('/api/auth',authRoutes);
 app.use('/api/courses/',enrollment);
-app.use('/api/resources/',progressRoute);
+app.use('/api/resources/',resourceProgressRouter);
+app.use('/api/courses/', courseProgressRouter);
+
 // app.use('/api/courses', courseRoutes);
 // app.use('/api/modules', moduleRoutes);
 app.use(notFound);
