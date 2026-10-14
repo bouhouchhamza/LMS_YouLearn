@@ -96,4 +96,48 @@ async function createResource(req, res, next) {
   }
 }
 
-export { getModuleResources, createResource };
+async function uploadResource(req, res, next) {
+  try {
+    const { moduleId } = req.params;
+    const { title, type, order } = req.body;
+    const { file } = req;
+
+    if (!file) {
+      return res.status(400).json({
+        success: false,
+        message: "File is required",
+      });
+    }
+    const allowedTypes = {
+      pdf: "application/pdf",
+      video: "video/mp4",
+    };
+
+    if (allowedTypes[type] !== file.mimetype) {
+      return res.status(400).json({
+        success: false,
+        message: "Resource type does not match uploaded file",
+      });
+    }
+
+    const resource = new Resource({
+      title,
+      type,
+      order,
+      module: moduleId,
+      filePath: file.path,
+    });
+
+    const savedResource = await resource.save();
+
+    return res.status(201).json({
+      success: true,
+      message: " resource uploaded successfully",
+      data: savedResource,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export { getModuleResources, createResource, uploadResource };
