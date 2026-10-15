@@ -1,6 +1,6 @@
 import multer from "multer";
 import { randomUUID } from "node:crypto";
-
+import { mkdirSync } from "node:fs";
 function uploadMiddleware() {
   const allowedFiles = {
     "application/pdf": ".pdf",
@@ -8,10 +8,15 @@ function uploadMiddleware() {
   };
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, "./uploads");
+      try {
+        mkdirSync("./uploads", { recursive: true });
+        cb(null, "./uploads");
+      } catch (error) {
+        cb(error);
+      }
     },
     filename: (req, file, cb) => {
-        const extension = allowedFiles[file.mimetype];
+      const extension = allowedFiles[file.mimetype];
       const fileName = `${randomUUID()}${extension}`;
       cb(null, fileName);
     },
