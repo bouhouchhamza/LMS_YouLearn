@@ -7,7 +7,8 @@ import Resource from "../models/Resource.js";
 import Course from "../models/Course.js";
 import Enrollment from "../models/Enrollment.js";
 import ResourceProgress from "../models/ResourceProgress.js";
-
+import path from 'node:path';
+import * as fs  from "node:fs/promises";
 async function getModuleResources(req, res, next) {
   try {
     const { moduleId } = req.params;
@@ -207,7 +208,7 @@ async function getResourceContent(req, res, next) {
     });
     const allPreviousCompleted = resourcesModels.every((resource) => {
       return completedResource.some((completed) => {
-        return completed.resource.equals(resource._id) ;
+        return completed.resource.equals(resource._id);
       });
     });
     if (!allPreviousCompleted) {
@@ -221,15 +222,85 @@ async function getResourceContent(req, res, next) {
       title: resource.title,
       type: resource.type,
       url: resource.url,
-      content: resource.content
-    }
+      content: resource.content,
+    };
     return res.status(200).json({
       success: true,
-      data: safeData
-    })
+      data: safeData,
+    });
   } catch (error) {
     next(error);
   }
 }
+async function downloadResource(req, res, next) {
+  try {
+    const resource = req.resource;
+    if (!resource.filePath) {
+      return res.status(404).json({
+        success: false,
+        message: "No upload file for this resource",
+      });
+    }
+    const uploadsDir = path.resolve("uploads");
+    const filePath = path.resolve(resource.filePath);
+    const relativePath = path.relative(uploadsDir, filePath);
+    if (
+      relativePath === "" ||
+      relativePath === ".." ||
+      relativePath.startsWith(`..${path.sep}`) ||
+      path.isAbsolute(relativePath)
+    ) {
+      return res.status(403).json({
+        success: false,
+        massege: "Access denied",
+      });
+    }
+    const realFilePath = await fs.realpath(filePath);
+    const realUploadsDir = await fs.realpath(uploadsDir);
+    const realRelativePath = path.relative(realUploadsDir, realFilePath);
+    if (
+      realRelativePath === "" ||
+      realRelativePath === ".." ||
+      realRelativePath.startsWith(`..${path.sep}`) ||
+      path.isAbsolute(realRelativePath)
+    ) {
+      return res.status(403).json({
+        success: false,
+        message: "Invalid real file path",
+      });
+    }
+    const stats = await fs.stat(realFilePath);
+    if(!stats.isFile()){
+      return res.status(400).json({
+        success:false,
+        message: 'Path is not file'
+      })
+    }
+    return res.download(realFilePath, (error)=>{
+      if(error){
+        if(!res.headersSent){
+          next(error)
+        }else{
+          console.error('Download intrerrupted:', error);
+        }
+      }
+    })
 
-export { getModuleResources, createResource, uploadResource, getResourceContent };
+  } catch (error) {
+    if (error.code === "ENOENT") {
+      return res.status(404).json({
+        success: false,
+        message: "File not found on server",
+      });
+    }
+    next(error);
+  }
+}
+
+export {
+  getModuleResources,
+  createResource,
+  uploadResource,
+  getResourceContent,
+  downloadResource
+};
