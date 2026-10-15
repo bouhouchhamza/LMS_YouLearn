@@ -6,6 +6,8 @@ import notFound from "./middlewares/notFound.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import enrollment  from "./routes/enrollmentRoutes.js";
 import {resourceProgressRouter,courseProgressRouter} from './routes/progressRoutes.js';
+import trainerRoutes from "./routes/trainerRoutes.js";
+
 const app = express();
 app.use(express.json());
 
@@ -15,6 +17,7 @@ app.get("/", (req, res) => {
     message: "LMS API is running",
   });
 });
+app.use('/api/trainer', trainerRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api/modules", moduleRoutes);
 app.use('/api/auth',authRoutes);
