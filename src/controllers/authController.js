@@ -16,11 +16,11 @@ export const register = async (req, res) => {
         message: "User is already exists",
       });
     }
-
     const user = new User({
       fullName: fullName,
       email: email,
       password: password,
+      role: "learner",
     });
     await user.save();
     return res.status(201).json({
@@ -28,17 +28,14 @@ export const register = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      message: "Error servenue "
+      message: "Error servenue ",
     });
   }
 };
 
 export const login = async (req, res) => {
-      console.log('before try')
   try {
-    console.log("BODY:", req.body);
     const { email, password } = req.body;
-    console.log({ email})
     // if(email === undefined || password === undefined){
     //   return res.status(400).json({
     //     message: 'the email and password are reuqired',
@@ -51,7 +48,13 @@ export const login = async (req, res) => {
         message: "email is not exists please register first",
       });
     }
-    const isMatched =  await user.isMatched(password);
+    if (user.status === false) {
+      return res.status(403).json({
+        success: false,
+        message: "Your account is Inactive"
+      });
+    }
+    const isMatched = await user.isMatched(password);
     if (!isMatched) {
       return res.status(403).json({
         message: "password is not correct",
@@ -61,29 +64,28 @@ export const login = async (req, res) => {
       expiresIn: "1h",
     });
     return res.status(200).json({
-      message:'login success',
-      token
-    })
+      message: "login success",
+      token,
+    });
   } catch (error) {
     res.status(401).json({
-      message: 'error servenue',
-    })
+      message: "error servenue",
+    });
   }
 };
-export const me = async(req,res)=>{
-      try{
-        const user = req.user
+export const me = async (req, res) => {
+  try {
+    const user = req.user;
 
-        res.status(200).json({
-          fullName: user.fullName,
-          email: user.email,
-          role: user.role,
-          status: user.status
-        });
-      }catch(error){
-        res.status(404).json({
-          message: 'error servenue',
-        });
-      }
-      
-}
+    res.status(200).json({
+      fullName: user.fullName,
+      email: user.email,
+      role: user.role,
+      status: user.status,
+    });
+  } catch (error) {
+    res.status(404).json({
+      message: "error servenue",
+    });
+  }
+};
