@@ -1,129 +1,280 @@
 openapi: 3.0.3
-
 info:
   title: YouLearn LMS API
-  version: 1.0.0
-  description: >
-    REST API for browsing published courses, course modules
-    and learning resources.
-
+  version: 2.0.0
+  description: 'LMS REST API: course catalog, JWT authentication, role-based access, enrollments, learning progression,
+    protected resources and trainer monitoring.'
 servers:
-  - url: http://localhost:3000
-    description: Local development server
-
+- url: http://localhost:3100
+  description: Local Node.js (.env PORT=3100)
+- url: http://localhost:3101
+  description: Docker Compose (3101:3000)
 tags:
-  - name: Courses
-    description: Course catalog endpoints
-  - name: Modules
-    description: Course module endpoints
-  - name: Resources
-    description: Learning resource endpoints
-
+- name: Authentication
+  description: Register, login and profile
+- name: Courses
+  description: Catalog and course management
+- name: Modules
+  description: Course modules
+- name: Resources
+  description: Learning resources and protected files
+- name: Enrollment
+  description: Learner enrollments
+- name: Progression
+  description: Learning progress
+- name: Trainer
+  description: Trainer monitoring
 paths:
+  /api/auth/register:
+    post:
+      tags:
+      - Authentication
+      summary: Register a learner
+      description: Role is always assigned learner server-side; client-supplied role is ignored.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - fullName
+              - email
+              - password
+              properties:
+                fullName:
+                  type: string
+                  example: Test Learner
+                email:
+                  type: string
+                  format: email
+                  example: learner@example.com
+                password:
+                  type: string
+                  format: password
+                  example: StrongPassword123!
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '409':
+          description: Email already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/auth/login:
+    post:
+      tags:
+      - Authentication
+      summary: Log in and get a JWT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - email
+              - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: JWT token issued
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  token:
+                    type: string
+        '400':
+          description: Email not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Bad password or inactive account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unexpected login failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/auth/me:
+    get:
+      tags:
+      - Authentication
+      summary: Get authenticated profile
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Current user profile
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  fullName:
+                    type: string
+                  email:
+                    type: string
+                  role:
+                    type: string
+                  status:
+                    type: boolean
+        '401':
+          description: Missing or invalid Bearer token
+          content:
+            application/json:
+              schema: &id001
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Role or access denied
+          content:
+            application/json:
+              schema: *id001
   /api/courses:
     get:
       tags:
-        - Courses
-      summary: Get published courses
-      description: >
-        Returns published courses with optional keyword search,
-        category and level filters, and sorting.
-
-      parameters:
-        - name: keyword
-          in: query
-          required: false
-          description: Search inside course title and description.
-          example: node
-          schema:
-            type: string
-
-        - name: category
-          in: query
-          required: false
-          description: Filter courses by category.
-          example: Backend
-          schema:
-            type: string
-
-        - name: level
-          in: query
-          required: false
-          description: Filter courses by level.
-          example: beginner
-          schema:
-            type: string
-            enum:
-              - beginner
-              - intermediate
-              - advanced
-
-        - name: sort
-          in: query
-          required: false
-          description: Sort courses by creation or publication date.
-          example: publishedAt
-          schema:
-            type: string
-            enum:
-              - createdAt
-              - publishedAt
-
+      - Courses
+      summary: List published courses
+      description: Supports keyword (title/description), category, level and sort filters.
       responses:
-        "200":
-          description: Published courses returned successfully
+        '200':
+          description: Published courses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseList'
+        '400':
+          description: Invalid filter or sort
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: keyword
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: category
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: level
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - beginner
+          - intermediate
+          - advanced
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdAt
+          - publishedAt
+    post:
+      tags:
+      - Courses
+      summary: Create course (trainer or admin)
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: &id002
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                category:
+                  type: string
+                level:
+                  type: string
+                  enum:
+                  - beginner
+                  - intermediate
+                  - advanced
+      responses:
+        '201':
+          description: Course created
           content:
             application/json:
               schema:
                 type: object
-                properties:
-                  success:
-                    type: boolean
-                    example: true
-                  count:
-                    type: integer
-                    example: 2
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Course"
-
-        "400":
-          description: Invalid filter or sort value
+                additionalProperties: true
+        '400':
+          description: Invalid course data
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-              example:
-                success: false
-                message: Invalid course level
-
-        "500":
-          description: Internal server error
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Missing or invalid Bearer token
           content:
             application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-
+              schema: *id001
+        '403':
+          description: Role or access denied
+          content:
+            application/json:
+              schema: *id001
   /api/courses/{id}:
     get:
       tags:
-        - Courses
-      summary: Get published course by id
-      description: Returns the details of a published course.
-
+      - Courses
+      summary: Get published course details
       parameters:
-        - name: id
-          in: path
-          required: true
-          description: MongoDB ObjectId of the course.
-          example: 6abe70bf6205c8d6d6ba42fb
-          schema:
-            type: string
-
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MongoDB ObjectId
       responses:
-        "200":
-          description: Course returned successfully
+        '200':
+          description: Course details
           content:
             application/json:
               schema:
@@ -131,293 +282,992 @@ paths:
                 properties:
                   success:
                     type: boolean
-                    example: true
                   data:
-                    $ref: "#/components/schemas/Course"
-
-        "400":
+                    $ref: '#/components/schemas/Course'
+        '400':
           description: Invalid course id
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-              example:
-                success: false
-                message: Invalid course id
-
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Course not found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-              example:
-                success: false
-                message: Course not found
-
-        "500":
-          description: Internal server error
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+      - Courses
+      summary: Update course (trainer or admin)
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MongoDB ObjectId
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: *id002
+      responses:
+        '200':
+          description: Course updated
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-
+                type: object
+                additionalProperties: true
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Course not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Missing or invalid Bearer token
+          content:
+            application/json:
+              schema: *id001
+        '403':
+          description: Role or access denied
+          content:
+            application/json:
+              schema: *id001
+  /api/courses/{id}/publish:
+    patch:
+      tags:
+      - Courses
+      summary: Publish course (trainer or admin)
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MongoDB ObjectId
+      responses:
+        '200':
+          description: Course status updated
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Course not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Missing or invalid Bearer token
+          content:
+            application/json:
+              schema: *id001
+        '403':
+          description: Role or access denied
+          content:
+            application/json:
+              schema: *id001
+  /api/courses/{id}/unpublish:
+    patch:
+      tags:
+      - Courses
+      summary: Unpublish course (trainer or admin)
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MongoDB ObjectId
+      responses:
+        '200':
+          description: Course status updated
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Course not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Missing or invalid Bearer token
+          content:
+            application/json:
+              schema: *id001
+        '403':
+          description: Role or access denied
+          content:
+            application/json:
+              schema: *id001
   /api/courses/{courseId}/modules:
     get:
       tags:
-        - Modules
+      - Modules
       summary: Get modules of a published course
-      description: Returns course modules sorted by their order.
-
       parameters:
-        - name: courseId
-          in: path
-          required: true
-          description: MongoDB ObjectId of the course.
-          example: 6abe70bf6205c8d6d6ba42fb
-          schema:
-            type: string
-
+      - name: courseId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MongoDB ObjectId
       responses:
-        "200":
-          description: Modules returned successfully
+        '200':
+          description: Modules
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                    example: true
-                  count:
-                    type: integer
-                    example: 2
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Module"
-
-        "400":
+                $ref: '#/components/schemas/ModuleList'
+        '400':
           description: Invalid course id
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-              example:
-                success: false
-                message: Invalid course id
-
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Course not found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-              example:
-                success: false
-                message: Course not found
-
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-
-  /api/modules/{moduleId}/resources:
-    get:
+                $ref: '#/components/schemas/Error'
+    post:
       tags:
-        - Resources
-      summary: Get resources of a module
-      description: Returns learning resources sorted by their order.
-
+      - Modules
+      summary: Create a module (trainer or admin)
+      security:
+      - bearerAuth: []
       parameters:
-        - name: moduleId
-          in: path
-          required: true
-          description: MongoDB ObjectId of the module.
-          example: 6abe70bf6205c8d6d6ba4301
-          schema:
-            type: string
-
+      - name: courseId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MongoDB ObjectId
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: &id003
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                order:
+                  type: integer
+                  minimum: 1
       responses:
-        "200":
-          description: Resources returned successfully
+        '201':
+          description: Module created
           content:
             application/json:
               schema:
                 type: object
-                properties:
-                  success:
-                    type: boolean
-                    example: true
-                  count:
-                    type: integer
-                    example: 2
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Resource"
-
-        "400":
-          description: Invalid module id
+                additionalProperties: true
+        '400':
+          description: Invalid data
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-              example:
-                success: false
-                message: Invalid module id
-
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Course not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Missing or invalid Bearer token
+          content:
+            application/json:
+              schema: *id001
+        '403':
+          description: Role or access denied
+          content:
+            application/json:
+              schema: *id001
+  /api/modules/{moduleId}:
+    patch:
+      tags:
+      - Modules
+      summary: Update module (trainer or admin)
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: moduleId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MongoDB ObjectId
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: *id003
+      responses:
+        '200':
+          description: Module updated
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Module not found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-              example:
-                success: false
-                message: Module not found
-
-        "500":
-          description: Internal server error
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Missing or invalid Bearer token
+          content:
+            application/json:
+              schema: *id001
+        '403':
+          description: Role or access denied
+          content:
+            application/json:
+              schema: *id001
+  /api/modules/{moduleId}/resources:
+    get:
+      tags:
+      - Resources
+      summary: List resource metadata for a module
+      parameters:
+      - name: moduleId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MongoDB ObjectId
+      responses:
+        '200':
+          description: Resources without protected content
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-
+                $ref: '#/components/schemas/ResourceList'
+        '400':
+          description: Invalid module id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Module not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+      - Resources
+      summary: Create a resource (trainer or admin)
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: moduleId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MongoDB ObjectId
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                type:
+                  type: string
+                  enum:
+                  - pdf
+                  - video
+                  - link
+                  - text
+                order:
+                  type: integer
+                url:
+                  type: string
+                content:
+                  type: string
+      responses:
+        '201':
+          description: Resource created
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Module or course not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Missing or invalid Bearer token
+          content:
+            application/json:
+              schema: *id001
+        '403':
+          description: Role or access denied
+          content:
+            application/json:
+              schema: *id001
+  /api/modules/{moduleId}/resources/upload:
+    post:
+      tags:
+      - Resources
+      summary: Upload PDF or MP4 (trainer or admin)
+      description: PDF MIME application/pdf or MP4 MIME video/mp4. Multipart field assumed `file`; verify uploadMiddleware.js
+        for actual field name.
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: moduleId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MongoDB ObjectId
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - file
+              - title
+              - type
+              properties:
+                file:
+                  type: string
+                  format: binary
+                title:
+                  type: string
+                type:
+                  type: string
+                  enum:
+                  - pdf
+                  - video
+                order:
+                  type: integer
+      responses:
+        '201':
+          description: Resource uploaded
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          description: Missing file or type mismatch
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Module not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Missing or invalid Bearer token
+          content:
+            application/json:
+              schema: *id001
+        '403':
+          description: Role or access denied
+          content:
+            application/json:
+              schema: *id001
+  /api/resources/{resourceId}/content:
+    get:
+      tags:
+      - Resources
+      summary: Get protected learning resource content
+      description: Requires active enrollment and access to the current module.
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: resourceId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MongoDB ObjectId
+      responses:
+        '200':
+          description: Safe resource content
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          description: Invalid resource id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Missing or invalid Bearer token
+          content:
+            application/json:
+              schema: *id001
+        '403':
+          description: Role or access denied
+          content:
+            application/json:
+              schema: *id001
+  /api/resources/{resourceId}/download:
+    get:
+      tags:
+      - Resources
+      summary: Download protected PDF/MP4 file
+      description: Requires active enrollment and completed prerequisite modules; response on success is a file
+        stream.
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: resourceId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MongoDB ObjectId
+      responses:
+        '200':
+          description: File download
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '403':
+          description: Module locked or file path rejected
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: File not present
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Missing or invalid Bearer token
+          content:
+            application/json:
+              schema: *id001
+  /api/courses/{courseId}/enroll:
+    post:
+      tags:
+      - Enrollment
+      summary: Enroll in published course
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: courseId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MongoDB ObjectId
+      responses:
+        '201':
+          description: Enrollment created
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '403':
+          description: Course is not published
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Course not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Already enrolled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Missing or invalid Bearer token
+          content:
+            application/json:
+              schema: *id001
+    delete:
+      tags:
+      - Enrollment
+      summary: Cancel active enrollment
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: courseId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MongoDB ObjectId
+      responses:
+        '200':
+          description: Enrollment cancelled
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '404':
+          description: Active enrollment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Missing or invalid Bearer token
+          content:
+            application/json:
+              schema: *id001
+        '403':
+          description: Role or access denied
+          content:
+            application/json:
+              schema: *id001
+  /api/resources/{resourceId}/complete:
+    post:
+      tags:
+      - Progression
+      summary: Complete a resource and recalculate progress
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: resourceId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MongoDB ObjectId
+      responses:
+        '201':
+          description: First completion
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompletionResult'
+        '200':
+          description: Repeated completion
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompletionResult'
+        '400':
+          description: Invalid resource id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Resource or module not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Enrollment inactive or previous module incomplete
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Missing or invalid Bearer token
+          content:
+            application/json:
+              schema: *id001
+  /api/courses/{courseId}/resume:
+    get:
+      tags:
+      - Progression
+      summary: Resume learning at next incomplete resource
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: courseId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MongoDB ObjectId
+      responses:
+        '200':
+          description: Next resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResumeResult'
+        '400':
+          description: Invalid course id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Enrollment not active
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Missing or invalid Bearer token
+          content:
+            application/json:
+              schema: *id001
+  /api/trainer/courses:
+    get:
+      tags:
+      - Trainer
+      summary: List trainer-owned courses
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Trainer courses
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          description: Missing or invalid Bearer token
+          content:
+            application/json:
+              schema: *id001
+        '403':
+          description: Role or access denied
+          content:
+            application/json:
+              schema: *id001
+  /api/trainer/courses/{courseId}/learners:
+    get:
+      tags:
+      - Trainer
+      summary: List active enrolled learners
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: courseId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MongoDB ObjectId
+      responses:
+        '200':
+          description: Enrolled learners
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          description: Invalid course id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Course not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Not course owner
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Missing or invalid Bearer token
+          content:
+            application/json:
+              schema: *id001
+  /api/trainer/courses/{courseId}/learners/{learnerId}/progress:
+    get:
+      tags:
+      - Trainer
+      summary: Get learner progress for a course
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: courseId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MongoDB ObjectId
+      - name: learnerId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MongoDB ObjectId
+      responses:
+        '200':
+          description: Progress details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  progress:
+                    type: number
+                  totalResources:
+                    type: integer
+                  completedCount:
+                    type: integer
+                  completedResources:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '400':
+          description: Invalid id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Course or enrollment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Not course owner
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Missing or invalid Bearer token
+          content:
+            application/json:
+              schema: *id001
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     Course:
       type: object
       properties:
         _id:
           type: string
-          example: 6abe70bf6205c8d6d6ba42fb
-
         title:
           type: string
-          example: Node.js Fundamentals
-
         description:
           type: string
-          example: Learn the fundamentals of Node.js and backend development.
-
         category:
           type: string
-          example: Backend
-
         level:
           type: string
           enum:
-            - beginner
-            - intermediate
-            - advanced
-          example: beginner
-
+          - beginner
+          - intermediate
+          - advanced
         status:
           type: string
           enum:
-            - draft
-            - published
-            - archived
-          example: published
-
+          - draft
+          - published
+          - archived
         publishedAt:
           type: string
           format: date-time
           nullable: true
-          example: "2026-09-20T00:00:00.000Z"
-
         createdAt:
           type: string
           format: date-time
-
         updatedAt:
           type: string
           format: date-time
-
     Module:
       type: object
       properties:
         _id:
           type: string
-
         title:
           type: string
-          example: Introduction to Node.js
-
         description:
           type: string
-          example: Discover Node.js and its runtime.
-
         order:
           type: integer
-          example: 1
-
         course:
           type: string
-          description: Course ObjectId
-
-        createdAt:
-          type: string
-          format: date-time
-
-        updatedAt:
-          type: string
-          format: date-time
-
     Resource:
       type: object
+      description: Metadata representation; protected url/content/filePath omitted in public list.
       properties:
         _id:
           type: string
-
         title:
           type: string
-          example: What is Node.js?
-
         type:
           type: string
           enum:
-            - video
-            - pdf
-            - link
-            - text
-          example: video
-
-        url:
-          type: string
-          nullable: true
-          example: https://example.com/node-introduction
-
-        content:
-          type: string
-          nullable: true
-
+          - video
+          - pdf
+          - link
+          - text
         order:
           type: integer
-          example: 1
-
         module:
           type: string
-          description: Module ObjectId
-
-        createdAt:
-          type: string
-          format: date-time
-
-        updatedAt:
-          type: string
-          format: date-time
-
     Error:
       type: object
       properties:
         success:
           type: boolean
-          example: false
-
         message:
           type: string
-          example: Resource not found
+    CourseList:
+      type: object
+      properties:
+        success:
+          type: boolean
+        count:
+          type: integer
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Course'
+    ModuleList:
+      type: object
+      properties:
+        success:
+          type: boolean
+        count:
+          type: integer
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Module'
+    ResourceList:
+      type: object
+      properties:
+        success:
+          type: boolean
+        count:
+          type: integer
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Resource'
+    CompletionResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          additionalProperties: true
+        progress:
+          type: number
+          minimum: 0
+          maximum: 100
+    ResumeResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        progress:
+          type: number
+        nextresource:
+          nullable: true
+          type: object
+          properties:
+            _id:
+              type: string
+            title:
+              type: string
+            type:
+              type: string
+            module:
+              type: string
+            order:
+              type: integer
