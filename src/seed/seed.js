@@ -48,6 +48,23 @@ async function seedDatabase() {
       throw new Error("Seed user exists but is not a trainer");
     }
 
+
+    let learner = await User.findOne({ email: "learner@example.com", });
+    if (!learner) {
+      if (!process.env.SEED_LEARNER_PASSWORD) {
+        throw new Error("SEED_LEARNER_PASSWORD is required !")
+      }
+      await User.create({
+        fullName: "Demo Learner",
+        email: "learner@example.com",
+        password: process.env.SEED_LEARNER_PASSWORD,
+        role: "learner",
+        status: true,
+      });
+      console.log("Learner seeded succsefully");
+    }
+
+
     const nodeCourse = await Course.findOneAndUpdate(
       { seedKey: "demo-node-fundamentals" },
       {
