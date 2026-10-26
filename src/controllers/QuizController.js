@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import Quiz from "../models/Quiz.js";
 import Module from "../models/Module.js";
 import Course from "../models/Course.js";
+import QuizAttempt from "../models/QuizAttempt.js";
 
 
 
@@ -120,8 +121,21 @@ export async function submitQuiz (req, res, next){
         
         })
 
+        const quizAttempt = await QuizAttempt.create({
+            learnerId: req.user._id,
+            quizId: quiz._id,
+            score: Score,
+            submittedAnswers: without_db_answer,
+            passed: Score >= quiz.passingScore
+        })
+
         return res.status(201).json({
-            Score
+            success: true,
+            message: "Quiz submitted successfully",
+            data: {
+                score: Score,
+                passed: quizAttempt.passed
+            }
         })
     
     }catch (error) {
