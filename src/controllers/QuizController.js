@@ -2,10 +2,10 @@ import mongoose from "mongoose";
 import Quiz from "../models/Quiz.js";
 import Module from "../models/Module.js";
 import Course from "../models/Course.js";
-import e from "express";
 
 
-export const createQuiz = async (req, res, next) => {
+
+export async function createQuiz (req, res, next){
     try {
         
         const moduleId = req.params.moduleId;
@@ -55,7 +55,7 @@ export const createQuiz = async (req, res, next) => {
 
 };
 
-export const getQuizByModuleId = async (req, res, next) => {
+export async function getQuizByModuleId(req, res, next){
     try {
 
         const moduleId = req.params.moduleId;
@@ -85,10 +85,8 @@ export const getQuizByModuleId = async (req, res, next) => {
     }
 }
 
-export const submitQuiz = async (req, res, next) => {
+export async function submitQuiz (req, res, next){
     try {
-
-
         const moduleId = req.params.moduleId;
         const { answers } = req.body;
         const quiz = await Quiz.findOne({ moduleId });
@@ -100,7 +98,6 @@ export const submitQuiz = async (req, res, next) => {
             });
         }
 
-        const your_answers = []
         const without_db_answer = answers.reduce((without_db,answer) => {
             if(!without_db.some(e => e.questionId === answer.questionId)){
                 without_db.push(answer)
@@ -133,8 +130,58 @@ export const submitQuiz = async (req, res, next) => {
 
 }
 
+export async function updateQuiz(req, res, next) {
+    try {
+        const moduleId = req.params.moduleId;
+        const trainerId = req.user._id;
+        const { title, passingScore, questions } = req.body;
 
+        const moduleExists = await Module.findById(moduleId);
 
+        if (!moduleExists) {
+            return res.status(404).json({
+                success: false,
+                message: "Module not found"
+            });
+        }
 
+        const courseExists = await Course.findById(moduleExists.course);
 
+        if (!courseExists) {
+            return res.status(404).json({
+                success: false,
+                message: "Course not found"
+            });
+        }
+
+        if (courseExists.trainer.toString() !== trainerId.toString()) {
+            return res.status(403).json({
+                success: false,
+                message: "You are not authorized to update this quiz"
+            });
+        }
+
+        const quiz = await Quiz.findOneAndUpdate(
+            { moduleId },
+            { title, passingScore, questions },
+            { new: true, runValidators: true }
+        );
+
+        if (!quiz) {
+            return res.status(404).json({
+                success: false,
+                message: "Quiz not found"
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Quiz updated successfully",
+            data: quiz
+        });
+
+    } catch (error) {
+        next(error);
+    }
+}
 
