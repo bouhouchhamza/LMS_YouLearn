@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import Quiz from "../models/Quiz.js";
 import Module from "../models/Module.js";
 import Course from "../models/Course.js";
+import e from "express";
 
 
 export const createQuiz = async (req, res, next) => {
@@ -61,6 +62,7 @@ export const getQuizByModuleId = async (req, res, next) => {
         const quiz = await Quiz.findOne({ moduleId }).select({
             "_id":0,
             title:1,
+            "questions._id":1,
             "questions.question":1,
             "questions.options":1
         });
@@ -82,6 +84,57 @@ export const getQuizByModuleId = async (req, res, next) => {
         next(error);
     }
 }
+
+export const submitQuiz = async (req, res, next) => {
+    try {
+
+
+        const moduleId = req.params.moduleId;
+        const { answers } = req.body;
+        const quiz = await Quiz.findOne({ moduleId });
+
+        if (!quiz) {
+            return res.status(404).json({
+                success: false,
+                message: "Quiz not found"
+            });
+        }
+
+        const your_answers = []
+        const without_db_answer = answers.reduce((without_db,answer) => {
+            if(!without_db.some(e => e.questionId === answer.questionId)){
+                without_db.push(answer)
+            }
+            return without_db
+        },[])
+        
+
+        let Score = 0
+        without_db_answer.forEach(e => {
+            const correctAnswers = quiz.questions.find(q =>
+                q._id.toString() === e.questionId
+                &&
+                q.correctAnswer === e.selectedAnswer
+            )
+        
+            if(correctAnswers){
+                Score += 10
+            }
+        
+        })
+
+        return res.status(201).json({
+            Score
+        })
+    
+    }catch (error) {
+        next(error);
+    }
+
+}
+
+
+
 
 
 
