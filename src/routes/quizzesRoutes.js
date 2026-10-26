@@ -3,11 +3,11 @@ import
 {
 createQuiz,
 getQuizByModuleId,
-submitQuiz
+submitQuiz,
+updateQuiz
 } from '../controllers/QuizController.js';
 import { authMiddleware } from '../middlewares/authMiddleware.js';
 import { authorize } from "../middlewares/authorize.js";
-import { checkResourceAccess } from '../middlewares/checkResourceAccess.js';
 const router = express.Router();
 
 
@@ -19,5 +19,6 @@ router.post(
     createQuiz
 );
 router.post("/modules/:moduleId/quizzes/answer", authMiddleware,submitQuiz);
+router.patch("/modules/:moduleId/quizzes/update",authMiddleware,updateQuiz);
 
 export default router;
