@@ -185,3 +185,50 @@ export async function updateQuiz(req, res, next) {
     }
 }
 
+export async function deleteQuiz(req, res, next) {
+    try {
+        const moduleId = req.params.moduleId;
+        const trainerId = req.user._id;
+
+        const moduleExists = await Module.findById(moduleId);
+
+        if (!moduleExists) {
+            return res.status(404).json({
+                success: false,
+                message: "Module not found"
+            });
+        }
+
+        const courseExists = await Course.findById(moduleExists.course);
+
+        if (!courseExists) {
+            return res.status(404).json({
+                success: false,
+                message: "Course not found"
+            });
+        }
+
+        if (courseExists.trainer.toString() !== trainerId.toString()) {
+            return res.status(403).json({
+                success: false,
+                message: "You are not authorized to delete this quiz"
+            });
+        }
+
+        const quiz = await Quiz.findOneAndDelete({ moduleId });
+
+        if (!quiz) {
+            return res.status(404).json({
+                success: false,
+                message: "Quiz not found"
+            });
+        }
+        
+        return res.status(200).json({
+            success: true,
+            message: "Quiz deleted successfully"
+        });
+    } catch (error) {
+        next(error);
+    }
+}
