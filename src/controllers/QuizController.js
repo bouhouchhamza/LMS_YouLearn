@@ -10,8 +10,7 @@ export const createQuiz = async (req, res, next) => {
         const moduleId = req.params.moduleId;
         const { title, passingScore, questions } = req.body;
         const moduleExists = await Module.findById(moduleId);
-        const trainerId = req.user._id;
-
+        const trainerId = req.user._id
 
         if(!moduleExists){
             return res.status(404).json({
@@ -54,3 +53,35 @@ export const createQuiz = async (req, res, next) => {
     }
 
 };
+
+export const getQuizByModuleId = async (req, res, next) => {
+    try {
+
+        const moduleId = req.params.moduleId;
+        const quiz = await Quiz.findOne({ moduleId }).select({
+            "_id":0,
+            title:1,
+            "questions.question":1,
+            "questions.options":1
+        });
+
+        if (!quiz) {
+            return res.status(404).json({
+                success: false,
+                message: "Quiz not found"
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Quiz retrieved successfully",
+            data: quiz
+        });
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+
