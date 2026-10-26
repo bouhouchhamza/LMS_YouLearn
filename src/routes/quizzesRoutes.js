@@ -1,11 +1,13 @@
 import express from 'express';
-import 
-{ 
+import
+{
 createQuiz,
-getQuizByModuleId
+getQuizByModuleId,
+submitQuiz
 } from '../controllers/QuizController.js';
 import { authMiddleware } from '../middlewares/authMiddleware.js';
 import { authorize } from "../middlewares/authorize.js";
+import { checkResourceAccess } from '../middlewares/checkResourceAccess.js';
 const router = express.Router();
 
 
@@ -16,6 +18,6 @@ router.post(
     authorize("trainer", "admin"),
     createQuiz
 );
-
+router.post("/modules/:moduleId/quizzes/answer", authMiddleware,submitQuiz);
 
 export default router;
