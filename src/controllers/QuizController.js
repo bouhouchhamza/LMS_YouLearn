@@ -3,6 +3,7 @@ import Quiz from "../models/Quiz.js";
 import Module from "../models/Module.js";
 import Course from "../models/Course.js";
 import QuizAttempt from "../models/QuizAttempt.js";
+import { sendQuizPassedEmail, sendQuizFailedEmail } from "../services/email/emailService.js";
 
 
 
@@ -128,6 +129,22 @@ export async function submitQuiz (req, res, next){
             submittedAnswers: without_db_answer,
             passed: Score >= quiz.passingScore
         })
+
+        // One notification for this saved attempt, using its persisted outcome.
+        try {
+            const sendResultEmail = quizAttempt.passed ? sendQuizPassedEmail : sendQuizFailedEmail;
+            const notification = await sendResultEmail({
+                to: req.user.email,
+                learnerName: req.user.fullName,
+                quizTitle: quiz.title,
+                score: quizAttempt.score,
+            });
+            if (notification?.success === false) {
+                console.error('Quiz result saved, but email notification failed');
+            }
+        } catch {
+            console.error('Quiz result saved, but email notification failed');
+        }
 
         return res.status(201).json({
             success: true,
