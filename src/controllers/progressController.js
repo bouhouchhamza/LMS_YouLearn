@@ -3,6 +3,8 @@ import Enrollment from "../models/Enrollment.js";
 import Module from "../models/Module.js";
 import Resource from "../models/Resource.js";
 import mongoose from "mongoose";
+import Course from "../models/Course.js";
+import { sendCourseCompletedEmail } from "../services/email/emailService.js";
 
 export const completeResource = async (req, res, next) => {
   try {
@@ -80,8 +82,31 @@ export const completeResource = async (req, res, next) => {
       allResources.length > 0
         ? Number(((completedCount / allResources.length) * 100).toFixed(2))
         : 0;
-    enrollmnt.progress = percentage;
-    await enrollmnt.save();
+    if (percentage === 100 && completedCount === allResources.length) {
+      // Only the request persisting the first transition to 100% sends the email.
+      const completed = await Enrollment.findOneAndUpdate(
+        { _id: enrollmnt._id, status: true, progress: { $lt: 100 } },
+        { $set: { progress: 100 } },
+        { new: true },
+      );
+      if (completed) {
+        try {
+          const course = await Course.findById(modul.course);
+          if (course) await sendCourseCompletedEmail({
+            to: req.user.email, learnerName: req.user.fullName, courseTitle: course.title,
+          });
+        } catch {
+          console.error('Completion notification failed');
+        }
+      }
+    } else {
+      // A stale partial update must not overwrite a concurrent completion.
+      await Enrollment.findOneAndUpdate(
+        { _id: enrollmnt._id, status: true, progress: enrollmnt.progress },
+        { $set: { progress: percentage } },
+        { new: true },
+      );
+    }
     const statusCode = resourceProgesse.lastErrorObject.updatedExisting
       ? 200
       : 201;
