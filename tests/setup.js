@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import { beforeAll, afterAll } from "@jest/globals";
 import User from "../src/models/User.js";
+// Set before application imports: dotenv must never enable SMTP in integration tests.
+process.env.EMAIL_DRIVER = 'log';
 const TEST_DB_NAME = 'lms_test_db';
 const TEST_MONGO_URI = "mongodb://127.0.0.1:27017/lms_test_db";
 
