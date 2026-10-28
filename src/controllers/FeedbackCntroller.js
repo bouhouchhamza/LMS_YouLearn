@@ -128,3 +128,32 @@ export async function updateFeedback(req, res, next) {
     }
 }
 
+export async function deleteFeedback(req, res, next) {
+    try {
+
+        const trainerId = req.user._id;
+        const { courseId , learnerId } = req.params
+        
+        const feedback = await Feedback.findOneAndDelete({
+            courseId,
+            learnerId,
+            trainerId
+        });
+
+        if (!feedback) {
+            return res.status(404).json({
+                message: "Feedback not found"
+            });
+        }
+
+        return res.status(200).json({
+            message: "Feedback deleted successfully",
+            data: feedback
+        });
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+
