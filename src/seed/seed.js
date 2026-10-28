@@ -5,6 +5,13 @@ import Course from "../models/Course.js";
 import Module from "../models/Module.js";
 import Resource from "../models/Resource.js";
 import User from "../models/User.js";
+import Quiz from "../models/Quiz.js";
+import QuizAttempt from "../models/QuizAttempt.js";
+import ResourceProgress from "../models/ResourceProgress.js"
+import Enrollment from "../models/Enrollment.js";
+
+
+const daysAgo = (days) => new Date(Date.now() - days * 24 * 60 * 60 * 1000);
 
 async function seedDatabase() {
   try {
@@ -18,8 +25,11 @@ async function seedDatabase() {
     const mongoUrl = new URL(process.env.MONGO_URI);
     const dbName = mongoUrl.pathname.slice(1);
 
-    if (dbName !== "lms_seed_test") {
-      throw new Error("Database not alloed for seeding");
+    const allowedDb = process.env.SEED_DB_NAME || "lms_seed_test";
+    if (dbName !== allowedDb) {
+      throw new Error(
+        `Seeder only allowed on database "${allowedDb}" (received "${dbName}"). Set SEED_DB_NAME to override.`,
+      );
     }
 
     if (mongoUrl.protocol !== "mongodb:") {
@@ -54,7 +64,7 @@ async function seedDatabase() {
       if (!process.env.SEED_LEARNER_PASSWORD) {
         throw new Error("SEED_LEARNER_PASSWORD is required !")
       }
-      await User.create({
+        learner = await User.create({
         fullName: "Demo Learner",
         email: "learner@example.com",
         password: process.env.SEED_LEARNER_PASSWORD,
@@ -63,7 +73,41 @@ async function seedDatabase() {
       });
       console.log("Learner seeded succsefully");
     }
+    
+    let inactiveLearner = await User.findOne({
+      email: "inactive@example.com",
+    });
+    if (!inactiveLearner) {
+      if (!process.env.SEED_LEARNER_PASSWORD) {
+        throw new Error("SEED_LEARNER_PASSWORD is required");
+      }
+      inactiveLearner = await User.create({
+        fullName: "Inactive Learner",
+        email: "inactive@example.com",
+        password: process.env.SEED_LEARNER_PASSWORD,
+        role: "learner",
+        status: true,
+      });
+      console.log("Inactive learner seeded successfully");
+    }
 
+    let admin = await User.findOne({ email: "admin@example.com" });
+    if (!admin) {
+      if (!process.env.SEED_ADMIN_PASSWORD) {
+        throw new Error("SEED_ADMIN_PASSWORD is required");
+      }
+      admin = await User.create({
+        fullName: "Platform Admin",
+        email: "admin@example.com",
+        password: process.env.SEED_ADMIN_PASSWORD,
+        role: "admin",
+        status: true,
+      });
+      console.log("Admin seeded successfully");
+    }
+    if (admin.role !== "admin") {
+      throw new Error("Seed user exists but is not an admin");
+    }
 
     const nodeCourse = await Course.findOneAndUpdate(
       { seedKey: "demo-node-fundamentals" },
@@ -166,7 +210,7 @@ async function seedDatabase() {
         runValidators: true,
       },
     );
-    await Resource.findOneAndUpdate(
+    const nodeIntroVideo = await Resource.findOneAndUpdate(
       { module: nodeIntroModule._id, order: 1 },
       {
         $setOnInsert: {
@@ -226,7 +270,152 @@ async function seedDatabase() {
         runValidators: true,
       },
     );
+
+    // --- Brief 3 demo journey: one quiz, one enrollment, one progress, one attempt ---
+    const nodeCourseModuleIds = [nodeIntroModule._id, nodeModulesModule._id];
+    const nodeCourseResourceCount = await Resource.countDocuments({
+      module: { $in: nodeCourseModuleIds },
+    });
+
+    const nodeQuiz = await Quiz.findOneAndUpdate(
+      { moduleId: nodeIntroModule._id },
+      {
+        $setOnInsert: {
+          title: "Node.js Fundamentals Quiz",
+          passingScore: 60,
+          questions: [
+            {
+              question: "What is Node.js?",
+              options: [
+                "A browser",
+                "A JavaScript runtime",
+                "A database",
+                "A CSS framework",
+              ],
+              correctAnswer: 1,
+            },
+            {
+              question: "Which module system is built into Node.js?",
+              options: ["CommonJS", "SASS", "JSX", "SQL"],
+              correctAnswer: 0,
+            },
+            {
+              question: "Which object exposes the current module?",
+              options: ["window", "document", "module", "process.env"],
+              correctAnswer: 2,
+            },
+          ],
+        },
+      },
+      {
+        upsert: true,
+        returnDocument: "after",
+        runValidators: true,
+        setDefaultsOnInsert: true,
+      },
+    );
+
+    let nodeEnrollment = await Enrollment.findOne({
+      learner: learner._id,
+      courseId: nodeCourse._id,
+    });
+    if (!nodeEnrollment) {
+      nodeEnrollment = await Enrollment.create({
+        learner: learner._id,
+        courseId: nodeCourse._id,
+        status: true,
+        progress: 0,
+      });
+    }
+
+    await ResourceProgress.findOneAndUpdate(
+      { enrollment: nodeEnrollment._id, resource: nodeIntroVideo._id },
+      { $setOnInsert: { completedAt: daysAgo(5) } },
+      { upsert: true, new: true, setDefaultsOnInsert: true },
+    );
+
+    const completedProgress =
+      nodeCourseResourceCount > 0
+        ? Number(((1 / nodeCourseResourceCount) * 100).toFixed(2))
+        : 0;
+
+    // Old but recent activity: this learner is active, not inactive.
+    // Native update: Mongoose treats createdAt as immutable.
+    await Enrollment.collection.updateOne(
+      { _id: nodeEnrollment._id },
+      {
+        $set: {
+          status: true,
+          progress: completedProgress,
+          createdAt: daysAgo(30),
+          updatedAt: daysAgo(2),
+        },
+      },
+    );
+
+    if (nodeQuiz.questions.length >= 3) {
+      const existingAttempt = await QuizAttempt.findOne({
+        learnerId: learner._id,
+        quizId: nodeQuiz._id,
+      });
+      if (!existingAttempt) {
+        // Two correct answers out of three: 67/100, above passingScore 60.
+        const submittedAnswers = nodeQuiz.questions.map((question, index) => ({
+          questionId: question._id,
+          selectedAnswer:
+            index < 2
+              ? question.correctAnswer
+              : (question.correctAnswer + 1) % question.options.length,
+        }));
+        const correctCount = submittedAnswers.filter(
+          (answer, index) =>
+            answer.selectedAnswer === nodeQuiz.questions[index].correctAnswer,
+        ).length;
+        const score = Math.round(
+          (correctCount / nodeQuiz.questions.length) * 100,
+        );
+        await QuizAttempt.create({
+          learnerId: learner._id,
+          quizId: nodeQuiz._id,
+          score,
+          submittedAnswers,
+          passed: score >= nodeQuiz.passingScore,
+        });
+      }
+    }
+
+    // Second learner enrolled 60 days ago with zero progress: inactive demo case.
+    let inactiveEnrollment = await Enrollment.findOne({
+      learner: inactiveLearner._id,
+      courseId: expressCourse._id,
+    });
+    if (!inactiveEnrollment) {
+      inactiveEnrollment = await Enrollment.create({
+        learner: inactiveLearner._id,
+        courseId: expressCourse._id,
+        status: true,
+        progress: 0,
+      });
+    }
+    await Enrollment.collection.updateOne(
+      { _id: inactiveEnrollment._id },
+      {
+        $set: {
+          status: true,
+          progress: 0,
+          createdAt: daysAgo(60),
+          updatedAt: daysAgo(45),
+        },
+      },
+    );
+
     console.log("Seed completed successfully");
+    console.log(
+      "Demo accounts: trainer@example.com, learner@example.com, inactive@example.com, admin@example.com",
+    );
+    console.log(
+      `Demo journey: quiz "${nodeQuiz.title}", enrollment progress ${completedProgress}%, one quiz attempt`,
+    );
   } catch (error) {
     console.error(`Seed error: ${error.message}`);
     process.exitCode = 1;
