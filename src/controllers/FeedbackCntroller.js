@@ -94,4 +94,37 @@ export async function getFeedback(req, res, next) {
     }
 }
 
+export async function updateFeedback(req, res, next) {
+    try {
+        const trainerId = req.user._id;
+        const { courseId, learnerId } = req.params;
+        const { content } = req.body;
+
+        if (!content) {
+            return res.status(400).json({
+                message: "Content is required"
+            });
+        }
+
+        const feedback = await Feedback.findOneAndUpdate(
+            { courseId, learnerId, trainerId },
+            { content },
+            { new: true }
+        );
+
+        if (!feedback) {
+            return res.status(404).json({
+                message: "Feedback not found"
+            });
+        }
+
+        return res.status(200).json({
+            message: "Feedback updated successfully",
+            data: feedback
+        });
+        
+    } catch (error) {
+        next(error);
+    }
+}
 
