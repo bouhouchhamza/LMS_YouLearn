@@ -5,7 +5,8 @@ import
 {
 createFeedback,
 getFeedback,
-updateFeedback
+updateFeedback,
+deleteFeedback
 } from "../controllers/FeedbackCntroller.js";
 
 const router = express.Router();
@@ -37,5 +38,11 @@ router.patch(
     updateFeedback
 );
 
+router.delete(
+    "/courses/:courseId/learners/:learnerId",
+    authMiddleware,
+    authorize("trainer", "admin"),
+    deleteFeedback
+);
 
 export default router;
