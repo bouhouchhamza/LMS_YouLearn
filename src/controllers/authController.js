@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import { sendWelcomeEmail } from "../services/email/emailService.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
@@ -23,6 +24,11 @@ export const register = async (req, res) => {
       role: "learner",
     });
     await user.save();
+    try {
+      await sendWelcomeEmail({ to: user.email, fullName: user.fullName });
+    } catch {
+      console.error('Welcome notification failed');
+    }
     return res.status(201).json({
       message: "User created successfully",
     });
