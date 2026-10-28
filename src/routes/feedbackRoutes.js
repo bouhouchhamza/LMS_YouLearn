@@ -4,7 +4,8 @@ import { authorize } from "../middlewares/authorize.js";
 import
 {
 createFeedback,
-getFeedback
+getFeedback,
+updateFeedback
 } from "../controllers/FeedbackCntroller.js";
 
 const router = express.Router();
@@ -29,7 +30,12 @@ router.get(
     getFeedback
 );
 
-
+router.patch(
+    "/courses/:courseId/learners/:learnerId",
+    authMiddleware,
+    authorize("trainer"),
+    updateFeedback
+);
 
 
 export default router;
