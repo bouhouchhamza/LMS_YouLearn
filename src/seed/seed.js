@@ -12,6 +12,7 @@ import Enrollment from "../models/Enrollment.js";
 
 
 const daysAgo = (days) => new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+const INACTIVE_DAYS = Number(process.env.INACTIVE_DAYS || 30);
 
 async function seedDatabase() {
   try {
@@ -404,7 +405,7 @@ async function seedDatabase() {
           status: true,
           progress: 0,
           createdAt: daysAgo(60),
-          updatedAt: daysAgo(45),
+          updatedAt: daysAgo(INACTIVE_DAYS + 15), // Qualifies as inactive (> 30 days),
         },
       },
     );
