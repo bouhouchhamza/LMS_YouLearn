@@ -294,12 +294,39 @@ Expected response:
 
 ### 6. Optional development seed
 
+### 6. Demo seed
+
+`npm run seed` creates a reproducible demo dataset. It is **idempotent**: running it twice leaves the same record counts.
+
+**Accounts** (passwords are never stored in the repository):
+
+| Email | Role | Password variable |
+|---|---|---|
+| `trainer@example.com` | trainer | `SEED_TRAINER_PASSWORD` |
+| `learner@example.com` | learner | `SEED_LEARNER_PASSWORD` |
+| `inactive@example.com` | learner | `SEED_LEARNER_PASSWORD` |
+| `admin@example.com` | admin | `SEED_ADMIN_PASSWORD` |
+
+**Safety guards**
+- `SEED_DB_NAME` must equal the database name in `MONGO_URI`, otherwise the seed refuses to run.
+- Only local hosts are accepted (`127.0.0.1`, `localhost`, `mongodb` for Docker).
+- The seed never runs when `NODE_ENV=production`.
+
+**Dataset**
+3 courses · 3 modules · 4 resources · 1 quiz (3 questions, passing score 60)
+· 2 enrollments · 1 resource progress (33.33%) · 1 quiz attempt (67/100, passed).
+
+**Reminder threshold**
+`INACTIVE_DAYS=30` defines inactivity. The demo includes one learner whose enrollment was updated `INACTIVE_DAYS + 15` days ago (qualifies for the reminder) and one whose enrollment was updated inside the threshold (does not).
+
+**Score rule**
+Quiz scores follow the submission rule: `round(correct / total * 100)`. The seeded attempt answers 2 of 3 questions correctly → **67/100**.
+
+**Replay procedure**
 ```bash
-npm run seed
-```
-
-**Warning:** Inspect `src/seed/seed.js` and ensure `MONGO_URI` points to a disposable development database before running it. Do not seed a database containing data that must be preserved.
-
+cp .env.example .env      # fill JWT_SECRET and the three SEED_* passwords
+npm run seed              # first run
+npm run seed              # second run — same counts, no duplicates, no orphans
 ---
 
 ## ðŸ³ Docker
