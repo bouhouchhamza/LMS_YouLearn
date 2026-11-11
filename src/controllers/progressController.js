@@ -41,7 +41,6 @@ export const completeResource = async (req, res, next) => {
         message: "Enrollment is not active",
       });
     }
-    // const module = await Module.find({module:modul._id});
     const previousModules = await Module.find({
       course: modul.course,
       order: { $lt: modul.order },

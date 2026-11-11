@@ -6,5 +6,4 @@ const router = express.Router();
 
 router.post('/:courseId/enroll', authMiddleware, authorize("learner"), enroll)
 router.delete('/:courseId/enroll', authMiddleware, authorize("learner"), cancelEnroll);
-// router.get('/:courseId/resume', authMiddleware,authorize('learner'),resumeLearning);
 export default router;

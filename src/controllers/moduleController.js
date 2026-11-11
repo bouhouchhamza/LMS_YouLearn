@@ -1,6 +1,3 @@
-// const mongoose = require('mongoose');
-// const Course = require('../models/Course');
-// const Module = require('../models/Module');
 import mongoose from "mongoose";
 import Course from "../models/Course.js";
 import Module from "../models/Module.js";

@@ -1,6 +1,3 @@
-// const mongoose = require('mongoose');
-// const Module = require('../models/Module');
-// const Resource = require('../models/Resource');
 import mongoose from "mongoose";
 import Module from "../models/Module.js";
 import Resource from "../models/Resource.js";
@@ -69,7 +66,6 @@ async function createResource(req, res, next) {
         message: "Course not found",
       });
     }
-    // console.log(course);
     const trainerId = req.user._id;
     if (
       req.user.role !== "admin" &&
