@@ -320,7 +320,8 @@ async function seedDatabase() {
       learner: learner._id,
       courseId: nodeCourse._id,
     });
-    if (!nodeEnrollment) {
+    const newNodeEnrollment = !nodeEnrollment;
+    if (newNodeEnrollment) {
       nodeEnrollment = await Enrollment.create({
         learner: learner._id,
         courseId: nodeCourse._id,
@@ -329,30 +330,22 @@ async function seedDatabase() {
       });
     }
 
-    await ResourceProgress.findOneAndUpdate(
-      { enrollment: nodeEnrollment._id, resource: nodeIntroVideo._id },
-      { $setOnInsert: { completedAt: daysAgo(5) } },
-      { upsert: true, new: true, setDefaultsOnInsert: true },
-    );
-
-    const completedProgress =
-      nodeCourseResourceCount > 0
-        ? Number(((1 / nodeCourseResourceCount) * 100).toFixed(2))
-        : 0;
-
-    // Old but recent activity: this learner is active, not inactive.
-    // Native update: Mongoose treats createdAt as immutable.
-    await Enrollment.collection.updateOne(
-      { _id: nodeEnrollment._id },
-      {
-        $set: {
-          status: true,
-          progress: completedProgress,
-          createdAt: daysAgo(30),
-          updatedAt: daysAgo(2),
-        },
-      },
-    );
+    // Initialize demo activity only once. Replays preserve real progress,
+    // cancellation state and activity timestamps on existing enrollments.
+    let completedProgress = nodeEnrollment.progress;
+    if (newNodeEnrollment) {
+      await ResourceProgress.findOneAndUpdate(
+        { enrollment: nodeEnrollment._id, resource: nodeIntroVideo._id },
+        { $setOnInsert: { completedAt: daysAgo(5) } },
+        { upsert: true, new: true, setDefaultsOnInsert: true },
+      );
+      completedProgress = nodeCourseResourceCount > 0
+        ? Number(((1 / nodeCourseResourceCount) * 100).toFixed(2)) : 0;
+      await Enrollment.collection.updateOne(
+        { _id: nodeEnrollment._id },
+        { $set: { progress: completedProgress, createdAt: daysAgo(30), updatedAt: daysAgo(2) } },
+      );
+    }
 
     if (nodeQuiz.questions.length >= 3) {
       const existingAttempt = await QuizAttempt.findOne({
@@ -397,18 +390,18 @@ async function seedDatabase() {
         status: true,
         progress: 0,
       });
-    }
-    await Enrollment.collection.updateOne(
-      { _id: inactiveEnrollment._id },
-      {
-        $set: {
-          status: true,
-          progress: 0,
-          createdAt: daysAgo(60),
-          updatedAt: daysAgo(INACTIVE_DAYS + 15), // Qualifies as inactive (> 30 days),
+      await Enrollment.collection.updateOne(
+        { _id: inactiveEnrollment._id },
+        {
+          $set: {
+            status: true,
+            progress: 0,
+            createdAt: daysAgo(60),
+            updatedAt: daysAgo(INACTIVE_DAYS + 15), // Qualifies as inactive (> 30 days),
+          },
         },
-      },
-    );
+      );
+    }
 
     console.log("Seed completed successfully");
     console.log(
