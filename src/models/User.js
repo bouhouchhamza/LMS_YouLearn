@@ -28,16 +28,10 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.pre("save", async function (next) {
-  try {
-    if (!this.isModified("password")) {
-      return next();
-    }
-    const salt = await bcrypt.genSalt(12);
-    this.password = await bcrypt.hash(this.password,salt);
-  } catch (error) {
-    throw new error();
-  }
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
+  const salt = await bcrypt.genSalt(12);
+  this.password = await bcrypt.hash(this.password, salt);
 });
 
 userSchema.methods.isMatched = async function(password){
