@@ -1,10 +1,10 @@
 <div align="center">
 
-# ðŸš€ YouLearn LMS API
+# 🚀 YouLearn LMS API
 
 ### Secure REST API for a Modern Learning Management System
 
-**Built with Node.js Â· Express 5 Â· MongoDB Â· Mongoose Â· JWT Â· Docker**
+**Built with Node.js · Express 5 · MongoDB · Mongoose · JWT · Docker**
 
 [![Node.js](https://img.shields.io/badge/Node.js-22-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Express](https://img.shields.io/badge/Express-5-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
@@ -12,30 +12,30 @@
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 [![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0.3-6BA539?style=for-the-badge&logo=openapiinitiative&logoColor=white)](https://www.openapis.org/)
 
-**Authentication Â· Authorization Â· Course Management Â· Enrollment Â· Progress Tracking Â· Secure Resources**
+**Authentication · Authorization · Course Management · Enrollment · Progress Tracking · Secure Resources**
 
-[Getting Started](#-getting-started) Â· [API Reference](#-api-reference) Â· [Docker](#-docker) Â· [Tests](#-testing) Â· [Documentation](#-documentation--design)
+[Getting Started](#-getting-started) · [API Reference](#-api-reference) · [Docker](#-docker) · [Tests](#-testing) · [Documentation](#-documentation--design)
 
 </div>
 
 ---
 
-## ðŸ“Œ About
+## 📌 About
 
 **YouLearn LMS API** is the backend of a Learning Management System (LMS). It exposes REST endpoints for learners, trainers, and administrators to manage courses and learning content securely.
 
 The project was developed incrementally:
 
-- **Brief 1 â€” API Foundations:** Published-course catalog, search, filters, sorting, modules, resources, MongoDB models, and initial OpenAPI specification.
-- **Brief 2 â€” Secure LMS:** Account registration and login, JWT-based authentication, role-based authorization, course management, enrollment, learning progress, sequential module access, protected resources, trainer endpoints, and automated authentication tests.
+- **Brief 1 — API Foundations:** Published-course catalog, search, filters, sorting, modules, resources, MongoDB models, and initial OpenAPI specification.
+- **Brief 2 — Secure LMS:** Account registration and login, JWT-based authentication, role-based authorization, course management, enrollment, learning progress, sequential module access, protected resources, trainer endpoints, and automated authentication tests.
 
 The API is implemented with **Express 5** and **Mongoose**, and can run locally or in Docker containers.
 
 ---
 
-## âœ¨ Features
+## ✨ Features
 
-### ðŸ” Authentication & Role-Based Access Control
+### 🔐 Authentication & Role-Based Access Control
 
 - Register a user as a **learner** (the public registration route does not accept a privileged role).
 - Login using email/password and receive a **JWT valid for 1 hour**.
@@ -45,7 +45,7 @@ The API is implemented with **Express 5** and **Mongoose**, and can run locally 
 - Reject inactive users during login; protected requests also require a valid authenticated account.
 - Hash user passwords using **bcrypt**.
 
-### ðŸ“š Course & Content Management
+### 📚 Course & Content Management
 
 - Browse published courses and view their details.
 - Search by keyword; filter by category and level; sort the catalog.
@@ -56,7 +56,7 @@ The API is implemented with **Express 5** and **Mongoose**, and can run locally 
 - List module resources without directly exposing sensitive `url`, `content`, or `filePath` fields.
 - Access resource content and download uploaded files through authenticated routes and access checks.
 
-### ðŸŽ“ Enrollment & Learning Progress
+### 🎓 Enrollment & Learning Progress
 
 - Enroll in a **published** course as a learner.
 - Reject duplicate **active** enrollments.
@@ -66,14 +66,14 @@ The API is implemented with **Express 5** and **Mongoose**, and can run locally 
 - Require completion of earlier modules before accessing/completing resources in later modules.
 - Resume learning at the next incomplete resource.
 
-### ðŸ‘¨â€ðŸ« Trainer Endpoints
+### 👨‍🏫 Trainer Endpoints
 
 - View courses associated with the authenticated trainer.
 - View active learners enrolled in a course.
 - View a learner's completion count, completed resources, and progress percentage.
 - Enforce ownership checks in trainer course/learner queries.
 
-### ðŸ› ï¸ Engineering
+### 🛠️ Engineering
 
 - Express routes, controllers, Mongoose models, and reusable middlewares.
 - Centralized error-handling middleware.
@@ -83,7 +83,7 @@ The API is implemented with **Express 5** and **Mongoose**, and can run locally 
 
 ---
 
-## ðŸ§° Tech Stack
+## 🧰 Tech Stack
 
 | Technology | Purpose |
 |---|---|
@@ -101,40 +101,40 @@ The API is implemented with **Express 5** and **Mongoose**, and can run locally 
 
 ---
 
-## ðŸ—ï¸ Architecture
+## 🏗️ Architecture
 
 ```text
                          HTTP Client
-                             â”‚
-                             â–¼
+                             │
+                             ▼
                         Express App
-                             â”‚
+                             │
                  Routes / HTTP Endpoints
-                             â”‚
+                             │
                 Authentication Middleware
                    + Role Authorization
                    + Resource Access
-                             â”‚
+                             │
                          Controllers
-                             â”‚
+                             │
                       Mongoose Models
-                             â”‚
+                             │
                           MongoDB
 
-              Uploaded PDFs / MP4s â”€â”€â–º uploads/
+              Uploaded PDFs / MP4s ──► uploads/
 ```
 
 **Learning content model:**
 
 ```text
 User (learner / trainer / admin)
-  â”‚
-  â”œâ”€â”€ Course (trainer)
-  â”‚     â””â”€â”€ Module (order)
-  â”‚           â””â”€â”€ Resource (order / type / optional file)
-  â”‚
-  â””â”€â”€ Enrollment (learner + course + active status + progress)
-           â””â”€â”€ ResourceProgress (completed resources)
+  │
+  ├── Course (trainer)
+  │     └── Module (order)
+  │           └── Resource (order / type / optional file)
+  │
+  └── Enrollment (learner + course + active status + progress)
+           └── ResourceProgress (completed resources)
 ```
 
 ### Main design choices
@@ -148,62 +148,62 @@ User (learner / trainer / admin)
 
 ---
 
-## ðŸ“‚ Project Structure
+## 📂 Project Structure
 
 ```text
 lms-api/
-â”œâ”€â”€ docs/
-â”‚   â”œâ”€â”€ analyse.md
-â”‚   â””â”€â”€ openapi.yaml
-â”œâ”€â”€ src/
-â”‚   â”œâ”€â”€ config/
-â”‚   â”œâ”€â”€ controllers/
-â”‚   â”‚   â”œâ”€â”€ authController.js
-â”‚   â”‚   â”œâ”€â”€ courseController.js
-â”‚   â”‚   â”œâ”€â”€ enrollmentController.js
-â”‚   â”‚   â”œâ”€â”€ moduleController.js
-â”‚   â”‚   â”œâ”€â”€ progressController.js
-â”‚   â”‚   â”œâ”€â”€ resourceController.js
-â”‚   â”‚   â””â”€â”€ trainerController.js
-â”‚   â”œâ”€â”€ middlewares/
-â”‚   â”‚   â”œâ”€â”€ authMiddleware.js
-â”‚   â”‚   â”œâ”€â”€ authorize.js
-â”‚   â”‚   â”œâ”€â”€ checkCourseOwnership.js
-â”‚   â”‚   â”œâ”€â”€ checkResourceAccess.js
-â”‚   â”‚   â”œâ”€â”€ uploadMiddleware.js
-â”‚   â”‚   â”œâ”€â”€ notFound.js
-â”‚   â”‚   â””â”€â”€ errorHandler.js
-â”‚   â”œâ”€â”€ models/
-â”‚   â”œâ”€â”€ routes/
-â”‚   â”‚   â”œâ”€â”€ authRoutes.js
-â”‚   â”‚   â”œâ”€â”€ courseRoutes.js
-â”‚   â”‚   â”œâ”€â”€ enrollmentRoutes.js
-â”‚   â”‚   â”œâ”€â”€ moduleRoutes.js
-â”‚   â”‚   â”œâ”€â”€ progressRoutes.js
-â”‚   â”‚   â””â”€â”€ trainerRoutes.js
-â”‚   â”œâ”€â”€ seed/
-â”‚   â”‚   â””â”€â”€ seed.js
-â”‚   â””â”€â”€ app.js
-â”œâ”€â”€ tests/
-â”‚   â”œâ”€â”€ auth.test.js
-â”‚   â””â”€â”€ setup.js
-â”œâ”€â”€ .dockerignore
-â”œâ”€â”€ .env.example
-â”œâ”€â”€ .gitignore
-â”œâ”€â”€ Dockerfile
-â”œâ”€â”€ docker-compose.yml
-â”œâ”€â”€ jest.config.js
-â”œâ”€â”€ package.json
-â”œâ”€â”€ package-lock.json
-â”œâ”€â”€ README.md
-â””â”€â”€ server.js
+├── docs/
+│   ├── analyse.md
+│   └── openapi.yaml
+├── src/
+│   ├── config/
+│   ├── controllers/
+│   │   ├── authController.js
+│   │   ├── courseController.js
+│   │   ├── enrollmentController.js
+│   │   ├── moduleController.js
+│   │   ├── progressController.js
+│   │   ├── resourceController.js
+│   │   └── trainerController.js
+│   ├── middlewares/
+│   │   ├── authMiddleware.js
+│   │   ├── authorize.js
+│   │   ├── checkCourseOwnership.js
+│   │   ├── checkResourceAccess.js
+│   │   ├── uploadMiddleware.js
+│   │   ├── notFound.js
+│   │   └── errorHandler.js
+│   ├── models/
+│   ├── routes/
+│   │   ├── authRoutes.js
+│   │   ├── courseRoutes.js
+│   │   ├── enrollmentRoutes.js
+│   │   ├── moduleRoutes.js
+│   │   ├── progressRoutes.js
+│   │   └── trainerRoutes.js
+│   ├── seed/
+│   │   └── seed.js
+│   └── app.js
+├── tests/
+│   ├── auth.test.js
+│   └── setup.js
+├── .dockerignore
+├── .env.example
+├── .gitignore
+├── Dockerfile
+├── docker-compose.yml
+├── jest.config.js
+├── package.json
+├── package-lock.json
+├── README.md
+└── server.js
 ```
 
 > The diagram is a high-level overview. Actual model and middleware implementation details are defined in `src/`.
 
 ---
 
-## âš¡ Getting Started
+## ⚡ Getting Started
 
 ### Prerequisites
 
@@ -329,7 +329,7 @@ npm run seed              # first run
 npm run seed              # second run — same counts, no duplicates, no orphans
 ---
 
-## ðŸ³ Docker
+## 🐳 Docker
 
 The repository includes both:
 
@@ -368,7 +368,7 @@ Expected health response:
 {"success":true,"message":"LMS API is running"}
 ```
 
-### Existing MongoDB container â€” do not recreate it
+### Existing MongoDB container — do not recreate it
 
 An existing development MongoDB container may already be running at host port `27017` using the **`lms-api_mongodb_data`** named volume, while the current Compose file advertises `27018`. Avoid a full `up` that could attempt to recreate that container.
 
@@ -387,7 +387,7 @@ The API stores uploaded PDF/MP4 files under `uploads/`. The current Compose conf
 
 ---
 
-## ðŸ” Authentication & Authorization
+## 🔐 Authentication & Authorization
 
 ### Register
 
@@ -404,7 +404,7 @@ Content-Type: application/json
 }
 ```
 
-**Success:** `201 Created` â€” `{"message":"User created successfully"}`.
+**Success:** `201 Created` — `{"message":"User created successfully"}`.
 
 **Duplicate email:** `409 Conflict`.
 
@@ -456,7 +456,7 @@ Invoke-RestMethod -Uri 'http://localhost:3100/api/auth/me' -Headers @{ Authoriza
 
 ---
 
-## ðŸ”Œ API Reference
+## 🔌 API Reference
 
 **Base URL (local Node.js):** `http://localhost:3100`
 **Base URL (Docker Compose):** `http://localhost:3101`
@@ -604,7 +604,7 @@ The detailed progress response includes `progress`, `totalResources`, `completed
 
 ---
 
-## âš ï¸ Error Handling
+## ⚠️ Error Handling
 
 The API uses HTTP status codes for validation, authentication, authorization, and resource errors.
 
@@ -623,7 +623,7 @@ Some controllers use `{ "message": "..." }` and others use `{ "success": false, 
 
 ---
 
-## ðŸ§ª Testing
+## 🧪 Testing
 
 Automated tests use **Jest** and **Supertest**:
 
@@ -650,7 +650,7 @@ Recommended manual verification:
 
 ---
 
-## ðŸ“ Data Model Overview
+## 📐 Data Model Overview
 
 | Model | Main responsibility |
 |---|---|
@@ -665,13 +665,13 @@ The MongoDB schema is defined in `src/models/`, which is the reference for exact
 
 ---
 
-## ðŸ“‘ Documentation & Design
+## 📑 Documentation & Design
 
-- [`docs/analyse.md`](docs/analyse.md) â€” initial analysis / project framing.
-- [`docs/openapi.yaml`](docs/openapi.yaml) â€” OpenAPI 3.0.3 specification covering the LMS routes, Bearer authentication, Quiz and Feedback.
-- `src/routes/` â€” implemented routes and HTTP methods.
-- `src/controllers/` â€” implemented request behavior and response codes.
-- `src/models/` â€” authoritative data schema and constraints.
+- [`docs/analyse.md`](docs/analyse.md) — initial analysis / project framing.
+- [`docs/openapi.yaml`](docs/openapi.yaml) — OpenAPI 3.0.3 specification covering the LMS routes, Bearer authentication, Quiz and Feedback.
+- `src/routes/` — implemented routes and HTTP methods.
+- `src/controllers/` — implemented request behavior and response codes.
+- `src/models/` — authoritative data schema and constraints.
 
 ### UML / conception status
 
@@ -679,9 +679,9 @@ Quiz, quiz attempts and trainer feedback are implemented in merged team PRs. UML
 
 ---
 
-## ðŸ§­ Scope & Known Limitations
+## 🧭 Scope & Known Limitations
 
-### âœ… Implemented in the current API
+### ✅ Implemented in the current API
 
 - Published course catalog, search, filters, and sorting.
 - Authentication, JWT, account status checks, and role-protected routes.
@@ -691,44 +691,44 @@ Quiz, quiz attempts and trainer feedback are implemented in merged team PRs. UML
 - Protected resource content/download endpoints.
 - Trainer course and learner-progress reporting.
 - Docker build and Compose startup; successful local API/MongoDB connectivity and HTTP health check.
-- Auth-focused Jest/Supertest tests.
+- Jest/Supertest coverage for Auth, Email and targeted Quiz, Feedback and Seed regressions.
 
-### ðŸ” Known limitations / verification notes
+### 🔍 Known limitations / verification notes
 
 - **Specification scope:** the official Brief 3 acceptance criteria are unavailable. OpenAPI describes implemented routes; it does not certify full Brief 3 compliance.
 - **Test breadth:** enrollment, progress, trainer, and secure download need dedicated automated tests.
 - **Enrollment reactivation:** the behavior when a learner reenrolls after cancellation must be verified against `Enrollment` schema indexes and model methods.
 - **Concurrent enrollment:** `findOne` followed by `save` does not by itself guarantee uniqueness under concurrent requests; database constraints must be verified.
-- **Uploaded files in Docker:** no persistent upload mount in the current Compose service; recreating the API container may lose uploaded files.
-- **Port consistency:** Compose specifies host MongoDB port `27018`, while the existing development MongoDB container was already created with host port `27017`. A fresh Compose install and an existing developer machine therefore need different host connection settings.
+- **Uploaded files in Docker:** Compose persists uploads in `uploads_data`. The isolated Docker verification checks persistence after container recreation.
+- **Ports:** Compose defaults to API port `3101` and MongoDB port `27018`, configurable through `API_PORT` and `MONGO_PORT`. Jest uses its dedicated MongoDB on local port `27017`; Docker verification allocates separate free ports.
 - **Response consistency:** not all endpoints use a uniform error envelope.
 - **Operational hardening:** this is an educational project, not a claimed production-ready LMS deployment.
 
-### ðŸ”œ Future scope
+### 🔜 Future scope
 
 - Password-reset workflow and automated inactivity reminders are not implemented; only their email templates/service functions exist. Their requirement for Brief 3 is unconfirmed.
 - Broader automated test coverage and a maintained Postman collection.
 - Persistent/object storage and backup strategy for learning files.
-- Complete OpenAPI coverage for protected endpoints.
+- Additional OpenAPI response examples and schema detail.
 - Additional administrative workflows and operational observability.
 
 ---
 
-## ðŸ¤ Development Workflow & Contributions
+## 🤝 Development Workflow & Contributions
 
-Development follows a **feature-branch â†’ commit â†’ pull request â†’ review/merge into `main`** workflow. The assessed deliverable is the code available on `main`.
+Development follows a **feature-branch → commit → pull request → review/merge into `main`** workflow. The assessed deliverable is the code available on `main`.
 
 The implementation spans authentication, course management, enrollment, progression, resources, tests, Docker, and documentation. For the precise individual contribution breakdown, refer to the merged PRs and commits in Git history rather than assuming ownership from filenames.
 
 **Selected merged milestones:**
 
-- PR #20 â€” Secure resource download.
-- PR #21 â€” Automated authentication tests.
-- PR #22 â€” Docker API + Compose integration.
+- PR #20 — Secure resource download.
+- PR #21 — Automated authentication tests.
+- PR #22 — Docker API + Compose integration.
 
 ---
 
-## ðŸ‘¨â€ðŸ’» Maintainer
+## 👨‍💻 Maintainer
 
 <div align="center">
 
@@ -736,7 +736,7 @@ The implementation spans authentication, course management, enrollment, progress
 
 Project repository: [bouhouchhamza/LMS_YouLearn](https://github.com/bouhouchhamza/LMS_YouLearn)
 
-**Hamza Bouhouch** Â· Full-Stack Development
+**Hamza Bouhouch** · Full-Stack Development
 
 </div>
 
@@ -753,7 +753,7 @@ docker run --detach --name lms-brief3-audit-mongo --publish 127.0.0.1:27017:2701
 npm test
 ```
 
-Reuse the test container if already running. It has no production volume.
+Reuse the test container if already running, or restart it with `docker start lms-brief3-audit-mongo` if stopped. It has no production volume.
 The test setup forces `EMAIL_DRIVER=log`; transport tests mock Nodemailer.
 Seed regression subprocesses force the log driver and use dummy passwords.
 Seed replay initializes demo progress/activity only for newly created enrollments;
