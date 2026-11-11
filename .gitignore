@@ -1,4 +1,7 @@
-node_modules 
+.env
+.env.*
+!.env.example
+node_modules
 uploads
 text.txt
 test-large.pdf
