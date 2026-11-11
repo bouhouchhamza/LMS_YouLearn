@@ -24,6 +24,10 @@ tags:
   description: Learning progress
 - name: Trainer
   description: Trainer monitoring
+- name: Quiz
+  description: Module quizzes and learner attempts
+- name: Feedback
+  description: Trainer feedback for learners
 paths:
   /api/auth/register:
     post:
@@ -1124,6 +1128,328 @@ paths:
           content:
             application/json:
               schema: *id001
+  /api/quizzes/modules/{moduleId}/quizzes:
+    parameters:
+    - in: path
+      name: moduleId
+      required: true
+      schema:
+        type: string
+      description: MongoDB ObjectId
+    get:
+      tags:
+      - Quiz
+      summary: Read a module quiz
+      description: Active enrolled learners after completion of previous modules; course owner and admin may preview.
+        Correct answers and quiz _id are omitted.
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: Missing or invalid token
+        '403':
+          description: Role, ownership, enrollment or module access denied
+        '404':
+          description: Requested entity not found
+        '500':
+          description: Unexpected error
+        '400':
+          description: Invalid module ObjectId
+    post:
+      tags:
+      - Quiz
+      summary: Create a module quiz
+      description: Trainer/admin route; controller requires course ownership.
+      security:
+      - bearerAuth: []
+      responses:
+        '201':
+          description: Successful operation
+        '401':
+          description: Missing or invalid token
+        '403':
+          description: Role, ownership, enrollment or module access denied
+        '404':
+          description: Requested entity not found
+        '500':
+          description: Unexpected error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - title
+              - questions
+              properties: &brief3id001
+                title:
+                  type: string
+                passingScore:
+                  type: number
+                  minimum: 0
+                  maximum: 100
+                  default: 60
+                questions:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                    - question
+                    - options
+                    - correctAnswer
+                    properties:
+                      question:
+                        type: string
+                      options:
+                        type: array
+                        items:
+                          type: string
+                      correctAnswer:
+                        type: integer
+                        description: Zero-based index in options
+  /api/quizzes/modules/{moduleId}/quizzes/answer:
+    parameters:
+    - in: path
+      name: moduleId
+      required: true
+      schema:
+        type: string
+      description: MongoDB ObjectId
+    post:
+      tags:
+      - Quiz
+      summary: Submit quiz answers
+      description: 'Learners only, active enrollment and previous modules completed. Score is round(correct answers
+        / total questions * 100). Duplicate question IDs count once (first answer wins). Unknown questions, invalid
+        option indices, non-array answers and empty quizzes return 400. Each saved submission creates one attempt
+        and one simulated/SMTP notification depending on EMAIL_DRIVER. Response: success, message, data: {score, passed}.'
+      security:
+      - bearerAuth: []
+      responses:
+        '201':
+          description: Successful operation
+        '401':
+          description: Missing or invalid token
+        '403':
+          description: Role, ownership, enrollment or module access denied
+        '404':
+          description: Requested entity not found
+        '500':
+          description: Unexpected error
+        '400':
+          description: Invalid module ObjectId or quiz answers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - answers
+              properties:
+                answers:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                    - questionId
+                    - selectedAnswer
+                    properties:
+                      questionId:
+                        type: string
+                      selectedAnswer:
+                        type: integer
+                        minimum: 0
+  /api/quizzes/modules/{moduleId}/quizzes/update:
+    parameters:
+    - in: path
+      name: moduleId
+      required: true
+      schema:
+        type: string
+      description: MongoDB ObjectId
+    patch:
+      tags:
+      - Quiz
+      summary: Update a module quiz
+      description: Trainer/admin route; controller requires course ownership. All fields are optional.
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: Missing or invalid token
+        '403':
+          description: Role, ownership, enrollment or module access denied
+        '404':
+          description: Requested entity not found
+        '500':
+          description: Unexpected error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: *brief3id001
+  /api/quizzes/modules/{moduleId}/quizzes/delete:
+    parameters:
+    - in: path
+      name: moduleId
+      required: true
+      schema:
+        type: string
+      description: MongoDB ObjectId
+    delete:
+      tags:
+      - Quiz
+      summary: Delete a module quiz
+      description: Trainer/admin route; controller requires course ownership.
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: Missing or invalid token
+        '403':
+          description: Role, ownership, enrollment or module access denied
+        '404':
+          description: Requested entity not found
+        '500':
+          description: Unexpected error
+  /api/feedback/courses/{courseId}/learners/{learnerId}:
+    parameters:
+    - in: path
+      name: courseId
+      required: true
+      schema:
+        type: string
+      description: MongoDB ObjectId
+    - in: path
+      name: learnerId
+      required: true
+      schema:
+        type: string
+      description: MongoDB ObjectId
+    post:
+      tags:
+      - Feedback
+      summary: Create learner feedback
+      description: Trainer/admin route; controller requires course ownership and an existing enrollment.
+      security:
+      - bearerAuth: []
+      responses:
+        '201':
+          description: Successful operation
+        '401':
+          description: Missing or invalid token
+        '403':
+          description: Role, ownership, enrollment or module access denied
+        '404':
+          description: Requested entity not found
+        '500':
+          description: Unexpected error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: &brief3id002
+              type: object
+              required:
+              - content
+              properties:
+                content:
+                  type: string
+    get:
+      tags:
+      - Feedback
+      summary: Read feedback for a learner
+      description: Course owner or admin only. Uses the learnerId from the URL.
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: Missing or invalid token
+        '403':
+          description: Role, ownership, enrollment or module access denied
+        '404':
+          description: Requested entity not found
+        '500':
+          description: Unexpected error
+    patch:
+      tags:
+      - Feedback
+      summary: Update learner feedback
+      description: Trainer only; selects feedback by courseId, learnerId and authenticated trainerId.
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: Missing or invalid token
+        '403':
+          description: Role, ownership, enrollment or module access denied
+        '404':
+          description: Requested entity not found
+        '500':
+          description: Unexpected error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: *brief3id002
+    delete:
+      tags:
+      - Feedback
+      summary: Delete learner feedback
+      description: Trainer/admin route; selects feedback by courseId, learnerId and authenticated trainerId.
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: Missing or invalid token
+        '403':
+          description: Role, ownership, enrollment or module access denied
+        '404':
+          description: Requested entity not found
+        '500':
+          description: Unexpected error
+  /api/feedback/courses/{courseId}/feedback:
+    parameters:
+    - in: path
+      name: courseId
+      required: true
+      schema:
+        type: string
+      description: MongoDB ObjectId
+    get:
+      tags:
+      - Feedback
+      summary: Read own feedback
+      description: Authenticated user reads only feedback addressed to their own user ID. Returns 404 when none exists.
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: Missing or invalid token
+        '403':
+          description: Role, ownership, enrollment or module access denied
+        '404':
+          description: Requested entity not found
+        '500':
+          description: Unexpected error
 components:
   securitySchemes:
     bearerAuth:
