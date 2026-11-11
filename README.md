@@ -764,3 +764,18 @@ Obfuscated code was removed from Jest configuration, `init`, an executable `.orc
 and automatic VS Code tasks. Startup runs `server.js` directly. `.env` and
 `.env.*` are ignored, except the tracked `.env.example`. Do not restore removed
 execution triggers from older remote branches.
+
+
+## Closing Board: verified delivery scope
+
+See [ticket status and isolated Docker verification](docs/closing-board-status.md)
+and [team PRs and actual GitHub reviews](docs/contributions-and-reviews.md).
+The machine-readable evidence is in
+[github-contributions-evidence.json](docs/github-contributions-evidence.json).
+
+CONFIG and PREFS are **BLOCKED — SPECIFICATION MISSING**. No trainerSummary
+contract or notification/job settings are invented. The Email service is reused.
+For local Docker verification, run `node scripts/verify-docker.mjs`; this creates
+and cleans a unique test project with a dedicated database and log-only emails.
+Compose supports API_PORT, MONGO_PORT, MONGO_DB_NAME and the Email variables
+listed in `.env.example`, waits for MongoDB health and persists uploads.
