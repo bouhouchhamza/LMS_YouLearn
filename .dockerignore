@@ -9,3 +9,10 @@ tests
 *.log
 module-test.json
 resource-module2.json
+# Local audit/scratch files and editor automation are not deployment inputs.
+docs/audit
+.vscode
+.tmp
+config.bat
+text.txt
+test-large.pdf
