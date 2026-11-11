@@ -16,3 +16,4 @@ docs/audit
 config.bat
 text.txt
 test-large.pdf
+.DS_Store
