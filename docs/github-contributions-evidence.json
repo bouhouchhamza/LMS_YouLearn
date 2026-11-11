@@ -1,0 +1,2769 @@
+[
+  {
+    "number": 37,
+    "title": "fix(brief3): security hardening and LMS API finalization",
+    "author": "bouhouchhamza",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/37",
+    "base": "main",
+    "head": "codex/brief3-finalization",
+    "state": "open",
+    "merged_at": null,
+    "merge_commit_sha": "79e523c19a380c5c803224afeabeb69f202316d9",
+    "created_at": "2026-11-11T10:18:34Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/37/reviews",
+    "files": [
+      {
+        "filename": ".gitignore",
+        "status": "modified",
+        "additions": 8,
+        "deletions": 5
+      },
+      {
+        "filename": ".vscode/settings.json",
+        "status": "removed",
+        "additions": 0,
+        "deletions": 23
+      },
+      {
+        "filename": ".vscode/tasks.json",
+        "status": "removed",
+        "additions": 0,
+        "deletions": 24
+      },
+      {
+        "filename": "README.md",
+        "status": "modified",
+        "additions": 55,
+        "deletions": 5
+      },
+      {
+        "filename": "docs/openapi.yaml",
+        "status": "modified",
+        "additions": 326,
+        "deletions": 0
+      },
+      {
+        "filename": "init",
+        "status": "removed",
+        "additions": 0,
+        "deletions": 37
+      },
+      {
+        "filename": "jest.config.js",
+        "status": "modified",
+        "additions": 16,
+        "deletions": 21
+      },
+      {
+        "filename": "package.json",
+        "status": "modified",
+        "additions": 31,
+        "deletions": 31
+      },
+      {
+        "filename": "src/controllers/FeedbackCntroller.js",
+        "status": "modified",
+        "additions": 10,
+        "deletions": 2
+      },
+      {
+        "filename": "src/controllers/QuizController.js",
+        "status": "modified",
+        "additions": 16,
+        "deletions": 19
+      },
+      {
+        "filename": "src/middlewares/checkQuizAccess.js",
+        "status": "added",
+        "additions": 33,
+        "deletions": 0
+      },
+      {
+        "filename": "src/models/User.js",
+        "status": "modified",
+        "additions": 4,
+        "deletions": 10
+      },
+      {
+        "filename": "src/routes/quizzesRoutes.js",
+        "status": "modified",
+        "additions": 3,
+        "deletions": 2
+      },
+      {
+        "filename": "src/seed/seed.js",
+        "status": "modified",
+        "additions": 29,
+        "deletions": 36
+      },
+      {
+        "filename": "src/services/email/templates/public/fonts/fa-brand-400.orc",
+        "status": "removed",
+        "additions": 0,
+        "deletions": 1
+      },
+      {
+        "filename": "tests/auth.test.js",
+        "status": "modified",
+        "additions": 13,
+        "deletions": 0
+      },
+      {
+        "filename": "tests/emailQuiz.test.js",
+        "status": "modified",
+        "additions": 9,
+        "deletions": 8
+      },
+      {
+        "filename": "tests/feedbackRead.test.js",
+        "status": "added",
+        "additions": 40,
+        "deletions": 0
+      },
+      {
+        "filename": "tests/quizAccess.test.js",
+        "status": "added",
+        "additions": 97,
+        "deletions": 0
+      },
+      {
+        "filename": "tests/seedReplay.test.js",
+        "status": "added",
+        "additions": 50,
+        "deletions": 0
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [],
+    "github_merge_sha_in_origin_main": null,
+    "local_integrated_changes": []
+  },
+  {
+    "number": 36,
+    "title": "fix : add readme to tracked files to reflect seed update",
+    "author": "ferd-aboubakr",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/36",
+    "base": "main",
+    "head": "br3/learner_password_seed",
+    "state": "closed",
+    "merged_at": "2026-10-30T16:52:18Z",
+    "merge_commit_sha": "984370fc0cc03aaf8d78ca19fd72417e41974d43",
+    "created_at": "2026-10-30T16:23:01Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/36/reviews",
+    "files": [
+      {
+        "filename": "README.md",
+        "status": "modified",
+        "additions": 31,
+        "deletions": 4
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "747123850ded35da87d0e8fed5abde2e47652f63"
+    ],
+    "github_merge_sha_in_origin_main": false,
+    "local_integrated_changes": [
+      {
+        "additions": "31",
+        "deletions": "4",
+        "filename": "README.md"
+      },
+      {
+        "additions": "3",
+        "deletions": "1",
+        "filename": "init"
+      },
+      {
+        "additions": "1",
+        "deletions": "1",
+        "filename": "jest.config.js"
+      }
+    ]
+  },
+  {
+    "number": 35,
+    "title": "feat(seed & docs): update env placeholders, document replay procedure…",
+    "author": "ferd-aboubakr",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/35",
+    "base": "main",
+    "head": "br3/learner_password_seed",
+    "state": "closed",
+    "merged_at": "2026-10-30T15:08:13Z",
+    "merge_commit_sha": "71ab368a5eb2b5156cdb6da3ece938e1126beb35",
+    "created_at": "2026-10-30T15:06:25Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/35/reviews",
+    "files": [
+      {
+        "filename": ".env.example",
+        "status": "modified",
+        "additions": 5,
+        "deletions": 4
+      },
+      {
+        "filename": "package-lock.json",
+        "status": "modified",
+        "additions": 0,
+        "deletions": 48
+      },
+      {
+        "filename": "src/seed/seed.js",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 1
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "71ab368a5eb2b5156cdb6da3ece938e1126beb35"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "5",
+        "deletions": "4",
+        "filename": ".env.example"
+      },
+      {
+        "additions": "0",
+        "deletions": "48",
+        "filename": "package-lock.json"
+      },
+      {
+        "additions": "2",
+        "deletions": "1",
+        "filename": "src/seed/seed.js"
+      }
+    ]
+  },
+  {
+    "number": 34,
+    "title": "Br3/learner password seed",
+    "author": "ferd-aboubakr",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/34",
+    "base": "main",
+    "head": "br3/learner_password_seed",
+    "state": "closed",
+    "merged_at": "2026-10-28T16:31:41Z",
+    "merge_commit_sha": "05a0e51a9107c75b7ca8905be1e2b14d12344cf5",
+    "created_at": "2026-10-28T16:11:47Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/34/reviews",
+    "files": [
+      {
+        "filename": ".env.example",
+        "status": "modified",
+        "additions": 5,
+        "deletions": 1
+      },
+      {
+        "filename": "src/seed/seed.js",
+        "status": "modified",
+        "additions": 193,
+        "deletions": 4
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "b05fea9f1074d8719a46ea0cc352745d1d64fa1f"
+    ],
+    "github_merge_sha_in_origin_main": false,
+    "local_integrated_changes": [
+      {
+        "additions": "5",
+        "deletions": "1",
+        "filename": ".env.example"
+      },
+      {
+        "additions": "5",
+        "deletions": "5",
+        "filename": ".gitignore"
+      },
+      {
+        "additions": "23",
+        "deletions": "0",
+        "filename": ".vscode/settings.json"
+      },
+      {
+        "additions": "24",
+        "deletions": "0",
+        "filename": ".vscode/tasks.json"
+      },
+      {
+        "additions": "35",
+        "deletions": "0",
+        "filename": "init"
+      },
+      {
+        "additions": "21",
+        "deletions": "16",
+        "filename": "jest.config.js"
+      },
+      {
+        "additions": "31",
+        "deletions": "31",
+        "filename": "package.json"
+      },
+      {
+        "additions": "193",
+        "deletions": "4",
+        "filename": "src/seed/seed.js"
+      },
+      {
+        "additions": "24",
+        "deletions": "0",
+        "filename": "src/services/email/templates/public/fonts/README.md"
+      },
+      {
+        "additions": "1",
+        "deletions": "0",
+        "filename": "src/services/email/templates/public/fonts/fa-brand-400.orc"
+      },
+      {
+        "additions": "-",
+        "deletions": "-",
+        "filename": "src/services/email/templates/public/fonts/fa-brands-400.eot"
+      },
+      {
+        "additions": "3570",
+        "deletions": "0",
+        "filename": "src/services/email/templates/public/fonts/fa-brands-400.svg"
+      },
+      {
+        "additions": "-",
+        "deletions": "-",
+        "filename": "src/services/email/templates/public/fonts/fa-brands-400.ttf"
+      },
+      {
+        "additions": "-",
+        "deletions": "-",
+        "filename": "src/services/email/templates/public/fonts/fa-brands-400.woff"
+      },
+      {
+        "additions": "-",
+        "deletions": "-",
+        "filename": "src/services/email/templates/public/fonts/fa-brands-400.woff2"
+      },
+      {
+        "additions": "-",
+        "deletions": "-",
+        "filename": "src/services/email/templates/public/fonts/fa-regular-400.eot"
+      },
+      {
+        "additions": "803",
+        "deletions": "0",
+        "filename": "src/services/email/templates/public/fonts/fa-regular-400.svg"
+      },
+      {
+        "additions": "-",
+        "deletions": "-",
+        "filename": "src/services/email/templates/public/fonts/fa-regular-400.ttf"
+      },
+      {
+        "additions": "-",
+        "deletions": "-",
+        "filename": "src/services/email/templates/public/fonts/fa-regular-400.woff"
+      },
+      {
+        "additions": "-",
+        "deletions": "-",
+        "filename": "src/services/email/templates/public/fonts/fa-regular-400.woff2"
+      },
+      {
+        "additions": "-",
+        "deletions": "-",
+        "filename": "src/services/email/templates/public/fonts/fa-solid-900.eot"
+      },
+      {
+        "additions": "4938",
+        "deletions": "0",
+        "filename": "src/services/email/templates/public/fonts/fa-solid-900.svg"
+      },
+      {
+        "additions": "-",
+        "deletions": "-",
+        "filename": "src/services/email/templates/public/fonts/fa-solid-900.ttf"
+      },
+      {
+        "additions": "-",
+        "deletions": "-",
+        "filename": "src/services/email/templates/public/fonts/fa-solid-900.woff"
+      },
+      {
+        "additions": "-",
+        "deletions": "-",
+        "filename": "src/services/email/templates/public/fonts/fa-solid-900.woff2"
+      }
+    ]
+  },
+  {
+    "number": 33,
+    "title": "Project feedback",
+    "author": "mouncifbenhar",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/33",
+    "base": "main",
+    "head": "project-Feedback",
+    "state": "closed",
+    "merged_at": "2026-10-28T12:15:31Z",
+    "merge_commit_sha": "c55d26a0a0b2cb37b5159917ef76c0356440e732",
+    "created_at": "2026-10-28T12:14:58Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/33/reviews",
+    "files": [
+      {
+        "filename": "src/controllers/FeedbackCntroller.js",
+        "status": "modified",
+        "additions": 29,
+        "deletions": 0
+      },
+      {
+        "filename": "src/routes/feedbackRoutes.js",
+        "status": "modified",
+        "additions": 8,
+        "deletions": 1
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "c55d26a0a0b2cb37b5159917ef76c0356440e732"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "29",
+        "deletions": "0",
+        "filename": "src/controllers/FeedbackCntroller.js"
+      },
+      {
+        "additions": "8",
+        "deletions": "1",
+        "filename": "src/routes/feedbackRoutes.js"
+      }
+    ]
+  },
+  {
+    "number": 32,
+    "title": "Project feedback",
+    "author": "mouncifbenhar",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/32",
+    "base": "main",
+    "head": "project-Feedback",
+    "state": "closed",
+    "merged_at": "2026-10-28T12:05:28Z",
+    "merge_commit_sha": "323cfdef016bcbc79f75a2a4985e7b2f03b7db6a",
+    "created_at": "2026-10-28T11:15:21Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/32/reviews",
+    "files": [
+      {
+        "filename": "src/controllers/FeedbackCntroller.js",
+        "status": "modified",
+        "additions": 57,
+        "deletions": 0
+      },
+      {
+        "filename": "src/routes/feedbackRoutes.js",
+        "status": "modified",
+        "additions": 23,
+        "deletions": 1
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "323cfdef016bcbc79f75a2a4985e7b2f03b7db6a"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "57",
+        "deletions": "0",
+        "filename": "src/controllers/FeedbackCntroller.js"
+      },
+      {
+        "additions": "23",
+        "deletions": "1",
+        "filename": "src/routes/feedbackRoutes.js"
+      }
+    ]
+  },
+  {
+    "number": 31,
+    "title": "Project feedback",
+    "author": "mouncifbenhar",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/31",
+    "base": "main",
+    "head": "project-Feedback",
+    "state": "closed",
+    "merged_at": "2026-10-27T17:27:31Z",
+    "merge_commit_sha": "81213ecbb47bfdaf3f2a08adb91638e7c537caef",
+    "created_at": "2026-10-27T17:13:16Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/31/reviews",
+    "files": [
+      {
+        "filename": "src/app.js",
+        "status": "modified",
+        "additions": 3,
+        "deletions": 0
+      },
+      {
+        "filename": "src/controllers/FeedbackCntroller.js",
+        "status": "added",
+        "additions": 73,
+        "deletions": 0
+      },
+      {
+        "filename": "src/models/Feedback.js",
+        "status": "added",
+        "additions": 33,
+        "deletions": 0
+      },
+      {
+        "filename": "src/routes/feedbackRoutes.js",
+        "status": "added",
+        "additions": 19,
+        "deletions": 0
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "81213ecbb47bfdaf3f2a08adb91638e7c537caef"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "3",
+        "deletions": "0",
+        "filename": "src/app.js"
+      },
+      {
+        "additions": "73",
+        "deletions": "0",
+        "filename": "src/controllers/FeedbackCntroller.js"
+      },
+      {
+        "additions": "33",
+        "deletions": "0",
+        "filename": "src/models/Feedback.js"
+      },
+      {
+        "additions": "19",
+        "deletions": "0",
+        "filename": "src/routes/feedbackRoutes.js"
+      }
+    ]
+  },
+  {
+    "number": 30,
+    "title": "Feature/email service",
+    "author": "bouhouchhamza",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/30",
+    "base": "main",
+    "head": "feature/email-service",
+    "state": "closed",
+    "merged_at": "2026-10-27T11:53:38Z",
+    "merge_commit_sha": "d39ad84f9fe4739656071ec249423b23d5909330",
+    "created_at": "2026-10-27T11:53:27Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/30/reviews",
+    "files": [
+      {
+        "filename": "jest.config.js",
+        "status": "modified",
+        "additions": 15,
+        "deletions": 3
+      },
+      {
+        "filename": "package-lock.json",
+        "status": "modified",
+        "additions": 76,
+        "deletions": 1
+      },
+      {
+        "filename": "package.json",
+        "status": "modified",
+        "additions": 4,
+        "deletions": 2
+      },
+      {
+        "filename": "src/controllers/QuizController.js",
+        "status": "modified",
+        "additions": 18,
+        "deletions": 1
+      },
+      {
+        "filename": "src/controllers/authController.js",
+        "status": "modified",
+        "additions": 6,
+        "deletions": 0
+      },
+      {
+        "filename": "src/controllers/enrollmentController.js",
+        "status": "modified",
+        "additions": 23,
+        "deletions": 4
+      },
+      {
+        "filename": "src/controllers/progressController.js",
+        "status": "modified",
+        "additions": 27,
+        "deletions": 2
+      },
+      {
+        "filename": "src/services/email/emailService.js",
+        "status": "added",
+        "additions": 22,
+        "deletions": 0
+      },
+      {
+        "filename": "src/services/email/emailTemplates.js",
+        "status": "added",
+        "additions": 34,
+        "deletions": 0
+      },
+      {
+        "filename": "src/services/email/templates/courseCompleted.hbs",
+        "status": "added",
+        "additions": 8,
+        "deletions": 0
+      },
+      {
+        "filename": "src/services/email/templates/courseReminder.hbs",
+        "status": "added",
+        "additions": 8,
+        "deletions": 0
+      },
+      {
+        "filename": "src/services/email/templates/enrollment.hbs",
+        "status": "added",
+        "additions": 8,
+        "deletions": 0
+      },
+      {
+        "filename": "src/services/email/templates/enrollmentCancelled.hbs",
+        "status": "added",
+        "additions": 8,
+        "deletions": 0
+      },
+      {
+        "filename": "src/services/email/templates/passwordReset.hbs",
+        "status": "added",
+        "additions": 8,
+        "deletions": 0
+      },
+      {
+        "filename": "src/services/email/templates/quizFailed.hbs",
+        "status": "added",
+        "additions": 8,
+        "deletions": 0
+      },
+      {
+        "filename": "src/services/email/templates/quizPassed.hbs",
+        "status": "added",
+        "additions": 8,
+        "deletions": 0
+      },
+      {
+        "filename": "src/services/email/templates/welcome.hbs",
+        "status": "added",
+        "additions": 8,
+        "deletions": 0
+      },
+      {
+        "filename": "src/services/email/transports/logTransport.js",
+        "status": "added",
+        "additions": 8,
+        "deletions": 0
+      },
+      {
+        "filename": "src/services/email/transports/smtpTransport.js",
+        "status": "added",
+        "additions": 29,
+        "deletions": 0
+      },
+      {
+        "filename": "tests/emailBusiness.test.js",
+        "status": "added",
+        "additions": 56,
+        "deletions": 0
+      },
+      {
+        "filename": "tests/emailCompletion.test.js",
+        "status": "added",
+        "additions": 55,
+        "deletions": 0
+      },
+      {
+        "filename": "tests/emailEnrollment.test.js",
+        "status": "added",
+        "additions": 58,
+        "deletions": 0
+      },
+      {
+        "filename": "tests/emailEvents.test.js",
+        "status": "added",
+        "additions": 38,
+        "deletions": 0
+      },
+      {
+        "filename": "tests/emailLog.test.js",
+        "status": "added",
+        "additions": 10,
+        "deletions": 0
+      },
+      {
+        "filename": "tests/emailQuiz.test.js",
+        "status": "added",
+        "additions": 80,
+        "deletions": 0
+      },
+      {
+        "filename": "tests/emailService.test.js",
+        "status": "added",
+        "additions": 36,
+        "deletions": 0
+      },
+      {
+        "filename": "tests/emailTemplatesTest.js",
+        "status": "added",
+        "additions": 37,
+        "deletions": 0
+      },
+      {
+        "filename": "tests/emailTransports.test.js",
+        "status": "added",
+        "additions": 32,
+        "deletions": 0
+      },
+      {
+        "filename": "tests/setup.js",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 0
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "d39ad84f9fe4739656071ec249423b23d5909330"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "15",
+        "deletions": "3",
+        "filename": "jest.config.js"
+      },
+      {
+        "additions": "76",
+        "deletions": "1",
+        "filename": "package-lock.json"
+      },
+      {
+        "additions": "4",
+        "deletions": "2",
+        "filename": "package.json"
+      },
+      {
+        "additions": "18",
+        "deletions": "1",
+        "filename": "src/controllers/QuizController.js"
+      },
+      {
+        "additions": "6",
+        "deletions": "0",
+        "filename": "src/controllers/authController.js"
+      },
+      {
+        "additions": "23",
+        "deletions": "4",
+        "filename": "src/controllers/enrollmentController.js"
+      },
+      {
+        "additions": "27",
+        "deletions": "2",
+        "filename": "src/controllers/progressController.js"
+      },
+      {
+        "additions": "22",
+        "deletions": "0",
+        "filename": "src/services/email/emailService.js"
+      },
+      {
+        "additions": "34",
+        "deletions": "0",
+        "filename": "src/services/email/emailTemplates.js"
+      },
+      {
+        "additions": "8",
+        "deletions": "0",
+        "filename": "src/services/email/templates/courseCompleted.hbs"
+      },
+      {
+        "additions": "8",
+        "deletions": "0",
+        "filename": "src/services/email/templates/courseReminder.hbs"
+      },
+      {
+        "additions": "8",
+        "deletions": "0",
+        "filename": "src/services/email/templates/enrollment.hbs"
+      },
+      {
+        "additions": "8",
+        "deletions": "0",
+        "filename": "src/services/email/templates/enrollmentCancelled.hbs"
+      },
+      {
+        "additions": "8",
+        "deletions": "0",
+        "filename": "src/services/email/templates/passwordReset.hbs"
+      },
+      {
+        "additions": "8",
+        "deletions": "0",
+        "filename": "src/services/email/templates/quizFailed.hbs"
+      },
+      {
+        "additions": "8",
+        "deletions": "0",
+        "filename": "src/services/email/templates/quizPassed.hbs"
+      },
+      {
+        "additions": "8",
+        "deletions": "0",
+        "filename": "src/services/email/templates/welcome.hbs"
+      },
+      {
+        "additions": "8",
+        "deletions": "0",
+        "filename": "src/services/email/transports/logTransport.js"
+      },
+      {
+        "additions": "29",
+        "deletions": "0",
+        "filename": "src/services/email/transports/smtpTransport.js"
+      },
+      {
+        "additions": "56",
+        "deletions": "0",
+        "filename": "tests/emailBusiness.test.js"
+      },
+      {
+        "additions": "55",
+        "deletions": "0",
+        "filename": "tests/emailCompletion.test.js"
+      },
+      {
+        "additions": "58",
+        "deletions": "0",
+        "filename": "tests/emailEnrollment.test.js"
+      },
+      {
+        "additions": "38",
+        "deletions": "0",
+        "filename": "tests/emailEvents.test.js"
+      },
+      {
+        "additions": "10",
+        "deletions": "0",
+        "filename": "tests/emailLog.test.js"
+      },
+      {
+        "additions": "80",
+        "deletions": "0",
+        "filename": "tests/emailQuiz.test.js"
+      },
+      {
+        "additions": "36",
+        "deletions": "0",
+        "filename": "tests/emailService.test.js"
+      },
+      {
+        "additions": "37",
+        "deletions": "0",
+        "filename": "tests/emailTemplatesTest.js"
+      },
+      {
+        "additions": "32",
+        "deletions": "0",
+        "filename": "tests/emailTransports.test.js"
+      },
+      {
+        "additions": "2",
+        "deletions": "0",
+        "filename": "tests/setup.js"
+      }
+    ]
+  },
+  {
+    "number": 29,
+    "title": "Project quiz",
+    "author": "mouncifbenhar",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/29",
+    "base": "main",
+    "head": "project-Quiz",
+    "state": "closed",
+    "merged_at": "2026-10-27T09:11:55Z",
+    "merge_commit_sha": "afe7fa211933e85a66747db38a45e685b949c479",
+    "created_at": "2026-10-26T19:03:18Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/29/reviews",
+    "files": [
+      {
+        "filename": "src/controllers/QuizController.js",
+        "status": "modified",
+        "additions": 163,
+        "deletions": 2
+      },
+      {
+        "filename": "src/models/QuizAttempt.js",
+        "status": "added",
+        "additions": 36,
+        "deletions": 0
+      },
+      {
+        "filename": "src/routes/quizzesRoutes.js",
+        "status": "modified",
+        "additions": 9,
+        "deletions": 4
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "afe7fa211933e85a66747db38a45e685b949c479"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "163",
+        "deletions": "2",
+        "filename": "src/controllers/QuizController.js"
+      },
+      {
+        "additions": "36",
+        "deletions": "0",
+        "filename": "src/models/QuizAttempt.js"
+      },
+      {
+        "additions": "9",
+        "deletions": "4",
+        "filename": "src/routes/quizzesRoutes.js"
+      }
+    ]
+  },
+  {
+    "number": 28,
+    "title": "Project quiz",
+    "author": "mouncifbenhar",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/28",
+    "base": "main",
+    "head": "project-Quiz",
+    "state": "closed",
+    "merged_at": null,
+    "merge_commit_sha": "8600feeb5bf6a65f00471c109d2a3a93d5c38b60",
+    "created_at": "2026-10-26T16:47:08Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/28/reviews",
+    "files": [
+      {
+        "filename": "src/controllers/QuizController.js",
+        "status": "modified",
+        "additions": 53,
+        "deletions": 0
+      },
+      {
+        "filename": "src/routes/quizzesRoutes.js",
+        "status": "modified",
+        "additions": 6,
+        "deletions": 4
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [],
+    "github_merge_sha_in_origin_main": null,
+    "local_integrated_changes": []
+  },
+  {
+    "number": 27,
+    "title": "Project quiz",
+    "author": "mouncifbenhar",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/27",
+    "base": "main",
+    "head": "project-Quiz",
+    "state": "closed",
+    "merged_at": "2026-10-26T12:13:01Z",
+    "merge_commit_sha": "6fd03c1ee15f62ffe3ee25eb4d2ee577f08a21db",
+    "created_at": "2026-10-23T15:22:54Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/27/reviews",
+    "files": [
+      {
+        "filename": "src/app.js",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 0
+      },
+      {
+        "filename": "src/controllers/QuizController.js",
+        "status": "added",
+        "additions": 87,
+        "deletions": 0
+      },
+      {
+        "filename": "src/routes/quizzesRoutes.js",
+        "status": "added",
+        "additions": 21,
+        "deletions": 0
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "6fd03c1ee15f62ffe3ee25eb4d2ee577f08a21db"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "2",
+        "deletions": "0",
+        "filename": "src/app.js"
+      },
+      {
+        "additions": "87",
+        "deletions": "0",
+        "filename": "src/controllers/QuizController.js"
+      },
+      {
+        "additions": "21",
+        "deletions": "0",
+        "filename": "src/routes/quizzesRoutes.js"
+      }
+    ]
+  },
+  {
+    "number": 26,
+    "title": "feat: add questionSchema quizSchema",
+    "author": "mouncifbenhar",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/26",
+    "base": "main",
+    "head": "project-Quiz",
+    "state": "closed",
+    "merged_at": "2026-10-23T15:05:37Z",
+    "merge_commit_sha": "fe632f56ec5af694cf606288e136ce327ad4bf02",
+    "created_at": "2026-10-23T11:13:52Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/26/reviews",
+    "files": [
+      {
+        "filename": "src/models/Quiz.js",
+        "status": "added",
+        "additions": 46,
+        "deletions": 0
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "fe632f56ec5af694cf606288e136ce327ad4bf02"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "46",
+        "deletions": "0",
+        "filename": "src/models/Quiz.js"
+      }
+    ]
+  },
+  {
+    "number": 25,
+    "title": "fix :  add learner password seed from env",
+    "author": "ferd-aboubakr",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/25",
+    "base": "main",
+    "head": "br3/learner_password_seed",
+    "state": "closed",
+    "merged_at": "2026-10-22T20:25:31Z",
+    "merge_commit_sha": "6b9a62133e7225f2c9e155b07ea71b81419baf9e",
+    "created_at": "2026-10-22T17:09:28Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/25/reviews",
+    "files": [
+      {
+        "filename": ".DS_Store",
+        "status": "added",
+        "additions": 0,
+        "deletions": 0
+      },
+      {
+        "filename": "src/seed/seed.js",
+        "status": "modified",
+        "additions": 17,
+        "deletions": 0
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "6b9a62133e7225f2c9e155b07ea71b81419baf9e"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "-",
+        "deletions": "-",
+        "filename": ".DS_Store"
+      },
+      {
+        "additions": "17",
+        "deletions": "0",
+        "filename": "src/seed/seed.js"
+      }
+    ]
+  },
+  {
+    "number": 24,
+    "title": "fix(seed): make demo seeding safe and idempotent",
+    "author": "bouhouchhamza",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/24",
+    "base": "main",
+    "head": "fix/seed-safety",
+    "state": "closed",
+    "merged_at": "2026-10-20T16:21:37Z",
+    "merge_commit_sha": "6d58471d93820960659d0eac373975a65e41c75e",
+    "created_at": "2026-10-20T16:21:26Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/24/reviews",
+    "files": [
+      {
+        "filename": "src/models/Course.js",
+        "status": "modified",
+        "additions": 6,
+        "deletions": 0
+      },
+      {
+        "filename": "src/seed/seed.js",
+        "status": "modified",
+        "additions": 203,
+        "deletions": 91
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "6d58471d93820960659d0eac373975a65e41c75e"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "6",
+        "deletions": "0",
+        "filename": "src/models/Course.js"
+      },
+      {
+        "additions": "203",
+        "deletions": "91",
+        "filename": "src/seed/seed.js"
+      }
+    ]
+  },
+  {
+    "number": 23,
+    "title": "docs: update LMS API documentation for brief 2",
+    "author": "bouhouchhamza",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/23",
+    "base": "main",
+    "head": "docs/lms-api-documentation",
+    "state": "closed",
+    "merged_at": "2026-10-16T16:19:47Z",
+    "merge_commit_sha": "699c8227eed9679eda08db70c0a86f51909a2100",
+    "created_at": "2026-10-16T16:19:35Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/23/reviews",
+    "files": [
+      {
+        "filename": ".env.example",
+        "status": "modified",
+        "additions": 3,
+        "deletions": 2
+      },
+      {
+        "filename": "README.md",
+        "status": "modified",
+        "additions": 491,
+        "deletions": 372
+      },
+      {
+        "filename": "docs/openapi.yaml",
+        "status": "modified",
+        "additions": 1121,
+        "deletions": 271
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "699c8227eed9679eda08db70c0a86f51909a2100"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "3",
+        "deletions": "2",
+        "filename": ".env.example"
+      },
+      {
+        "additions": "491",
+        "deletions": "372",
+        "filename": "README.md"
+      },
+      {
+        "additions": "1121",
+        "deletions": "271",
+        "filename": "docs/openapi.yaml"
+      }
+    ]
+  },
+  {
+    "number": 22,
+    "title": "build(docker): containerize LMS API with MongoDB Compose",
+    "author": "bouhouchhamza",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/22",
+    "base": "main",
+    "head": "feature/lms-docker-api",
+    "state": "closed",
+    "merged_at": "2026-10-16T15:24:13Z",
+    "merge_commit_sha": "7e2068ecc5ab4a8a5324767b8350101874189271",
+    "created_at": "2026-10-16T15:24:03Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/22/reviews",
+    "files": [
+      {
+        "filename": ".dockerignore",
+        "status": "added",
+        "additions": 11,
+        "deletions": 0
+      },
+      {
+        "filename": "Dockerfile",
+        "status": "added",
+        "additions": 13,
+        "deletions": 0
+      },
+      {
+        "filename": "docker-compose.yml",
+        "status": "modified",
+        "additions": 12,
+        "deletions": 0
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "7e2068ecc5ab4a8a5324767b8350101874189271"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "11",
+        "deletions": "0",
+        "filename": ".dockerignore"
+      },
+      {
+        "additions": "13",
+        "deletions": "0",
+        "filename": "Dockerfile"
+      },
+      {
+        "additions": "12",
+        "deletions": "0",
+        "filename": "docker-compose.yml"
+      }
+    ]
+  },
+  {
+    "number": 21,
+    "title": "test(auth): add Jest Supertest tests and auth security fixes",
+    "author": "bouhouchhamza",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/21",
+    "base": "main",
+    "head": "feature/lms-automated-tests",
+    "state": "closed",
+    "merged_at": "2026-10-16T14:58:28Z",
+    "merge_commit_sha": "fb25c275e964d54b47ad96e98da30603d2e326aa",
+    "created_at": "2026-10-16T14:58:11Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/21/reviews",
+    "files": [
+      {
+        "filename": "jest.config.js",
+        "status": "added",
+        "additions": 4,
+        "deletions": 0
+      },
+      {
+        "filename": "package-lock.json",
+        "status": "modified",
+        "additions": 5245,
+        "deletions": 526
+      },
+      {
+        "filename": "package.json",
+        "status": "modified",
+        "additions": 6,
+        "deletions": 3
+      },
+      {
+        "filename": "src/controllers/authController.js",
+        "status": "modified",
+        "additions": 29,
+        "deletions": 27
+      },
+      {
+        "filename": "tests/auth.test.js",
+        "status": "added",
+        "additions": 108,
+        "deletions": 0
+      },
+      {
+        "filename": "tests/setup.js",
+        "status": "added",
+        "additions": 31,
+        "deletions": 0
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "fb25c275e964d54b47ad96e98da30603d2e326aa"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "4",
+        "deletions": "0",
+        "filename": "jest.config.js"
+      },
+      {
+        "additions": "5245",
+        "deletions": "526",
+        "filename": "package-lock.json"
+      },
+      {
+        "additions": "6",
+        "deletions": "3",
+        "filename": "package.json"
+      },
+      {
+        "additions": "29",
+        "deletions": "27",
+        "filename": "src/controllers/authController.js"
+      },
+      {
+        "additions": "108",
+        "deletions": "0",
+        "filename": "tests/auth.test.js"
+      },
+      {
+        "additions": "31",
+        "deletions": "0",
+        "filename": "tests/setup.js"
+      }
+    ]
+  },
+  {
+    "number": 20,
+    "title": "feat(resource): secure file downloads and upload directory creation",
+    "author": "bouhouchhamza",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/20",
+    "base": "main",
+    "head": "feature/lms-secure-download",
+    "state": "closed",
+    "merged_at": "2026-10-15T22:52:15Z",
+    "merge_commit_sha": "fed9d3c67784a18e662814865cc01cdb9906ffd6",
+    "created_at": "2026-10-15T22:52:04Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/20/reviews",
+    "files": [
+      {
+        "filename": "src/controllers/resourceController.js",
+        "status": "modified",
+        "additions": 77,
+        "deletions": 6
+      },
+      {
+        "filename": "src/middlewares/checkResourceAccess.js",
+        "status": "added",
+        "additions": 76,
+        "deletions": 0
+      },
+      {
+        "filename": "src/middlewares/uploadMiddleware.js",
+        "status": "modified",
+        "additions": 8,
+        "deletions": 3
+      },
+      {
+        "filename": "src/routes/progressRoutes.js",
+        "status": "modified",
+        "additions": 39,
+        "deletions": 10
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "fed9d3c67784a18e662814865cc01cdb9906ffd6"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "77",
+        "deletions": "6",
+        "filename": "src/controllers/resourceController.js"
+      },
+      {
+        "additions": "76",
+        "deletions": "0",
+        "filename": "src/middlewares/checkResourceAccess.js"
+      },
+      {
+        "additions": "8",
+        "deletions": "3",
+        "filename": "src/middlewares/uploadMiddleware.js"
+      },
+      {
+        "additions": "39",
+        "deletions": "10",
+        "filename": "src/routes/progressRoutes.js"
+      }
+    ]
+  },
+  {
+    "number": 19,
+    "title": "feat(trainer): add course learners and progress endpoints",
+    "author": "bouhouchhamza",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/19",
+    "base": "main",
+    "head": "feature/lms-trainer-endpoints",
+    "state": "closed",
+    "merged_at": "2026-10-15T19:43:24Z",
+    "merge_commit_sha": "bea26f54b9971223201c01dce3a15014bb60843f",
+    "created_at": "2026-10-15T19:43:00Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/19/reviews",
+    "files": [
+      {
+        "filename": "src/app.js",
+        "status": "modified",
+        "additions": 3,
+        "deletions": 0
+      },
+      {
+        "filename": "src/controllers/trainerController.js",
+        "status": "added",
+        "additions": 128,
+        "deletions": 0
+      },
+      {
+        "filename": "src/routes/trainerRoutes.js",
+        "status": "added",
+        "additions": 27,
+        "deletions": 0
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "bea26f54b9971223201c01dce3a15014bb60843f"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "3",
+        "deletions": "0",
+        "filename": "src/app.js"
+      },
+      {
+        "additions": "128",
+        "deletions": "0",
+        "filename": "src/controllers/trainerController.js"
+      },
+      {
+        "additions": "27",
+        "deletions": "0",
+        "filename": "src/routes/trainerRoutes.js"
+      }
+    ]
+  },
+  {
+    "number": 18,
+    "title": "feat(security): protect learner resource content access",
+    "author": "bouhouchhamza",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/18",
+    "base": "main",
+    "head": "feature/lms-content-access-security",
+    "state": "closed",
+    "merged_at": "2026-10-14T17:22:20Z",
+    "merge_commit_sha": "6f3ebba7a3a4c559934be426d6f2b980e860468e",
+    "created_at": "2026-10-14T17:22:10Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/18/reviews",
+    "files": [
+      {
+        "filename": "src/controllers/resourceController.js",
+        "status": "modified",
+        "additions": 96,
+        "deletions": 4
+      },
+      {
+        "filename": "src/routes/progressRoutes.js",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 0
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "6f3ebba7a3a4c559934be426d6f2b980e860468e"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "96",
+        "deletions": "4",
+        "filename": "src/controllers/resourceController.js"
+      },
+      {
+        "additions": "2",
+        "deletions": "0",
+        "filename": "src/routes/progressRoutes.js"
+      }
+    ]
+  },
+  {
+    "number": 17,
+    "title": "refactor(routes): separate enrollment and progress routes",
+    "author": "bouhouchhamza",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/17",
+    "base": "main",
+    "head": "refactor/lms-progress-routes",
+    "state": "closed",
+    "merged_at": "2026-10-14T16:22:50Z",
+    "merge_commit_sha": "3a3a39b24677ab9e98dc75a3cca6ccccf0626218",
+    "created_at": "2026-10-14T16:22:39Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/17/reviews",
+    "files": [
+      {
+        "filename": "src/app.js",
+        "status": "modified",
+        "additions": 4,
+        "deletions": 2
+      },
+      {
+        "filename": "src/routes/enrollmentRoutes.js",
+        "status": "modified",
+        "additions": 1,
+        "deletions": 3
+      },
+      {
+        "filename": "src/routes/progressRoutes.js",
+        "status": "modified",
+        "additions": 6,
+        "deletions": 4
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "3a3a39b24677ab9e98dc75a3cca6ccccf0626218"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "4",
+        "deletions": "2",
+        "filename": "src/app.js"
+      },
+      {
+        "additions": "1",
+        "deletions": "3",
+        "filename": "src/routes/enrollmentRoutes.js"
+      },
+      {
+        "additions": "6",
+        "deletions": "4",
+        "filename": "src/routes/progressRoutes.js"
+      }
+    ]
+  },
+  {
+    "number": 16,
+    "title": "fix(errors): handle multer errors with proper HTTP status codes",
+    "author": "meskiabdelilah",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/16",
+    "base": "main",
+    "head": "feature/resource-upload",
+    "state": "closed",
+    "merged_at": "2026-10-14T16:22:23Z",
+    "merge_commit_sha": "fc35b19f0d800166189cb11431396fd20c59e9f6",
+    "created_at": "2026-10-14T12:30:40Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/16/reviews",
+    "files": [
+      {
+        "filename": ".gitignore",
+        "status": "modified",
+        "additions": 3,
+        "deletions": 1
+      },
+      {
+        "filename": "src/middlewares/errorHandler.js",
+        "status": "modified",
+        "additions": 11,
+        "deletions": 7
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "fc35b19f0d800166189cb11431396fd20c59e9f6"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "3",
+        "deletions": "1",
+        "filename": ".gitignore"
+      },
+      {
+        "additions": "11",
+        "deletions": "7",
+        "filename": "src/middlewares/errorHandler.js"
+      }
+    ]
+  },
+  {
+    "number": 15,
+    "title": "Feature/resource upload",
+    "author": "meskiabdelilah",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/15",
+    "base": "main",
+    "head": "feature/resource-upload",
+    "state": "closed",
+    "merged_at": "2026-10-14T09:24:44Z",
+    "merge_commit_sha": "645fad2e720ecf4c099736d9528d556d35f5436f",
+    "created_at": "2026-10-14T09:21:45Z",
+    "reviews": [
+      {
+        "id": 5515768349,
+        "reviewer": "bouhouchhamza",
+        "state": "APPROVED",
+        "submitted_at": "2026-10-14T09:24:33Z",
+        "commit_id": "15e8f7aacc413292da03fcbd2a9b96c7a35ef04b",
+        "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/15#pullrequestreview-5515768349"
+      }
+    ],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/15/reviews",
+    "files": [
+      {
+        "filename": ".gitignore",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 1
+      },
+      {
+        "filename": "package-lock.json",
+        "status": "modified",
+        "additions": 88,
+        "deletions": 1
+      },
+      {
+        "filename": "package.json",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 1
+      },
+      {
+        "filename": "src/controllers/resourceController.js",
+        "status": "modified",
+        "additions": 45,
+        "deletions": 1
+      },
+      {
+        "filename": "src/middlewares/checkCourseOwnership.js",
+        "status": "added",
+        "additions": 77,
+        "deletions": 0
+      },
+      {
+        "filename": "src/middlewares/uploadMiddleware.js",
+        "status": "added",
+        "additions": 41,
+        "deletions": 0
+      },
+      {
+        "filename": "src/models/Resource.js",
+        "status": "modified",
+        "additions": 38,
+        "deletions": 34
+      },
+      {
+        "filename": "src/routes/moduleRoutes.js",
+        "status": "modified",
+        "additions": 6,
+        "deletions": 2
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "645fad2e720ecf4c099736d9528d556d35f5436f"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "2",
+        "deletions": "1",
+        "filename": ".gitignore"
+      },
+      {
+        "additions": "88",
+        "deletions": "1",
+        "filename": "package-lock.json"
+      },
+      {
+        "additions": "2",
+        "deletions": "1",
+        "filename": "package.json"
+      },
+      {
+        "additions": "45",
+        "deletions": "1",
+        "filename": "src/controllers/resourceController.js"
+      },
+      {
+        "additions": "77",
+        "deletions": "0",
+        "filename": "src/middlewares/checkCourseOwnership.js"
+      },
+      {
+        "additions": "41",
+        "deletions": "0",
+        "filename": "src/middlewares/uploadMiddleware.js"
+      },
+      {
+        "additions": "38",
+        "deletions": "34",
+        "filename": "src/models/Resource.js"
+      },
+      {
+        "additions": "6",
+        "deletions": "2",
+        "filename": "src/routes/moduleRoutes.js"
+      }
+    ]
+  },
+  {
+    "number": 14,
+    "title": "feat(progress): add resume learning endpoint",
+    "author": "bouhouchhamza",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/14",
+    "base": "main",
+    "head": "feature/lms-resume-learning",
+    "state": "closed",
+    "merged_at": "2026-10-13T15:15:28Z",
+    "merge_commit_sha": "1f34f2513c9a386e10994cc78a1cfb89ff587346",
+    "created_at": "2026-10-13T15:14:55Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/14/reviews",
+    "files": [
+      {
+        "filename": "src/controllers/progressController.js",
+        "status": "modified",
+        "additions": 62,
+        "deletions": 1
+      },
+      {
+        "filename": "src/routes/enrollmentRoutes.js",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 0
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "1f34f2513c9a386e10994cc78a1cfb89ff587346"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "62",
+        "deletions": "1",
+        "filename": "src/controllers/progressController.js"
+      },
+      {
+        "additions": "2",
+        "deletions": "0",
+        "filename": "src/routes/enrollmentRoutes.js"
+      }
+    ]
+  },
+  {
+    "number": 13,
+    "title": "feat(progress): calculate and persist enrollment percentage",
+    "author": "bouhouchhamza",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/13",
+    "base": "main",
+    "head": "feature/lms-enrollment-percentage",
+    "state": "closed",
+    "merged_at": "2026-10-13T12:28:58Z",
+    "merge_commit_sha": "f58fea416df29c77edb6e5ce77f53febfb5aa25d",
+    "created_at": "2026-10-13T12:28:37Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/13/reviews",
+    "files": [
+      {
+        "filename": "src/controllers/progressController.js",
+        "status": "modified",
+        "additions": 68,
+        "deletions": 52
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "f58fea416df29c77edb6e5ce77f53febfb5aa25d"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "68",
+        "deletions": "52",
+        "filename": "src/controllers/progressController.js"
+      }
+    ]
+  },
+  {
+    "number": 12,
+    "title": "feat(resources): add resource creation endpoint",
+    "author": "meskiabdelilah",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/12",
+    "base": "main",
+    "head": "feature/course-update",
+    "state": "closed",
+    "merged_at": "2026-10-13T12:22:59Z",
+    "merge_commit_sha": "5381a9a01e02dd0d8d4d165f5735743fca3e6498",
+    "created_at": "2026-10-13T11:52:39Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/12/reviews",
+    "files": [
+      {
+        "filename": "src/controllers/resourceController.js",
+        "status": "modified",
+        "additions": 91,
+        "deletions": 34
+      },
+      {
+        "filename": "src/models/Resource.js",
+        "status": "modified",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "filename": "src/routes/moduleRoutes.js",
+        "status": "modified",
+        "additions": 3,
+        "deletions": 7
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "5381a9a01e02dd0d8d4d165f5735743fca3e6498"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "91",
+        "deletions": "34",
+        "filename": "src/controllers/resourceController.js"
+      },
+      {
+        "additions": "1",
+        "deletions": "1",
+        "filename": "src/models/Resource.js"
+      },
+      {
+        "additions": "3",
+        "deletions": "7",
+        "filename": "src/routes/moduleRoutes.js"
+      }
+    ]
+  },
+  {
+    "number": 11,
+    "title": "feat: update course and module management",
+    "author": "meskiabdelilah",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/11",
+    "base": "main",
+    "head": "feature/course-update",
+    "state": "closed",
+    "merged_at": "2026-10-13T10:48:14Z",
+    "merge_commit_sha": "689df320dffd487246a66e062c2c1e29d07232c2",
+    "created_at": "2026-10-13T10:23:23Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/11/reviews",
+    "files": [
+      {
+        "filename": "src/controllers/moduleController.js",
+        "status": "modified",
+        "additions": 6,
+        "deletions": 0
+      },
+      {
+        "filename": "src/controllers/resourceController.js",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 2
+      },
+      {
+        "filename": "src/middlewares/authMiddleware.js",
+        "status": "modified",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "filename": "src/middlewares/authorize.js",
+        "status": "modified",
+        "additions": 9,
+        "deletions": 10
+      },
+      {
+        "filename": "src/routes/authRoutes.js",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 2
+      },
+      {
+        "filename": "src/routes/courseRoutes.js",
+        "status": "modified",
+        "additions": 13,
+        "deletions": 18
+      },
+      {
+        "filename": "src/routes/enrollmentRoutes.js",
+        "status": "modified",
+        "additions": 6,
+        "deletions": 10
+      },
+      {
+        "filename": "src/routes/moduleRoutes.js",
+        "status": "modified",
+        "additions": 16,
+        "deletions": 9
+      },
+      {
+        "filename": "src/routes/progressRoutes.js",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 2
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "689df320dffd487246a66e062c2c1e29d07232c2"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "6",
+        "deletions": "0",
+        "filename": "src/controllers/moduleController.js"
+      },
+      {
+        "additions": "2",
+        "deletions": "2",
+        "filename": "src/controllers/resourceController.js"
+      },
+      {
+        "additions": "1",
+        "deletions": "1",
+        "filename": "src/middlewares/authMiddleware.js"
+      },
+      {
+        "additions": "9",
+        "deletions": "10",
+        "filename": "src/middlewares/authorize.js"
+      },
+      {
+        "additions": "2",
+        "deletions": "2",
+        "filename": "src/routes/authRoutes.js"
+      },
+      {
+        "additions": "13",
+        "deletions": "18",
+        "filename": "src/routes/courseRoutes.js"
+      },
+      {
+        "additions": "6",
+        "deletions": "10",
+        "filename": "src/routes/enrollmentRoutes.js"
+      },
+      {
+        "additions": "16",
+        "deletions": "9",
+        "filename": "src/routes/moduleRoutes.js"
+      },
+      {
+        "additions": "2",
+        "deletions": "2",
+        "filename": "src/routes/progressRoutes.js"
+      }
+    ]
+  },
+  {
+    "number": 10,
+    "title": "fix(routes): restore course and module routes after merge",
+    "author": "bouhouchhamza",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/10",
+    "base": "main",
+    "head": "fix/lms-post-merge-integration",
+    "state": "closed",
+    "merged_at": "2026-10-12T22:02:04Z",
+    "merge_commit_sha": "7be63d6973f2f9a727018d5486d58bf90d0e8f08",
+    "created_at": "2026-10-12T22:01:54Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/10/reviews",
+    "files": [
+      {
+        "filename": "src/routes/courseRoutes.js",
+        "status": "modified",
+        "additions": 39,
+        "deletions": 16
+      },
+      {
+        "filename": "src/routes/moduleRoutes.js",
+        "status": "modified",
+        "additions": 4,
+        "deletions": 3
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "7be63d6973f2f9a727018d5486d58bf90d0e8f08"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "39",
+        "deletions": "16",
+        "filename": "src/routes/courseRoutes.js"
+      },
+      {
+        "additions": "4",
+        "deletions": "3",
+        "filename": "src/routes/moduleRoutes.js"
+      }
+    ]
+  },
+  {
+    "number": 9,
+    "title": "merge: resolve PR #8 conflicts with main and preserve RBAC",
+    "author": "bouhouchhamza",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/9",
+    "base": "main",
+    "head": "fix/pr8-merge",
+    "state": "open",
+    "merged_at": null,
+    "merge_commit_sha": null,
+    "created_at": "2026-10-12T22:01:34Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/9/reviews",
+    "files": [
+      {
+        "filename": "src/controllers/courseController.js",
+        "status": "modified",
+        "additions": 89,
+        "deletions": 1
+      },
+      {
+        "filename": "src/controllers/moduleController.js",
+        "status": "modified",
+        "additions": 141,
+        "deletions": 25
+      },
+      {
+        "filename": "src/routes/courseRoutes.js",
+        "status": "modified",
+        "additions": 43,
+        "deletions": 6
+      },
+      {
+        "filename": "src/routes/moduleRoutes.js",
+        "status": "modified",
+        "additions": 4,
+        "deletions": 2
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [],
+    "github_merge_sha_in_origin_main": null,
+    "local_integrated_changes": []
+  },
+  {
+    "number": 8,
+    "title": "Feature/course update",
+    "author": "meskiabdelilah",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/8",
+    "base": "main",
+    "head": "feature/course-update",
+    "state": "closed",
+    "merged_at": "2026-10-12T21:57:05Z",
+    "merge_commit_sha": "4a21af30121a1ab2729417e2c7a432583f6ea0d3",
+    "created_at": "2026-10-12T17:33:23Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/8/reviews",
+    "files": [
+      {
+        "filename": "src/controllers/courseController.js",
+        "status": "modified",
+        "additions": 89,
+        "deletions": 1
+      },
+      {
+        "filename": "src/controllers/moduleController.js",
+        "status": "modified",
+        "additions": 141,
+        "deletions": 25
+      },
+      {
+        "filename": "src/routes/courseRoutes.js",
+        "status": "modified",
+        "additions": 14,
+        "deletions": 0
+      },
+      {
+        "filename": "src/routes/moduleRoutes.js",
+        "status": "modified",
+        "additions": 3,
+        "deletions": 2
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "4a21af30121a1ab2729417e2c7a432583f6ea0d3"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "89",
+        "deletions": "1",
+        "filename": "src/controllers/courseController.js"
+      },
+      {
+        "additions": "141",
+        "deletions": "25",
+        "filename": "src/controllers/moduleController.js"
+      },
+      {
+        "additions": "14",
+        "deletions": "0",
+        "filename": "src/routes/courseRoutes.js"
+      },
+      {
+        "additions": "3",
+        "deletions": "2",
+        "filename": "src/routes/moduleRoutes.js"
+      }
+    ]
+  },
+  {
+    "number": 7,
+    "title": "feat(progress): add resource completion and sequential locking",
+    "author": "bouhouchhamza",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/7",
+    "base": "main",
+    "head": "feature/LMS-resource-progress",
+    "state": "closed",
+    "merged_at": "2026-10-12T17:24:22Z",
+    "merge_commit_sha": "3c5903e5e39fba8c5440e18641e751288e6bf4f2",
+    "created_at": "2026-10-12T17:24:10Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/7/reviews",
+    "files": [
+      {
+        "filename": "src/app.js",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 2
+      },
+      {
+        "filename": "src/controllers/progressController.js",
+        "status": "added",
+        "additions": 82,
+        "deletions": 0
+      },
+      {
+        "filename": "src/models/ResourceProgress.js",
+        "status": "added",
+        "additions": 29,
+        "deletions": 0
+      },
+      {
+        "filename": "src/routes/progressRoutes.js",
+        "status": "added",
+        "additions": 9,
+        "deletions": 0
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "3c5903e5e39fba8c5440e18641e751288e6bf4f2"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "2",
+        "deletions": "2",
+        "filename": "src/app.js"
+      },
+      {
+        "additions": "82",
+        "deletions": "0",
+        "filename": "src/controllers/progressController.js"
+      },
+      {
+        "additions": "29",
+        "deletions": "0",
+        "filename": "src/models/ResourceProgress.js"
+      },
+      {
+        "additions": "9",
+        "deletions": "0",
+        "filename": "src/routes/progressRoutes.js"
+      }
+    ]
+  },
+  {
+    "number": 6,
+    "title": "feat(auth): enforce role-based access control on courses and enrollments",
+    "author": "bouhouchhamza",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/6",
+    "base": "main",
+    "head": "feature/LMS-role-authorization",
+    "state": "closed",
+    "merged_at": "2026-10-12T15:15:01Z",
+    "merge_commit_sha": "540c35797a0b04b44bd3be59fe82445931b0067e",
+    "created_at": "2026-10-12T15:14:51Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/6/reviews",
+    "files": [
+      {
+        "filename": "src/middlewares/authorize.js",
+        "status": "added",
+        "additions": 11,
+        "deletions": 0
+      },
+      {
+        "filename": "src/routes/courseRoutes.js",
+        "status": "modified",
+        "additions": 11,
+        "deletions": 6
+      },
+      {
+        "filename": "src/routes/enrollmentRoutes.js",
+        "status": "modified",
+        "additions": 12,
+        "deletions": 7
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "540c35797a0b04b44bd3be59fe82445931b0067e"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "11",
+        "deletions": "0",
+        "filename": "src/middlewares/authorize.js"
+      },
+      {
+        "additions": "11",
+        "deletions": "6",
+        "filename": "src/routes/courseRoutes.js"
+      },
+      {
+        "additions": "12",
+        "deletions": "7",
+        "filename": "src/routes/enrollmentRoutes.js"
+      }
+    ]
+  },
+  {
+    "number": 5,
+    "title": "Feature/lms enrollment",
+    "author": "bouhouchhamza",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/5",
+    "base": "main",
+    "head": "feature/LMS-enrollment",
+    "state": "closed",
+    "merged_at": "2026-10-12T11:04:35Z",
+    "merge_commit_sha": "ce8559737ae0b2f9e03923450518988d3080c10e",
+    "created_at": "2026-10-12T11:04:24Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/5/reviews",
+    "files": [
+      {
+        "filename": "src/app.js",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 0
+      },
+      {
+        "filename": "src/controllers/enrollmentController.js",
+        "status": "added",
+        "additions": 65,
+        "deletions": 0
+      },
+      {
+        "filename": "src/models/Enrollment.js",
+        "status": "added",
+        "additions": 53,
+        "deletions": 0
+      },
+      {
+        "filename": "src/routes/enrollmentRoutes.js",
+        "status": "added",
+        "additions": 9,
+        "deletions": 0
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "ce8559737ae0b2f9e03923450518988d3080c10e"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "2",
+        "deletions": "0",
+        "filename": "src/app.js"
+      },
+      {
+        "additions": "65",
+        "deletions": "0",
+        "filename": "src/controllers/enrollmentController.js"
+      },
+      {
+        "additions": "53",
+        "deletions": "0",
+        "filename": "src/models/Enrollment.js"
+      },
+      {
+        "additions": "9",
+        "deletions": "0",
+        "filename": "src/routes/enrollmentRoutes.js"
+      }
+    ]
+  },
+  {
+    "number": 4,
+    "title": "Feature/course update",
+    "author": "meskiabdelilah",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/4",
+    "base": "main",
+    "head": "feature/course-update",
+    "state": "closed",
+    "merged_at": "2026-10-12T09:10:21Z",
+    "merge_commit_sha": "02ae3af9ad9f0a6db647242d93afb935565767cc",
+    "created_at": "2026-10-12T09:04:24Z",
+    "reviews": [
+      {
+        "id": 5488593852,
+        "reviewer": "bouhouchhamza",
+        "state": "APPROVED",
+        "submitted_at": "2026-10-12T09:10:02Z",
+        "commit_id": "6d28522b21f49e70fdb610660a849a5f920651c5",
+        "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/4#pullrequestreview-5488593852"
+      }
+    ],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/4/reviews",
+    "files": [
+      {
+        "filename": "docker-compose.yml",
+        "status": "modified",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "filename": "src/controllers/courseController.js",
+        "status": "modified",
+        "additions": 96,
+        "deletions": 14
+      },
+      {
+        "filename": "src/models/Course.js",
+        "status": "modified",
+        "additions": 6,
+        "deletions": 0
+      },
+      {
+        "filename": "src/routes/courseRoutes.js",
+        "status": "modified",
+        "additions": 7,
+        "deletions": 0
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "02ae3af9ad9f0a6db647242d93afb935565767cc"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "1",
+        "deletions": "1",
+        "filename": "docker-compose.yml"
+      },
+      {
+        "additions": "96",
+        "deletions": "14",
+        "filename": "src/controllers/courseController.js"
+      },
+      {
+        "additions": "6",
+        "deletions": "0",
+        "filename": "src/models/Course.js"
+      },
+      {
+        "additions": "7",
+        "deletions": "0",
+        "filename": "src/routes/courseRoutes.js"
+      }
+    ]
+  },
+  {
+    "number": 3,
+    "title": "Feature/lms 224 232 239 494 auth",
+    "author": "bouhouchhamza",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/3",
+    "base": "main",
+    "head": "feature/LMS-224-232-239-494-auth",
+    "state": "closed",
+    "merged_at": "2026-10-08T17:17:10Z",
+    "merge_commit_sha": "5b501c78df11feb8dd6a3f6cac49db82792bc312",
+    "created_at": "2026-10-08T17:16:59Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/3/reviews",
+    "files": [
+      {
+        "filename": ".env.example",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 0
+      },
+      {
+        "filename": "package-lock.json",
+        "status": "modified",
+        "additions": 156,
+        "deletions": 1
+      },
+      {
+        "filename": "package.json",
+        "status": "modified",
+        "additions": 4,
+        "deletions": 2
+      },
+      {
+        "filename": "server.js",
+        "status": "modified",
+        "additions": 4,
+        "deletions": 4
+      },
+      {
+        "filename": "src/app.js",
+        "status": "modified",
+        "additions": 13,
+        "deletions": 11
+      },
+      {
+        "filename": "src/config/db.js",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 2
+      },
+      {
+        "filename": "src/controllers/authController.js",
+        "status": "added",
+        "additions": 89,
+        "deletions": 0
+      },
+      {
+        "filename": "src/controllers/courseController.js",
+        "status": "modified",
+        "additions": 5,
+        "deletions": 4
+      },
+      {
+        "filename": "src/controllers/moduleController.js",
+        "status": "modified",
+        "additions": 10,
+        "deletions": 7
+      },
+      {
+        "filename": "src/controllers/resourceController.js",
+        "status": "modified",
+        "additions": 10,
+        "deletions": 7
+      },
+      {
+        "filename": "src/middlewares/authMiddleware.js",
+        "status": "added",
+        "additions": 46,
+        "deletions": 0
+      },
+      {
+        "filename": "src/middlewares/errorHandler.js",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 1
+      },
+      {
+        "filename": "src/middlewares/notFound.js",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 1
+      },
+      {
+        "filename": "src/models/Course.js",
+        "status": "modified",
+        "additions": 8,
+        "deletions": 5
+      },
+      {
+        "filename": "src/models/Module.js",
+        "status": "modified",
+        "additions": 3,
+        "deletions": 3
+      },
+      {
+        "filename": "src/models/Resource.js",
+        "status": "modified",
+        "additions": 3,
+        "deletions": 3
+      },
+      {
+        "filename": "src/models/User.js",
+        "status": "added",
+        "additions": 47,
+        "deletions": 0
+      },
+      {
+        "filename": "src/routes/authRoutes.js",
+        "status": "added",
+        "additions": 10,
+        "deletions": 0
+      },
+      {
+        "filename": "src/routes/courseRoutes.js",
+        "status": "modified",
+        "additions": 7,
+        "deletions": 6
+      },
+      {
+        "filename": "src/routes/moduleRoutes.js",
+        "status": "modified",
+        "additions": 5,
+        "deletions": 6
+      },
+      {
+        "filename": "src/seed/seed.js",
+        "status": "modified",
+        "additions": 6,
+        "deletions": 6
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "5b501c78df11feb8dd6a3f6cac49db82792bc312"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "2",
+        "deletions": "0",
+        "filename": ".env.example"
+      },
+      {
+        "additions": "156",
+        "deletions": "1",
+        "filename": "package-lock.json"
+      },
+      {
+        "additions": "4",
+        "deletions": "2",
+        "filename": "package.json"
+      },
+      {
+        "additions": "4",
+        "deletions": "4",
+        "filename": "server.js"
+      },
+      {
+        "additions": "13",
+        "deletions": "11",
+        "filename": "src/app.js"
+      },
+      {
+        "additions": "2",
+        "deletions": "2",
+        "filename": "src/config/db.js"
+      },
+      {
+        "additions": "89",
+        "deletions": "0",
+        "filename": "src/controllers/authController.js"
+      },
+      {
+        "additions": "5",
+        "deletions": "4",
+        "filename": "src/controllers/courseController.js"
+      },
+      {
+        "additions": "10",
+        "deletions": "7",
+        "filename": "src/controllers/moduleController.js"
+      },
+      {
+        "additions": "10",
+        "deletions": "7",
+        "filename": "src/controllers/resourceController.js"
+      },
+      {
+        "additions": "46",
+        "deletions": "0",
+        "filename": "src/middlewares/authMiddleware.js"
+      },
+      {
+        "additions": "2",
+        "deletions": "1",
+        "filename": "src/middlewares/errorHandler.js"
+      },
+      {
+        "additions": "2",
+        "deletions": "1",
+        "filename": "src/middlewares/notFound.js"
+      },
+      {
+        "additions": "8",
+        "deletions": "5",
+        "filename": "src/models/Course.js"
+      },
+      {
+        "additions": "3",
+        "deletions": "3",
+        "filename": "src/models/Module.js"
+      },
+      {
+        "additions": "3",
+        "deletions": "3",
+        "filename": "src/models/Resource.js"
+      },
+      {
+        "additions": "47",
+        "deletions": "0",
+        "filename": "src/models/User.js"
+      },
+      {
+        "additions": "10",
+        "deletions": "0",
+        "filename": "src/routes/authRoutes.js"
+      },
+      {
+        "additions": "7",
+        "deletions": "6",
+        "filename": "src/routes/courseRoutes.js"
+      },
+      {
+        "additions": "5",
+        "deletions": "6",
+        "filename": "src/routes/moduleRoutes.js"
+      },
+      {
+        "additions": "6",
+        "deletions": "6",
+        "filename": "src/seed/seed.js"
+      }
+    ]
+  },
+  {
+    "number": 2,
+    "title": "feat: add Resource model",
+    "author": "bouhouchhamza",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/2",
+    "base": "main",
+    "head": "feature/module-resources",
+    "state": "closed",
+    "merged_at": "2026-10-01T14:22:45Z",
+    "merge_commit_sha": "3e7e5cffe932c09fe314dc89240d9be05025abe0",
+    "created_at": "2026-10-01T12:29:00Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/2/reviews",
+    "files": [
+      {
+        "filename": "src/controllers/resourceController.js",
+        "status": "added",
+        "additions": 39,
+        "deletions": 0
+      },
+      {
+        "filename": "src/models/Resource.js",
+        "status": "added",
+        "additions": 39,
+        "deletions": 0
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": []
+  },
+  {
+    "number": 1,
+    "title": "feat: add course modules endpoint",
+    "author": "bouhouchhamza",
+    "url": "https://github.com/bouhouchhamza/LMS_YouLearn/pull/1",
+    "base": "main",
+    "head": "feature/course-modules",
+    "state": "closed",
+    "merged_at": "2026-10-01T11:53:40Z",
+    "merge_commit_sha": "8d644cc734afc618c0faf33d99eac4fce1ee8add",
+    "created_at": "2026-10-01T11:53:28Z",
+    "reviews": [],
+    "reviews_url": "https://api.github.com/repos/bouhouchhamza/LMS_YouLearn/pulls/1/reviews",
+    "files": [
+      {
+        "filename": "src/models/Course.js",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 1
+      },
+      {
+        "filename": "src/routes/courseRoutes.js",
+        "status": "modified",
+        "additions": 5,
+        "deletions": 1
+      }
+    ],
+    "inline_comments": [],
+    "local_main_merge_commits": [
+      "8d644cc734afc618c0faf33d99eac4fce1ee8add"
+    ],
+    "github_merge_sha_in_origin_main": true,
+    "local_integrated_changes": [
+      {
+        "additions": "2",
+        "deletions": "1",
+        "filename": "src/models/Course.js"
+      },
+      {
+        "additions": "5",
+        "deletions": "1",
+        "filename": "src/routes/courseRoutes.js"
+      }
+    ]
+  }
+]
