@@ -567,6 +567,31 @@ Progress is rounded to 2 decimal places; an empty course returns `0`.
 
 When all resources are completed, `nextresource` is `null`.
 
+### Quiz and Feedback
+
+These features reuse merged Quiz PRs #26/#27/#29, Email PR #30,
+Feedback PRs #31-#33 and Seed PRs #25/#34-#36.
+
+| Method | Endpoint | Access |
+|---|---|---|
+| GET | `/api/quizzes/modules/{moduleId}/quizzes` | Active learner with previous modules completed, course owner or admin |
+| POST | `/api/quizzes/modules/{moduleId}/quizzes` | Trainer/admin route; course ownership required |
+| POST | `/api/quizzes/modules/{moduleId}/quizzes/answer` | Active learner with previous modules completed |
+| PATCH | `/api/quizzes/modules/{moduleId}/quizzes/update` | Trainer/admin route; course ownership required |
+| DELETE | `/api/quizzes/modules/{moduleId}/quizzes/delete` | Trainer/admin route; course ownership required |
+| POST | `/api/feedback/courses/{courseId}/learners/{learnerId}` | Trainer/admin route; course ownership required |
+| GET | `/api/feedback/courses/{courseId}/learners/{learnerId}` | Course owner or admin |
+| PATCH | `/api/feedback/courses/{courseId}/learners/{learnerId}` | Author trainer |
+| DELETE | `/api/feedback/courses/{courseId}/learners/{learnerId}` | Trainer/admin route; authenticated author ID required |
+| GET | `/api/feedback/courses/{courseId}/feedback` | Own feedback only |
+
+Quiz submission body: `{"answers":[{"questionId":"<ObjectId>","selectedAnswer":0}]}`.
+Score: `Math.round(correctAnswers / totalQuestions * 100)`, matching the seed.
+Duplicate questions count once, using the first answer. Unknown question IDs and
+out-of-range/non-integer options return 400. Feedback writes accept `{"content":"..."}`.
+Import `docs/openapi.yaml` into Postman for current request definitions;
+no separately maintained Postman collection is included.
+
 ### Trainer reporting
 
 | Method | Endpoint | Access | Description |
@@ -606,7 +631,7 @@ Automated tests use **Jest** and **Supertest**:
 npm test
 ```
 
-The current suite contains `tests/auth.test.js` and `tests/setup.js`. It covers registration, JWT login/profile, rejected credentials, inactive users, and selected authorization behavior. **The auth-focused suite passed 7/7 tests in the last reported local run.**
+The suite includes Auth, Email and regression tests for Quiz access/scoring, Feedback reads and Seed replay. Integration tests use only `mongodb://127.0.0.1:27017/lms_test_db`; seed replay uses `lms_brief3_seed_test`. SMTP is mocked or replaced by the log transport. Neither suite connects to `lms_db`.
 
 **Safety:** the test setup connects to a dedicated MongoDB database named `lms_test_db` and checks the test environment. Review the test URI in `tests/setup.js` before running in another environment. Never point automated cleanup at valuable data.
 
@@ -643,14 +668,14 @@ The MongoDB schema is defined in `src/models/`, which is the reference for exact
 ## ðŸ“‘ Documentation & Design
 
 - [`docs/analyse.md`](docs/analyse.md) â€” initial analysis / project framing.
-- [`docs/openapi.yaml`](docs/openapi.yaml) â€” **initial OpenAPI 3.0.3 specification**, currently covering the public course catalog and module/resource listing. It **does not yet fully describe all Brief 2 secure endpoints**.
+- [`docs/openapi.yaml`](docs/openapi.yaml) â€” OpenAPI 3.0.3 specification covering the LMS routes, Bearer authentication, Quiz and Feedback.
 - `src/routes/` â€” implemented routes and HTTP methods.
 - `src/controllers/` â€” implemented request behavior and response codes.
 - `src/models/` â€” authoritative data schema and constraints.
 
 ### UML / conception status
 
-The original project planning considers broader LMS concepts (such as quizzes and feedback). These should be distinguished from implemented APIs. The current verified `docs/` directory contains `analyse.md` and `openapi.yaml`; UML files should only be linked once committed to the repository.
+Quiz, quiz attempts and trainer feedback are implemented in merged team PRs. UML artifacts remain separate from the implemented APIs. The current verified `docs/` directory contains `analyse.md` and `openapi.yaml`; UML files should only be linked once committed to the repository.
 
 ---
 
@@ -670,7 +695,7 @@ The original project planning considers broader LMS concepts (such as quizzes an
 
 ### ðŸ” Known limitations / verification notes
 
-- **OpenAPI coverage:** `docs/openapi.yaml` still needs Brief 2 paths and Bearer security definitions.
+- **Specification scope:** the official Brief 3 acceptance criteria are unavailable. OpenAPI describes implemented routes; it does not certify full Brief 3 compliance.
 - **Test breadth:** enrollment, progress, trainer, and secure download need dedicated automated tests.
 - **Enrollment reactivation:** the behavior when a learner reenrolls after cancellation must be verified against `Enrollment` schema indexes and model methods.
 - **Concurrent enrollment:** `findOne` followed by `save` does not by itself guarantee uniqueness under concurrent requests; database constraints must be verified.
@@ -681,7 +706,7 @@ The original project planning considers broader LMS concepts (such as quizzes an
 
 ### ðŸ”œ Future scope
 
-- Quiz, quiz attempts, and learner feedback endpoints.
+- Password-reset workflow and automated inactivity reminders are not implemented; only their email templates/service functions exist. Their requirement for Brief 3 is unconfirmed.
 - Broader automated test coverage and a maintained Postman collection.
 - Persistent/object storage and backup strategy for learning files.
 - Complete OpenAPI coverage for protected endpoints.
@@ -714,3 +739,28 @@ Project repository: [bouhouchhamza/LMS_YouLearn](https://github.com/bouhouchhamz
 **Hamza Bouhouch** Â· Full-Stack Development
 
 </div>
+
+
+## Finalization verification
+
+The official Brief 3 document is unavailable. Merged team implementations remain
+the baseline; no new endpoint was added during finalization.
+
+Start an isolated MongoDB for tests (do not start the production Compose stack):
+
+```bash
+docker run --detach --name lms-brief3-audit-mongo --publish 127.0.0.1:27017:27017 mongo:8
+npm test
+```
+
+Reuse the test container if already running. It has no production volume.
+The test setup forces `EMAIL_DRIVER=log`; transport tests mock Nodemailer.
+Seed regression subprocesses force the log driver and use dummy passwords.
+Seed replay initializes demo progress/activity only for newly created enrollments;
+existing progress, cancellation state, timestamps and attempts are preserved.
+The seed remains restricted to local MongoDB and its explicitly allowed database.
+
+Obfuscated code was removed from Jest configuration, `init`, an executable `.orc`
+and automatic VS Code tasks. Startup runs `server.js` directly. `.env` and
+`.env.*` are ignored, except the tracked `.env.example`. Do not restore removed
+execution triggers from older remote branches.

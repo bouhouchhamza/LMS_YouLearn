@@ -9,8 +9,9 @@ jest.unstable_mockModule('../src/models/Quiz.js', () => ({ default: { findOne: f
 jest.unstable_mockModule('../src/models/QuizAttempt.js', () => ({ default: { create: createAttempt } }));
 jest.unstable_mockModule('../src/services/email/emailService.js', () => ({ sendQuizPassedEmail, sendQuizFailedEmail }));
 jest.unstable_mockModule('../src/middlewares/authMiddleware.js', () => ({ authMiddleware: (req, res, next) => {
-  req.user = { _id: 'learner-id', email: 'learner@example.test', fullName: 'Alice' }; next();
+  req.user = { _id: 'learner-id', email: 'learner@example.test', fullName: 'Alice', role: 'learner' }; next();
 } }));
+jest.unstable_mockModule('../src/middlewares/checkQuizAccess.js', () => ({ checkQuizAccess: (req, res, next) => next() }));
 const { default: router } = await import('../src/routes/quizzesRoutes.js');
 const app = express(); app.use(express.json()); app.use('/api/quizzes', router);
 app.use((error, req, res, next) => res.status(500).json({ message: 'Operation failed' }));
@@ -19,13 +20,13 @@ const submit = (answers = [answer]) => request(app).post('/api/quizzes/modules/m
 beforeEach(() => {
   jest.resetAllMocks();
   jest.spyOn(console, 'error').mockImplementation(() => {});
-  findQuiz.mockResolvedValue({ _id: 'quiz-id', title: 'Node.js Quiz', passingScore: 10, questions: [{ _id: 'question-id', correctAnswer: 1 }] });
+  findQuiz.mockResolvedValue({ _id: 'quiz-id', title: 'Node.js Quiz', passingScore: 10, questions: [{ _id: 'question-id', correctAnswer: 1, options: ['No', 'Yes'] }] });
   createAttempt.mockImplementation(async (data) => ({ _id: 'attempt-id', ...data }));
   sendQuizPassedEmail.mockResolvedValue({ success: true });
   sendQuizFailedEmail.mockResolvedValue({ success: true });
 });
 afterEach(() => jest.restoreAllMocks());
-it.each([[10, true], [11, false]])('respects passingScore %s without changing scoring', async (passingScore, passed) => {
+it.each([[100, true], [101, false]])('notifies using percentage score and threshold %s', async (passingScore, passed) => {
   const quiz = await findQuiz(); quiz.passingScore = passingScore;
   const selected = passed ? sendQuizPassedEmail : sendQuizFailedEmail;
   selected.mockImplementation(async () => {
@@ -35,9 +36,9 @@ it.each([[10, true], [11, false]])('respects passingScore %s without changing sc
   });
   const response = await submit();
   expect(response.status).toBe(201);
-  expect(response.body.data).toEqual({ score: 10, passed });
-  expect(createAttempt).toHaveBeenCalledWith({ learnerId: 'learner-id', quizId: 'quiz-id', score: 10, submittedAnswers: [answer], passed });
-  expect(selected).toHaveBeenCalledTimes(1); expect(selected).toHaveBeenCalledWith({ to: 'learner@example.test', learnerName: 'Alice', quizTitle: 'Node.js Quiz', score: 10 });
+  expect(response.body.data).toEqual({ score: 100, passed });
+  expect(createAttempt).toHaveBeenCalledWith({ learnerId: 'learner-id', quizId: 'quiz-id', score: 100, submittedAnswers: [answer], passed });
+  expect(selected).toHaveBeenCalledTimes(1); expect(selected).toHaveBeenCalledWith({ to: 'learner@example.test', learnerName: 'Alice', quizTitle: 'Node.js Quiz', score: 100 });
   expect(passed ? sendQuizFailedEmail : sendQuizPassedEmail).not.toHaveBeenCalled();
 });
 it('uses persisted outcome and score for the notification', async () => {
@@ -60,7 +61,7 @@ it.each(['missing quiz', 'lookup failure', 'save failure', 'invalid answers'])('
   if (scenario === 'lookup failure') findQuiz.mockRejectedValue(new Error('Lookup failed'));
   if (scenario === 'save failure') createAttempt.mockRejectedValue(new Error('Save failed'));
   const response = await submit(scenario === 'invalid answers' ? null : [answer]);
-  expect(response.status).toBe(scenario === 'missing quiz' ? 404 : 500);
+  expect(response.status).toBe(scenario === 'missing quiz' ? 404 : scenario === 'invalid answers' ? 400 : 500);
   expect(sendQuizPassedEmail).not.toHaveBeenCalled(); expect(sendQuizFailedEmail).not.toHaveBeenCalled();
 });
 it.each([[true, 'reject'], [false, 'reject'], [true, 'result'], [false, 'result']])('preserves saved submission on email failure passed=%s type=%s', async (passed, failure) => {
@@ -69,7 +70,7 @@ it.each([[true, 'reject'], [false, 'reject'], [true, 'result'], [false, 'result'
   if (failure === 'reject') selected.mockRejectedValue(new Error('secret-token smtp-password recipient@example.test'));
   else selected.mockResolvedValue({ success: false, transport: 'smtp' });
   const response = await submit();
-  expect(response.status).toBe(201); expect(response.body.data).toEqual({ score: 10, passed });
+  expect(response.status).toBe(201); expect(response.body.data).toEqual({ score: 100, passed });
   expect(selected).toHaveBeenCalledTimes(1);
   expect(console.error).toHaveBeenCalledWith('Quiz result saved, but email notification failed');
   expect(JSON.stringify(console.error.mock.calls)).not.toMatch(/secret-token|smtp-password|recipient@example/);

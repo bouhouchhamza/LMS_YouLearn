@@ -14,6 +14,19 @@ beforeAll(async () => {
 });
 
 describe("Authentication", () => {
+  it("preserves password hash when saving an existing user profile", async () => {
+    const user = await User.create({ fullName: "Save regression", email: "save-regression@example.test", password: "test-only-password" });
+    try {
+      const original = await User.findById(user._id).select("+password");
+      user.fullName = "Updated profile";
+      await user.save();
+      const updated = await User.findById(user._id).select("+password");
+      expect(updated.fullName).toBe("updated profile");
+      expect(updated.password).toBe(original.password);
+      expect(await updated.isMatched("test-only-password")).toBe(true);
+    } finally { await User.deleteOne({ _id: user._id }); }
+  });
+
   it("POST /api/auth/register ", async () => {
     const response = await request(app).post("/api/auth/register").send({
       fullName: "test_amin",
