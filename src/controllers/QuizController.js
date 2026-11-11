@@ -100,27 +100,24 @@ export async function submitQuiz (req, res, next){
             });
         }
 
-        const without_db_answer = answers.reduce((without_db,answer) => {
-            if(!without_db.some(e => e.questionId === answer.questionId)){
-                without_db.push(answer)
+        if (!Array.isArray(answers) || quiz.questions.length === 0) {
+            return res.status(400).json({ success: false, message: "Answers must be an array and quiz must contain questions" });
+        }
+        const without_db_answer = [];
+        for (const answer of answers) {
+            const question = quiz.questions.find(q => q._id.toString() === answer?.questionId);
+            if (!question || !Number.isInteger(answer.selectedAnswer) ||
+                answer.selectedAnswer < 0 || answer.selectedAnswer >= question.options.length) {
+                return res.status(400).json({ success: false, message: "Invalid quiz answer" });
             }
-            return without_db
-        },[])
-        
-
-        let Score = 0
-        without_db_answer.forEach(e => {
-            const correctAnswers = quiz.questions.find(q =>
-                q._id.toString() === e.questionId
-                &&
-                q.correctAnswer === e.selectedAnswer
-            )
-        
-            if(correctAnswers){
-                Score += 10
+            if (!without_db_answer.some(item => item.questionId === answer.questionId)) {
+                without_db_answer.push({ questionId: answer.questionId, selectedAnswer: answer.selectedAnswer });
             }
-        
-        })
+        }
+        const correctCount = without_db_answer.filter(answer => quiz.questions.some(
+            question => question._id.toString() === answer.questionId && question.correctAnswer === answer.selectedAnswer
+        )).length;
+        const Score = Math.round((correctCount / quiz.questions.length) * 100);
 
         const quizAttempt = await QuizAttempt.create({
             learnerId: req.user._id,
