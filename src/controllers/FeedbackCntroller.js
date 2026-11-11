@@ -43,7 +43,6 @@ export async function createFeedback(req, res, next) {
             courseId,
             learner: learnerId
         });
-        console.log(enrollmentExists)
 
         if (!enrollmentExists) {
             return res.status(404).json({
@@ -70,8 +69,17 @@ export async function createFeedback(req, res, next) {
 
 export async function getFeedback(req, res, next) {
     try {
-        const learnerId = req.user._id;
         const { courseId } = req.params;
+        let learnerId = req.user._id;
+        if (req.params.learnerId) {
+            const course = await Course.findById(courseId);
+            if (!course) return res.status(404).json({ message: "Course not found" });
+            if (req.user.role !== "admin" &&
+                (req.user.role !== "trainer" || !course.trainer.equals(req.user._id))) {
+                return res.status(403).json({ message: "You do not own this course" });
+            }
+            learnerId = req.params.learnerId;
+        }
 
         const feedback = await Feedback.find({
             courseId,
