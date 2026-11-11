@@ -1,4 +1,3 @@
-// require("dotenv").config();
 import "dotenv/config";
 import mongoose from "mongoose";
 import Course from "../models/Course.js";

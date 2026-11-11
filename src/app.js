@@ -30,8 +30,6 @@ app.use('/api/quizzes/', quizzesRoutes);
 app.use("/api/feedback", feedbackRoutes);
 
 
-// app.use('/api/courses', courseRoutes);
-// app.use('/api/modules', moduleRoutes);
 app.use(notFound);
 app.use(errorHandler);
 export default app;

@@ -4,9 +4,6 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 
-// export function register(req,res){};
-// function register(req,res){};
-// export default register;
 export const register = async (req, res) => {
   try {
     const { fullName, email, password } = req.body;
@@ -42,11 +39,6 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    // if(email === undefined || password === undefined){
-    //   return res.status(400).json({
-    //     message: 'the email and password are reuqired',
-    //   })
-    // }
     const user = await User.findOne({ email }).select("+password");
 
     if (!user) {
